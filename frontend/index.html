@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login · Portal de Beneficios · Colegio de Arquitectos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <script src="assets/vendor/react.production.min.js"></script>
+  <script src="assets/vendor/react-dom.production.min.js"></script>
+  <script src="assets/vendor/babel.min.js"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    input, button, textarea { font-family:inherit; }
+    a { text-decoration:none; }
+    input:focus { border-color:#E05A36 !important; }
+    ::-webkit-scrollbar { width:0; height:0; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
+    @keyframes popIn { from { opacity:0; transform:scale(.96);} to { opacity:1; transform:scale(1);} }
+    .h-primary { transition:all .2s; }
+    .h-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
+    @media (max-width:380px) {
+      .login-pad { padding-left:16px !important; padding-right:16px !important; }
+      .login-card-pad { padding:24px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/plain" id="app-source">
+const { useState } = React;
+
+/* Usuarios demo precargados (con acceso) para cada tipo de cuenta */
+const ARQUITECTO_DEMO = { nombre: 'Carlos', apellido: 'Rodríguez', legajo: '12458', password: 'cac12458' };
+const PERSONAL_DEMO   = { nombre: 'María', apellido: 'González', legajo: '8842', password: 'cac8842' };
+const AFILIADO_DEMO   = { email: 'contacto@elplano.com', codigo: 'COM-0001', password: 'plano2026' };
+
+/* Ruteo por rol (flujo declarado) */
+const LANDING = {
+  arquitecto: 'menu-beneficios.html',  // Arquitecto  → Menú Beneficios
+  personal:   'panel-control.html',    // Personal    → Panel de Control Beneficios
+  afiliado:   'menu-afiliado.html',    // Afiliado    → Menú Afiliado
+};
+
+const stroke = (extra={}) => ({ fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', ...extra });
+const IconUser  = (p) => (<svg width="16" height="16" viewBox="0 0 24 24" {...stroke(p)}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>);
+const IconCard  = (p) => (<svg width="16" height="16" viewBox="0 0 24 24" {...stroke(p)}><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 10h2M16 14h2"/><circle cx="8.5" cy="12" r="2.5"/></svg>);
+const IconMail  = (p) => (<svg width="16" height="16" viewBox="0 0 24 24" {...stroke(p)}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>);
+const IconKey   = (p) => (<svg width="16" height="16" viewBox="0 0 24 24" {...stroke(p)}><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>);
+const IconLock  = (p) => (<svg width="16" height="16" viewBox="0 0 24 24" {...stroke(p)}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>);
+const IconEye   = (p) => (<svg width="17" height="17" viewBox="0 0 24 24" {...stroke(p)}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>);
+const IconEyeOff= (p) => (<svg width="17" height="17" viewBox="0 0 24 24" {...stroke(p)}><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>);
+const IconAlert = (p) => (<svg width="11" height="11" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})} {...p}><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>);
+
+function Login() {
+  const [accountType, setAccountType] = useState('arquitecto');
+  const [nombre, setNombre]   = useState(ARQUITECTO_DEMO.nombre);
+  const [apellido, setApellido] = useState(ARQUITECTO_DEMO.apellido);
+  const [legajo, setLegajo]   = useState(ARQUITECTO_DEMO.legajo);
+  const [email, setEmail]     = useState('');
+  const [codigo, setCodigo]   = useState('');
+  const [password, setPassword] = useState('cac12458');
+  const [showPwd, setShowPwd] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors]   = useState({});
+  const [touched, setTouched] = useState({});
+
+  // Arquitecto y Personal usan los mismos campos; Afiliado usa email + código.
+  const usaCamposArq = accountType === 'arquitecto' || accountType === 'personal';
+
+  function switchType(t) {
+    setErrors({}); setTouched({});
+    setAccountType(t);
+    if (t === 'arquitecto') {
+      setNombre(ARQUITECTO_DEMO.nombre); setApellido(ARQUITECTO_DEMO.apellido);
+      setLegajo(ARQUITECTO_DEMO.legajo); setPassword(ARQUITECTO_DEMO.password);
+    } else if (t === 'personal') {
+      setNombre(PERSONAL_DEMO.nombre); setApellido(PERSONAL_DEMO.apellido);
+      setLegajo(PERSONAL_DEMO.legajo); setPassword(PERSONAL_DEMO.password);
+    } else {
+      setEmail(AFILIADO_DEMO.email); setCodigo(AFILIADO_DEMO.codigo); setPassword(AFILIADO_DEMO.password);
+    }
+  }
+
+  function submit() {
+    if (loading) return;
+    const e = {};
+    if (usaCamposArq) {
+      if (!nombre.trim())   e.nombre = 'El nombre es requerido';
+      if (!apellido.trim()) e.apellido = 'El apellido es requerido';
+      if (!legajo.trim())   e.legajo = 'N° de matrícula requerido';
+      else if (!/^\d{4,8}$/.test(legajo.trim())) e.legajo = 'Inválido — ingresá entre 4 y 8 dígitos';
+    } else {
+      if (!email.trim()) e.email = 'El email es requerido';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) e.email = 'Formato de email inválido';
+      if (!codigo.trim()) e.codigo = 'El código es requerido';
+    }
+    if (!password) e.password = 'La contraseña es requerida';
+    else if (password.length < 6) e.password = 'Mínimo 6 caracteres';
+
+    if (Object.keys(e).length) {
+      const t = {}; Object.keys(e).forEach(k => t[k] = true);
+      setErrors(e); setTouched(t);
+      return;
+    }
+
+    setErrors({});
+    setLoading(true);
+
+    const payload = usaCamposArq
+      ? { tipoCuenta: accountType, nombre: nombre.trim(), apellido: apellido.trim(), matricula: legajo.trim(), password }
+      : { tipoCuenta: 'afiliado', email: email.trim(), codigo: codigo.trim(), password };
+
+    const goToLanding = (sesion) => {
+      try { localStorage.setItem('cac_session', JSON.stringify(sesion)); } catch (err) {}
+      window.location.href = (sesion && sesion.landing) || LANDING[accountType] || LANDING.arquitecto;
+    };
+
+    const showAuthError = (msg) => {
+      setLoading(false);
+      setErrors({ password: msg || 'Credenciales inválidas' });
+      setTouched(t => ({ ...t, password: true }));
+    };
+
+    // Fallback offline: valida contra los usuarios demo precargados (los mismos del contrato §5),
+    // para que el prototipo siga siendo navegable sin la API mock (ej. abierto como archivo estático).
+    const offlineLogin = () => {
+      let sesion = null;
+      if (accountType === 'arquitecto' &&
+          nombre.trim() === ARQUITECTO_DEMO.nombre && apellido.trim() === ARQUITECTO_DEMO.apellido &&
+          legajo.trim() === ARQUITECTO_DEMO.legajo && password === ARQUITECTO_DEMO.password) {
+        sesion = { rol: 'arquitecto', nombre: ARQUITECTO_DEMO.nombre, apellido: ARQUITECTO_DEMO.apellido, matricula: ARQUITECTO_DEMO.legajo, regional: 'Regional 1', scope: 'regional', landing: LANDING.arquitecto };
+      } else if (accountType === 'personal' &&
+          nombre.trim() === PERSONAL_DEMO.nombre && apellido.trim() === PERSONAL_DEMO.apellido &&
+          legajo.trim() === PERSONAL_DEMO.legajo && password === PERSONAL_DEMO.password) {
+        sesion = { rol: 'personal', nombre: PERSONAL_DEMO.nombre, apellido: PERSONAL_DEMO.apellido, matricula: PERSONAL_DEMO.legajo, regional: 'Provincial', scope: 'provincial', landing: LANDING.personal };
+      } else if (accountType === 'afiliado' &&
+          email.trim().toLowerCase() === AFILIADO_DEMO.email.toLowerCase() &&
+          codigo.trim().toUpperCase() === AFILIADO_DEMO.codigo.toUpperCase() && password === AFILIADO_DEMO.password) {
+        sesion = { rol: 'afiliado', comercio: 'El Plano · Librería Técnica', codigo: AFILIADO_DEMO.codigo, regional: 'Regional 1', scope: 'provincial', landing: LANDING.afiliado };
+      }
+      if (sesion) goToLanding(sesion);
+      else showAuthError('Credenciales inválidas');
+    };
+
+    fetch('/api/sesion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then((res) => (
+      res.json()
+        .then((data) => ({ status: res.status, data, parseError: false }))
+        .catch(() => ({ status: res.status, data: null, parseError: true }))
+    )).then(({ status, data, parseError }) => {
+      if (status === 200 && data) {
+        goToLanding(data);
+      } else if (parseError) {
+        // Respuesta no-JSON (ej. server estático sin /api montado) → API no disponible
+        offlineLogin();
+      } else {
+        showAuthError(data && data.mensaje);
+      }
+    }).catch(() => {
+      // El fetch en sí falló (sin red / abierto como archivo estático) → fallback offline
+      offlineLogin();
+    });
+  }
+
+  const errOf = (f) => (touched[f] && errors[f]) ? errors[f] : '';
+  const fld = (f, extra={}) => ({
+    width:'100%', padding:'12px 12px 12px 44px', borderRadius:'3px', fontSize:'15px',
+    fontFamily:"'Inter',sans-serif", color:'#0F172A', background:'#FAFAFA', outline:'none',
+    boxSizing:'border-box', border:`1.5px solid ${errOf(f) ? '#E05A36' : '#E2E8F0'}`, ...extra,
+  });
+  const tabSt = (t) => ({
+    flex:1, border:'none', borderRadius:'2px', padding: t==='personal' ? '8px 2px' : '8px 5px',
+    fontSize: t==='personal' ? '10px' : '11.5px', fontFamily:"'Plus Jakarta Sans',sans-serif",
+    fontWeight: accountType===t ? 700 : 500, background: accountType===t ? '#0F172A' : 'transparent',
+    color: accountType===t ? '#FFFFFF' : '#64748B', cursor:'pointer', transition:'all .18s', lineHeight:'1.4',
+  });
+
+  const ErrMsg = ({msg}) => msg ? (
+    <p style={{margin:'5px 0 0', fontSize:'11.5px', color:'#E05A36', display:'flex', alignItems:'center', gap:'4px'}}>
+      <IconAlert/> {msg}
+    </p>) : null;
+
+  const Field = ({label, icon, type='text', value, onChange, onBlur, placeholder, fkey, extra}) => (
+    <div style={{marginBottom:'15px'}}>
+      <label style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#64748B', letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px'}}>{label}</label>
+      <div style={{position:'relative'}}>
+        <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#94A3B8', display:'flex'}}>{icon}</div>
+        <input type={type} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} style={fld(fkey, extra)} />
+      </div>
+      <ErrMsg msg={errOf(fkey)} />
+    </div>
+  );
+
+  return (
+    <div className="login-pad" style={{minHeight:'100vh', background:'#F8FAFC', display:'flex', alignItems:'center', justifyContent:'center', padding:'32px 24px', position:'relative', overflow:'hidden'}}>
+      <svg style={{position:'absolute', top:'-50px', right:'-50px', width:'380px', height:'380px', opacity:.03, pointerEvents:'none'}} viewBox="0 0 380 380" fill="none">
+        <rect x="20" y="20" width="340" height="340" stroke="#0F172A" strokeWidth="2"/>
+        <rect x="100" y="100" width="180" height="180" stroke="#0F172A" strokeWidth="1"/>
+        <circle cx="190" cy="190" r="155" stroke="#0F172A" strokeWidth="1"/>
+      </svg>
+
+      <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'4px', overflow:'hidden', border:'1px solid #E4EBF2', boxShadow:'0 16px 56px rgba(15,23,42,.1), 0 4px 16px rgba(15,23,42,.05)'}}>
+        <div style={{background:'#0F172A', padding:'36px 32px 30px', position:'relative', overflow:'hidden', backgroundImage:'radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px)', backgroundSize:'18px 18px'}}>
+          <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'linear-gradient(90deg,#E05A36 0%,#F07554 100%)'}}/>
+          <div style={{display:'flex', alignItems:'center', gap:'14px', marginBottom:'24px', position:'relative', zIndex:2}}>
+            <div style={{width:'48px', height:'48px', background:'#E05A36', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 4px 16px rgba(224,90,54,.45)'}}>
+              <img src="assets/logo-ca-blanco.png" alt="Colegio de Arquitectos" style={{width:'34px', height:'auto', display:'block'}}/>
+            </div>
+            <div>
+              <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'13.5px', color:'#FFFFFF', letterSpacing:'.1em', textTransform:'uppercase', lineHeight:1.3}}>Colegio de Arquitectos</div>
+              <div style={{fontSize:'10.5px', color:'#94A3B8', letterSpacing:'.07em', textTransform:'uppercase', marginTop:'3px'}}>Portal de Beneficios Exclusivos</div>
+            </div>
+          </div>
+          <div style={{width:'38px', height:'3px', background:'#E05A36', marginBottom:'14px', position:'relative', zIndex:2}}/>
+          <div style={{position:'relative', zIndex:2}}>
+            <h1 style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'28px', color:'#FFFFFF', margin:'0 0 7px', lineHeight:1.15, letterSpacing:'-.025em'}}>el colegio junto a vos</h1>
+            <p style={{fontSize:'14px', color:'#94A3B8', margin:0, lineHeight:1.5}}>Ingresá tus credenciales para continuar.</p>
+          </div>
+        </div>
+
+        <div className="login-card-pad" style={{padding:'32px'}}>
+          <div style={{marginBottom:'22px'}}>
+            <label style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#94A3B8', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'8px'}}>Tipo de Cuenta</label>
+            <div style={{display:'flex', background:'#F1F5F9', borderRadius:'3px', padding:'3px', gap:'2px'}}>
+              <button style={tabSt('arquitecto')} onClick={() => switchType('arquitecto')}>Arquitecto</button>
+              <button style={tabSt('personal')}   onClick={() => switchType('personal')}>Personal del Colegio</button>
+              <button style={tabSt('afiliado')}   onClick={() => switchType('afiliado')}>Afiliado</button>
+            </div>
+          </div>
+
+          {usaCamposArq && (
+            <div style={{animation:'fadeUp .28s ease'}}>
+              <Field label="Nombre"   icon={<IconUser/>} value={nombre}   onChange={e=>setNombre(e.target.value)}   onBlur={()=>setTouched(p=>({...p,nombre:true}))}   placeholder="Tu nombre"   fkey="nombre"/>
+              <Field label="Apellido" icon={<IconUser/>} value={apellido} onChange={e=>setApellido(e.target.value)} onBlur={()=>setTouched(p=>({...p,apellido:true}))} placeholder="Tu apellido" fkey="apellido"/>
+              <Field label="N° de Matrícula" icon={<IconCard/>} value={legajo} onChange={e=>setLegajo(e.target.value)} onBlur={()=>setTouched(p=>({...p,legajo:true}))} placeholder="Ej: 12345" fkey="legajo"/>
+            </div>
+          )}
+
+          {!usaCamposArq && (
+            <div style={{animation:'fadeUp .28s ease'}}>
+              <Field label="Email Comercial" icon={<IconMail/>} type="email" value={email} onChange={e=>setEmail(e.target.value)} onBlur={()=>setTouched(p=>({...p,email:true}))} placeholder="contacto@comercio.com" fkey="email"/>
+              <Field label="Código de Comercio" icon={<IconKey/>} value={codigo} onChange={e=>setCodigo(e.target.value)} onBlur={()=>setTouched(p=>({...p,codigo:true}))} placeholder="COM-0000" fkey="codigo"/>
+            </div>
+          )}
+
+          <div style={{marginBottom:'24px'}}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'6px'}}>
+              <label style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#64748B', letterSpacing:'.1em', textTransform:'uppercase'}}>Contraseña</label>
+              <a href="#" style={{fontSize:'12px', color:'#94A3B8'}}>¿Olvidaste tu contraseña?</a>
+            </div>
+            <div style={{position:'relative'}}>
+              <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#94A3B8', display:'flex'}}><IconLock/></div>
+              <input type={showPwd ? 'text' : 'password'} value={password} onChange={e=>setPassword(e.target.value)} onBlur={()=>setTouched(p=>({...p,password:true}))} placeholder="Tu contraseña" style={fld('password',{padding:'12px 44px 12px 44px'})}/>
+              <button onClick={()=>setShowPwd(v=>!v)} style={{position:'absolute', right:'12px', top:'50%', transform:'translateY(-50%)', background:'transparent', border:'none', padding:'4px', display:'flex', alignItems:'center', color:'#94A3B8', cursor:'pointer'}}>
+                {showPwd ? <IconEyeOff/> : <IconEye/>}
+              </button>
+            </div>
+            <ErrMsg msg={errOf('password')}/>
+          </div>
+
+          <button onClick={submit} className={loading ? '' : 'h-primary'} style={{
+            width:'100%', minHeight:'50px', padding:'13px 24px',
+            background: loading ? '#94A3B8' : '#E05A36',
+            color:'#FFFFFF', border:'none', borderRadius:'3px', fontSize:'15px',
+            fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700,
+            cursor: loading ? 'default' : 'pointer', letterSpacing:'.05em',
+            transition:'all .2s', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px',
+            pointerEvents: loading ? 'none' : 'auto',
+          }}>
+            {loading && <svg width="18" height="18" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})} style={{animation:'spin .75s linear infinite'}}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>}
+            {loading ? 'Verificando...' : 'Ingresar →'}
+          </button>
+
+          <div style={{marginTop:'24px', paddingTop:'18px', borderTop:'1px solid #F1F5F9', textAlign:'center'}}>
+            <p style={{fontSize:'13px', color:'#94A3B8', margin:0, lineHeight:1.6}}>¿Necesitás ayuda? <a href="#" style={{color:'#475569', fontWeight:500}}>Contactar soporte</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Login />);
+  </script>
+
+  <script>
+    (function () {
+      try {
+        var src = document.getElementById('app-source').textContent;
+        var out = Babel.transform(src, { presets: [['react', { runtime: 'classic' }]] }).code;
+        var s = document.createElement('script');
+        s.textContent = out;
+        document.body.appendChild(s);
+      } catch (e) {
+        document.getElementById('root').innerHTML =
+          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          (e && e.message ? e.message : e) + '</pre>';
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Entrada Evento · Colegio de Arquitectos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <script src="assets/vendor/react.production.min.js"></script>
+  <script src="assets/vendor/react-dom.production.min.js"></script>
+  <script src="assets/vendor/babel.min.js"></script>
+  <script src="store.js"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    button { font-family:inherit; }
+    ::-webkit-scrollbar { width:0; height:0; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.45; transform:scale(.82);} }
+    @keyframes laserScan { 0%,100% { top:6%; } 50% { top:90%; } }
+    @keyframes rippleOut { 0% { transform:translate(-50%,-50%) scale(0); opacity:.7;} 100% { transform:translate(-50%,-50%) scale(3); opacity:0;} }
+    @keyframes checkPop { 0% { transform:scale(0);} 100% { transform:scale(1);} }
+    @keyframes slideIn { from { opacity:0; transform:translateY(12px);} to { opacity:1; transform:none;} }
+    .h-primary { transition:all .2s; }
+    .h-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
+    .h-dark:hover { background:#1E293B !important; }
+    .h-outline:hover { border-color:#E05A36 !important; color:#E05A36 !important; }
+    .app-screen { width:100%; max-width:430px; margin:0 auto; }
+    @media (min-width:600px) {
+      body { background:#E2E8F0; }
+      .app-screen { box-shadow:0 0 0 1px #CBD5E1, 0 30px 60px -22px rgba(15,23,42,.4); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/plain" id="app-source">
+const { useState } = React;
+const stroke = (extra={}) => ({ fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', ...extra });
+
+/* Evento seleccionado por ?e=<id>; fallback a un mock. */
+const MOCK_EVENT = { id:'e1', title:'Visitá Casa FOA', subtitle:'Solicitá entrada gratuita vía tu regional', date:'Hasta 30 jun', tag:'Cultura', tagBg:'#E05A36', img:'assets/evento-gala40.png' };
+const EV = CAC.findEventById(CAC.qp('e')) || MOCK_EVENT;
+/* Código de entrada mock derivado del id del evento */
+const CODE = 'CAC-EVT-' + String(EV.id).toUpperCase().replace(/[^A-Z0-9]/g,'') + '-' + (1000 + (EV.title ? EV.title.length * 37 % 9000 : 42));
+const goBack = () => { window.location.href = 'menu-beneficios.html'; };
+
+function QREntradaEvento({ ev }) {
+  const [screen, setScreen] = useState('ready');
+  const [transitioning, setTransitioning] = useState(false);
+
+  function emitir() {
+    if (transitioning) return;
+    setTransitioning(true);
+    setTimeout(() => { setScreen('success'); setTransitioning(false); }, 1600);
+  }
+  const isReady = screen === 'ready' || transitioning;
+
+  return (
+    <div className="app-screen" style={{minHeight:'100vh', background:'#F8FAFC'}}>
+      <div style={{background:'#0F172A', padding:'12px 16px', display:'flex', alignItems:'center', gap:'10px', position:'relative', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px'}}>
+        <div style={{height:'3px', position:'absolute', top:0, left:0, right:0, background:'linear-gradient(90deg,#E05A36,#F07554)'}}/>
+        <div style={{width:'34px', height:'34px', background:'#E05A36', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 2px 8px rgba(224,90,54,.4)'}}>
+          <img src="assets/logo-ca-blanco.png" alt="CA" style={{width:'24px', height:'auto', display:'block'}}/>
+        </div>
+        <div>
+          <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'12px', fontWeight:800, color:'#fff', letterSpacing:'.08em', textTransform:'uppercase'}}>QR Entrada Evento</div>
+          <div style={{fontSize:'9.5px', color:'#94A3B8', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px'}}>Colegio de Arquitectos · CAC</div>
+        </div>
+      </div>
+
+      <div style={{maxWidth:'400px', margin:'0 auto', padding:'20px 16px 40px'}}>
+        {isReady && (
+          <div>
+            {/* Mini-card del evento */}
+            <div style={{background:'#fff', borderRadius:'12px', marginBottom:'16px', boxShadow:'0 2px 10px rgba(15,23,42,.07)', border:'1px solid #F1F5F9', overflow:'hidden'}}>
+              <div style={{position:'relative', height:'120px', overflow:'hidden'}}>
+                {ev.img ? (
+                  <div style={{width:'100%', height:'120px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
+                ) : (
+                  <div style={{width:'100%', height:'120px', background:'#0F172A', display:'flex', alignItems:'center', justifyContent:'center', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'16px 16px'}}>
+                    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'18px', color:'#fff'}}>Evento CAC</div>
+                  </div>
+                )}
+                <span style={{position:'absolute', top:'10px', left:'10px', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'3px 9px', fontSize:'9.5px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
+              </div>
+              <div style={{padding:'12px 16px'}}>
+                <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'15px', fontWeight:800, color:'#0F172A', lineHeight:1.25}}>{ev.title}</div>
+                <div style={{fontSize:'11.5px', color:'#94A3B8', marginTop:'3px'}}>{ev.subtitle}</div>
+                <div style={{fontSize:'11px', color:'#64748B', marginTop:'6px', display:'flex', alignItems:'center', gap:'5px'}}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  {ev.date}
+                </div>
+              </div>
+            </div>
+
+            {/* Card del QR de entrada */}
+            <div style={{background:'#fff', borderRadius:'16px', padding:'22px', boxShadow:'0 4px 24px rgba(15,23,42,.1),0 1px 4px rgba(15,23,42,.06)', border:'1px solid #E8EFF6', textAlign:'center'}}>
+              <div style={{display:'inline-flex', alignItems:'center', gap:'7px', background:'#F8FAFC', borderRadius:'20px', padding:'6px 14px', border:'1px solid #E8EFF6', marginBottom:'18px'}}>
+                {!transitioning ? (
+                  <>
+                    <div style={{width:'7px', height:'7px', background:'#10B981', borderRadius:'50%', animation:'pulse 1.5s ease-in-out infinite'}}/>
+                    <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'11.5px', fontWeight:700, color:'#10B981', letterSpacing:'.04em', textTransform:'uppercase'}}>Entrada válida</span>
+                  </>
+                ) : (
+                  <>
+                    <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#E05A36', strokeWidth:2.5})} style={{animation:'spin .7s linear infinite'}}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                    <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'11.5px', fontWeight:700, color:'#E05A36', letterSpacing:'.04em', textTransform:'uppercase'}}>Emitiendo...</span>
+                  </>
+                )}
+              </div>
+
+              <div style={{position:'relative', display:'inline-block', padding:'10px', background:'#FAFAFA', borderRadius:'12px', border:'1.5px solid #E8EFF6'}}>
+                <div style={{filter: transitioning ? 'blur(5px)' : 'none', transition:'filter .45s ease'}}>
+                  <QRSvg/>
+                </div>
+                {['tl','tr','bl','br'].map(c => <Bracket key={c} c={c}/>)}
+                {!transitioning && <div style={{position:'absolute', left:'10px', right:'10px', top:'6%', height:'2px', background:'linear-gradient(90deg,transparent,#E05A36 25%,#E05A36 75%,transparent)', boxShadow:'0 0 10px rgba(224,90,54,.9)', borderRadius:'1px', animation:'laserScan 2s ease-in-out infinite', pointerEvents:'none'}}/>}
+              </div>
+
+              <div style={{display:'flex', justifyContent:'center', gap:'14px', marginTop:'16px'}}>
+                <QrMeta label="Tipo" value="Entrada"/>
+                <div style={{width:'1px', background:'#E8EFF6'}}/>
+                <QrMeta label="Admite" value="1 persona"/>
+                <div style={{width:'1px', background:'#E8EFF6'}}/>
+                <QrMeta label="Código" value={CODE}/>
+              </div>
+            </div>
+
+            <div style={{marginTop:'20px', display:'flex', flexDirection:'column', gap:'10px'}}>
+              <div style={{textAlign:'center', fontSize:'10px', color:'#94A3B8', textTransform:'uppercase', letterSpacing:'.1em', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:600, marginBottom:'2px'}}>Controles de simulación</div>
+              <button onClick={emitir} className={transitioning ? '' : 'h-primary'} style={{width:'100%', padding:'14px', background: transitioning ? '#94A3B8' : '#E05A36', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, cursor: transitioning ? 'default' : 'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', pointerEvents: transitioning ? 'none' : 'auto'}}>
+                <svg width="17" height="17" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="20 6 9 17 4 12"/></svg>
+                Confirmar Entrada al Evento
+              </button>
+              <button onClick={goBack} className="h-outline" style={{width:'100%', padding:'14px', background:'#fff', color:'#64748B', border:'1.5px solid #E2E8F0', borderRadius:'8px', fontSize:'14px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px'}}>
+                <svg width="16" height="16" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
+                Volver al Menú
+              </button>
+            </div>
+          </div>
+        )}
+
+        {screen === 'success' && (
+          <div style={{animation:'slideIn .4s cubic-bezier(.175,.885,.32,1.275)'}}>
+            <div style={{background:'#fff', borderRadius:'16px', overflow:'hidden', boxShadow:'0 8px 32px rgba(15,23,42,.12),0 2px 6px rgba(15,23,42,.06)'}}>
+              <div style={{background:'#10B981', padding:'36px 24px 28px', textAlign:'center', position:'relative', overflow:'hidden'}}>
+                <div style={{position:'absolute', width:'100px', height:'100px', borderRadius:'50%', background:'rgba(255,255,255,.18)', top:'50%', left:'50%', animation:'rippleOut 2.4s ease-out infinite'}}/>
+                <div style={{position:'absolute', width:'100px', height:'100px', borderRadius:'50%', background:'rgba(255,255,255,.12)', top:'50%', left:'50%', animation:'rippleOut 2.4s ease-out .8s infinite'}}/>
+                <div style={{display:'flex', justifyContent:'center', marginBottom:'14px', position:'relative', zIndex:2}}>
+                  <div style={{width:'82px', height:'82px', background:'rgba(255,255,255,.2)', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', border:'3px solid rgba(255,255,255,.5)', animation:'checkPop .65s cubic-bezier(.175,.885,.32,1.275) forwards'}}>
+                    <svg width="44" height="44" viewBox="0 0 24 24" {...stroke({stroke:'#fff', strokeWidth:2.5})}><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                  </div>
+                </div>
+                <h2 style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'17px', color:'#fff', margin:'0 0 6px', letterSpacing:'.04em', textTransform:'uppercase', position:'relative', zIndex:2}}>¡Entrada Emitida!</h2>
+                <p style={{fontSize:'13px', color:'rgba(255,255,255,.8)', margin:0, position:'relative', zIndex:2}}>Tu lugar quedó reservado. Presentá el QR en el acceso.</p>
+              </div>
+
+              <div style={{padding:'20px', display:'flex', flexDirection:'column', gap:'12px'}}>
+                <div style={{background:'#F8FAFC', borderRadius:'10px', padding:'14px 16px', border:'1px solid #E8EFF6'}}>
+                  <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
+                    <div style={{width:'44px', height:'44px', background:ev.tagBg, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" {...stroke({stroke:'#fff', strokeWidth:2.2})}><path d="M4 4h16v6a2 2 0 0 0 0 4v6H4v-6a2 2 0 0 0 0-4z"/><line x1="12" y1="4" x2="12" y2="20" strokeDasharray="2 3"/></svg>
+                    </div>
+                    <div>
+                      <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'13px', fontWeight:700, color:'#0F172A'}}>{ev.title}</div>
+                      <div style={{fontSize:'11px', color:'#64748B', marginTop:'2px'}}>{ev.date} · {CODE}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{background:'#F0FDF4', borderRadius:'6px', padding:'10px 12px', display:'flex', alignItems:'flex-start', gap:'8px', border:'1px solid #86EFAC'}}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#16A34A', strokeWidth:2.5})} style={{flexShrink:0, marginTop:'1px'}}><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 15 14"/></svg>
+                  <span style={{fontSize:'12px', color:'#166534', lineHeight:1.4}}>Recibirás un recordatorio 24 hs antes del evento. La entrada es personal e intransferible.</span>
+                </div>
+
+                <button onClick={goBack} className="h-dark" style={backBtnSt}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
+                  Volver al Menú
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+const backBtnSt = { width:'100%', padding:'14px', background:'#0F172A', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, cursor:'pointer', transition:'all .2s', letterSpacing:'.04em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' };
+const QrMeta = ({label, value}) => (
+  <div style={{textAlign:'center'}}>
+    <div style={{fontSize:'9.5px', color:'#94A3B8', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:'2px'}}>{label}</div>
+    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'11px', fontWeight:700, color:'#0F172A', letterSpacing:'.02em'}}>{value}</div>
+  </div>
+);
+const Bracket = ({c}) => {
+  const base = { position:'absolute', width:'22px', height:'22px', pointerEvents:'none' };
+  const map = {
+    tl:{ top:'5px', left:'5px', borderTop:'3px solid #E05A36', borderLeft:'3px solid #E05A36', borderRadius:'3px 0 0 0' },
+    tr:{ top:'5px', right:'5px', borderTop:'3px solid #E05A36', borderRight:'3px solid #E05A36', borderRadius:'0 3px 0 0' },
+    bl:{ bottom:'5px', left:'5px', borderBottom:'3px solid #E05A36', borderLeft:'3px solid #E05A36', borderRadius:'0 0 0 3px' },
+    br:{ bottom:'5px', right:'5px', borderBottom:'3px solid #E05A36', borderRight:'3px solid #E05A36', borderRadius:'0 0 3px 0' },
+  };
+  return <div style={{...base, ...map[c]}}/>;
+};
+const QRSvg = () => {
+  const cells = [[80,15],[96,15],[112,15],[80,63],[96,63],[112,63],[15,80],[63,80],[80,80],[104,80],[120,80],[144,80],[88,88],[112,88],[136,88],[152,88],[80,96],[96,96],[120,96],[128,96],[88,104],[104,104],[136,104],[152,104],[80,112],[112,112],[144,112],[96,120],[120,120],[144,120],[80,128],[104,128],[128,128],[152,128],[88,136],[112,136],[152,136],[136,144],[96,144],[120,144],[80,152],[104,152],[128,152],[152,152]];
+  return (
+    <svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="200" height="200" fill="white"/>
+      {[[15,15],[127,15],[15,127]].map((p,i)=>(
+        <g key={i}>
+          <rect x={p[0]} y={p[1]} width="58" height="58" fill="#0F172A" rx="3"/>
+          <rect x={p[0]+8} y={p[1]+8} width="42" height="42" fill="white"/>
+          <rect x={p[0]+16} y={p[1]+16} width="26" height="26" fill="#0F172A" rx="1"/>
+        </g>
+      ))}
+      {cells.map((c,i)=><rect key={i} x={c[0]} y={c[1]} width="8" height="8" fill="#0F172A"/>)}
+    </svg>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<QREntradaEvento ev={EV} />);
+  </script>
+
+  <script>
+    (function () {
+      try {
+        var src = document.getElementById('app-source').textContent;
+        var out = Babel.transform(src, { presets: [['react', { runtime: 'classic' }]] }).code;
+        var s = document.createElement('script');
+        s.textContent = out;
+        document.body.appendChild(s);
+      } catch (e) {
+        document.getElementById('root').innerHTML =
+          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          (e && e.message ? e.message : e) + '</pre>';
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>

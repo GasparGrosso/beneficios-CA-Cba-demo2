@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "frontend",
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/validaciones/canje", "destination": "/api/validaciones" }
+  ]
+}
