@@ -88,20 +88,22 @@ function safeJoin(root, urlPath) {
 }
 
 function serveStatic(req, res, pathname) {
-  var targetPath = pathname === '/' ? '/index.html' : pathname;
-  var filePath = safeJoin(path.join(ROOT, 'frontend'), targetPath);
-  if (!filePath || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
-    filePath = safeJoin(ROOT, targetPath);
+  var filePath = safeJoin(ROOT, pathname === '/' ? '/index.html' : pathname);
+  if (!filePath) {
+    res.statusCode = 403;
+    return res.end('Forbidden');
   }
-  if (!filePath || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    return res.end('Not found: ' + pathname);
-  }
-  var ext = path.extname(filePath).toLowerCase();
-  res.statusCode = 200;
-  res.setHeader('Content-Type', MIME[ext] || 'application/octet-stream');
-  fs.createReadStream(filePath).pipe(res);
+  fs.stat(filePath, function (err, stat) {
+    if (err || !stat.isFile()) {
+      res.statusCode = 404;
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      return res.end('Not found: ' + pathname);
+    }
+    var ext = path.extname(filePath).toLowerCase();
+    res.statusCode = 200;
+    res.setHeader('Content-Type', MIME[ext] || 'application/octet-stream');
+    fs.createReadStream(filePath).pipe(res);
+  });
 }
 
 var server = http.createServer(function (req, res) {

@@ -13,14 +13,13 @@ entre páginas y así un beneficio guardado aparezca en todos los paneles):
 # Opción A: script incluido (usa Python o npx serve automáticamente)
 powershell -File serve.ps1
 
-# Opción B: manual con Python o Node
-python -m http.server 5500 --directory frontend
-# o bien: node server-local.js
+# Opción B: manual
+python -m http.server 5500
 ```
 
-Luego abrí **http://localhost:5500/** (o el puerto que corresponda).
+Luego abrí **http://localhost:5500/**.
 
-> También podés abrir `frontend/index.html` directamente (doble click). Cada pantalla
+> También podés abrir `index.html` directamente (doble click). Cada pantalla
 > funciona, pero en `file://` algunos navegadores aíslan `localStorage`, por lo
 > que el "beneficio recién registrado" podría no verse reflejado entre páginas.
 
@@ -47,20 +46,20 @@ Luego abrí **http://localhost:5500/** (o el puerto que corresponda).
 
 ## Estructura
 
-| Archivo (`frontend/`) | Rol |
+| Archivo | Rol |
 |---|---|
-| `frontend/index.html` | Login (entrada; rutea por rol) |
-| `frontend/menu-beneficios.html` | Menú Beneficios (Arquitecto) |
-| `frontend/qr-beneficio.html` | QR de beneficio comercial/académico |
-| `frontend/qr-entrada-evento.html` | QR de entrada a evento (nueva) |
-| `frontend/menu-afiliado.html` | Menú Afiliado (bundle + `flow.js`) |
-| `frontend/panel-control.html` | Panel de Control (bundle + `flow.js`) |
-| `frontend/formulario-beneficio.html` | Formulario registro/modificación (bundle + `flow.js`) |
-| `frontend/qr-validacion.html` | QR Validación (bundle + `flow.js`) |
-| `frontend/store.js` | Datos mock + estado compartido (localStorage) |
-| `frontend/flow.js` | Capa de flujo/redirecciones para las pantallas "bundle" |
-| `frontend/assets/` | Logo e imágenes de eventos |
-| `frontend/assets/vendor/` | React, ReactDOM y Babel locales (para correr sin internet) |
+| `index.html` | Login (entrada; rutea por rol) |
+| `menu-beneficios.html` | Menú Beneficios (Arquitecto) |
+| `qr-beneficio.html` | QR de beneficio comercial/académico |
+| `qr-entrada-evento.html` | QR de entrada a evento (nueva) |
+| `menu-afiliado.html` | Menú Afiliado (bundle + `flow.js`) |
+| `panel-control.html` | Panel de Control (bundle + `flow.js`) |
+| `formulario-beneficio.html` | Formulario registro/modificación (bundle + `flow.js`) |
+| `qr-validacion.html` | QR Validación (bundle + `flow.js`) |
+| `store.js` | Datos mock + estado compartido (localStorage) |
+| `flow.js` | Capa de flujo/redirecciones para las pantallas "bundle" |
+| `assets/` | Logo e imágenes de eventos |
+| `assets/vendor/` | React, ReactDOM y Babel locales (para correr sin internet) |
 
 
 
