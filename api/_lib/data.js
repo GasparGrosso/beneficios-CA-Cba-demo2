@@ -58,7 +58,7 @@ var USERS = {
     { nombre: 'Roberto', apellido: 'Díaz',     matricula: '30066', password: 'cac30066', regional: 'Provincial' },
   ],
   afiliados: [
-    { comercio: 'El Plano · Librería Técnica', email: 'contacto@elplano.com',     codigo: 'COM-0001', password: 'plano2026' },
+    { comercio: 'Librería Técnica Sur',         email: 'contacto@libreriatecnicasur.com', codigo: 'AFC-00847', password: 'sur2026' },
     { comercio: 'Casa Central Materiales',      email: 'contacto@casacentral.com', codigo: 'COM-0002', password: 'central2026' },
     { comercio: 'Studio Render Pro',            email: 'contacto@studiorender.com',codigo: 'COM-0003', password: 'render2026' },
   ]

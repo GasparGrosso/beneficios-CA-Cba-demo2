@@ -42,7 +42,7 @@ const { useState } = React;
 /* Usuarios demo precargados (con acceso) para cada tipo de cuenta */
 const ARQUITECTO_DEMO = { nombre: 'Carlos', apellido: 'Rodríguez', legajo: '12458', password: 'cac12458' };
 const PERSONAL_DEMO   = { nombre: 'María', apellido: 'González', legajo: '8842', password: 'cac8842' };
-const AFILIADO_DEMO   = { email: 'contacto@elplano.com', codigo: 'COM-0001', password: 'plano2026' };
+const AFILIADO_DEMO   = { email: 'contacto@libreriatecnicasur.com', codigo: 'AFC-00847', password: 'sur2026' };
 
 /* Ruteo por rol (flujo declarado) */
 const LANDING = {
@@ -153,7 +153,7 @@ function Login() {
       } else if (accountType === 'afiliado' &&
           email.trim().toLowerCase() === AFILIADO_DEMO.email.toLowerCase() &&
           codigo.trim().toUpperCase() === AFILIADO_DEMO.codigo.toUpperCase() && password === AFILIADO_DEMO.password) {
-        sesion = { rol: 'afiliado', comercio: 'El Plano · Librería Técnica', codigo: AFILIADO_DEMO.codigo, regional: 'Regional 1', scope: 'provincial', landing: LANDING.afiliado };
+        sesion = { rol: 'afiliado', comercio: 'Librería Técnica Sur', codigo: AFILIADO_DEMO.codigo, regional: 'Regional 1', scope: 'provincial', landing: LANDING.afiliado };
       }
       if (sesion) goToLanding(sesion);
       else showAuthError('Credenciales inválidas');
@@ -273,7 +273,7 @@ function Login() {
           {!usaCamposArq && (
             <div style={{animation:'fadeUp .28s ease'}}>
               <Field label="Email Comercial" icon={<IconMail/>} type="email" value={email} onChange={e=>setEmail(e.target.value)} onBlur={()=>setTouched(p=>({...p,email:true}))} placeholder="contacto@comercio.com" fkey="email"/>
-              <Field label="Código de Comercio" icon={<IconKey/>} value={codigo} onChange={e=>setCodigo(e.target.value)} onBlur={()=>setTouched(p=>({...p,codigo:true}))} placeholder="COM-0000" fkey="codigo"/>
+              <Field label="Código de Comercio" icon={<IconKey/>} value={codigo} onChange={e=>setCodigo(e.target.value)} onBlur={()=>setTouched(p=>({...p,codigo:true}))} placeholder="AFC-00000" fkey="codigo"/>
             </div>
           )}
 
