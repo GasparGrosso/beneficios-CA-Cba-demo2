@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login · Portal de Beneficios · Colegio de Arquitectos</title>
+  <title>Login · Portal de Beneficios · Colegio de Arquitectos (maqueta de demostración)</title>
+  <meta name="robots" content="noindex, nofollow">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,6 +76,13 @@ function Login() {
 
   // Arquitecto y Personal usan los mismos campos; Afiliado usa email + código.
   const usaCamposArq = accountType === 'arquitecto' || accountType === 'personal';
+
+  // Credenciales de prueba del tipo de cuenta activo, mostradas en pantalla: deja
+  // explícito que la maqueta no espera ni acepta datos reales de un arquitecto.
+  const demoHint =
+    accountType === 'arquitecto' ? `${ARQUITECTO_DEMO.nombre} ${ARQUITECTO_DEMO.apellido} · matrícula ${ARQUITECTO_DEMO.legajo} · ${ARQUITECTO_DEMO.password}` :
+    accountType === 'personal'   ? `${PERSONAL_DEMO.nombre} ${PERSONAL_DEMO.apellido} · matrícula ${PERSONAL_DEMO.legajo} · ${PERSONAL_DEMO.password}` :
+                                   `${AFILIADO_DEMO.email} · ${AFILIADO_DEMO.codigo} · ${AFILIADO_DEMO.password}`;
 
   function switchType(t) {
     setErrors({}); setTouched({});
@@ -212,6 +220,15 @@ function Login() {
       </svg>
 
       <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'4px', overflow:'hidden', border:'1px solid #E4EBF2', boxShadow:'0 16px 56px rgba(15,23,42,.1), 0 4px 16px rgba(15,23,42,.05)'}}>
+        {/* Aviso de maqueta. Va DENTRO de la tarjeta (primer hijo), no antepuesto al
+            body: INV-1 exige que nada se inserte por encima de la cabecera. */}
+        <div style={{background:'#FEF3C7', borderBottom:'1px solid #FCD34D', padding:'11px 32px', display:'flex', gap:'10px', alignItems:'flex-start', color:'#78350F'}}>
+          <svg width="15" height="15" viewBox="0 0 24 24" {...stroke()} style={{flexShrink:0, marginTop:'2px'}}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div style={{fontSize:'12px', lineHeight:1.55}}>
+            <strong style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'10.5px', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'3px'}}>Maqueta de demostración</strong>
+            Prototipo de interfaz sin funcionalidad real. <strong>No es el portal del Colegio de Arquitectos</strong>: no ingreses credenciales reales. Los campos vienen precargados con datos de prueba ficticios.
+          </div>
+        </div>
         <div style={{background:'#0F172A', padding:'36px 32px 30px', position:'relative', overflow:'hidden', backgroundImage:'radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px)', backgroundSize:'18px 18px'}}>
           <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'linear-gradient(90deg,#E05A36 0%,#F07554 100%)'}}/>
           <div style={{display:'flex', alignItems:'center', gap:'14px', marginBottom:'24px', position:'relative', zIndex:2}}>
@@ -238,6 +255,11 @@ function Login() {
               <button style={tabSt('personal')}   onClick={() => switchType('personal')}>Personal del Colegio</button>
               <button style={tabSt('afiliado')}   onClick={() => switchType('afiliado')}>Afiliado</button>
             </div>
+          </div>
+
+          <div style={{marginBottom:'22px', padding:'10px 12px', background:'#F8FAFC', border:'1px dashed #CBD5E1', borderRadius:'3px'}}>
+            <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'9.5px', fontWeight:700, color:'#475569', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'5px'}}>Credenciales de prueba · ficticias</div>
+            <div style={{fontSize:'11.5px', color:'#475569', lineHeight:1.6, fontFamily:'ui-monospace, monospace', wordBreak:'break-word'}}>{demoHint}</div>
           </div>
 
           {usaCamposArq && (
