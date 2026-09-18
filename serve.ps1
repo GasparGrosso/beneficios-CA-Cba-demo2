@@ -12,7 +12,7 @@ function Start-WithPython {
   if ($py) {
     Write-Host "Servidor en $url  (Ctrl+C para detener)" -ForegroundColor Green
     Start-Process $url
-    & $py.Source -m http.server $Port
+    & $py.Source serve.py $Port   # sin caché: ver serve.py
     return $true
   }
   return $false

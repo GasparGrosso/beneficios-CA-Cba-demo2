@@ -2,16 +2,44 @@
 <html><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style id="cac-responsive">
-@media (max-width: 720px){
-  [style*="height: 100vh"][style*="overflow: hidden"]{ flex-direction: column !important; height: auto !important; min-height: 100vh; overflow: visible !important; }
-  [style*="width: 224px"]{ width: 100% !important; }
-  [style*="flex-direction: column; overflow: hidden"]{ overflow: visible !important; }
-  [style*="overflow-y: auto"]{ overflow-y: visible !important; }
-  [style*="grid-template-columns: 1fr 1fr"]{ grid-template-columns: 1fr !important; }
-  [style*="grid-template-columns: 0.5fr 2.4fr 1.3fr 1fr"]{ grid-template-columns: 1fr !important; }
-  [style*="padding: 0px 32px"]{ padding-left: 16px !important; padding-right: 16px !important; }
-  [style*="padding: 26px 32px 40px"]{ padding-left: 16px !important; padding-right: 16px !important; }
+<style id="cac-layout">
+/* Las interpolaciones {{ }} del runtime se envuelven en <span class="sc-interp">;
+   el CSS tipográfico del helmet pisa color/peso/fuente de cualquier span, así que
+   el valor perdía el estilo de su contenedor. Heredar lo devuelve a su lugar. */
+.sc-interp{font:inherit;font-family:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit;line-height:inherit;}
+
+/* ── Menú Afiliado: layout responsive por clases ──
+   Desktop: sidebar fija de 224px + área principal con scroll propio.
+   Hasta 900px: la sidebar pasa a ser una barra superior compacta con la
+   navegación en fila; el header envuelve; el detalle va a una columna. */
+.af-title{white-space:nowrap;}
+.af-pill{white-space:nowrap;}
+@media (max-width:1150px){
+  .af-detail-grid{grid-template-columns:1fr !important;}
+  .af-detail-col{border-right:none !important;}
+}
+@media (max-width:900px){
+  .af-layout{flex-direction:column !important;height:auto !important;min-height:100vh;overflow:visible !important;}
+  .af-sidebar{width:100% !important;overflow:visible !important;}
+  .af-side-head{padding:14px 16px 8px !important;}
+  .af-side-card{display:none !important;}
+  .af-nav{flex-direction:row !important;flex-wrap:nowrap;overflow-x:auto;padding:0 12px 12px !important;gap:6px !important;-webkit-overflow-scrolling:touch;}
+  .af-nav-item{flex:0 0 auto;white-space:nowrap;padding:9px 12px !important;border-left:none !important;}
+  .af-side-foot{display:none !important;}
+  .af-main{overflow:visible !important;}
+  .af-header{height:auto !important;padding:12px 16px !important;flex-wrap:wrap;gap:10px;}
+  .af-header-left{flex-wrap:wrap;gap:10px !important;}
+  .af-header-right{margin-left:auto;gap:10px !important;}
+  .af-user-text{display:none !important;}
+  .af-content{overflow:visible !important;padding:20px 16px 40px !important;}
+  .af-detail-head{padding:16px !important;}
+  .af-detail-col{padding:20px 16px !important;}
+  .af-kpis{grid-template-columns:1fr 1fr !important;}
+  .af-rank-row{grid-template-columns:24px minmax(0,1fr) auto auto !important;gap:8px !important;}
+}
+@media (max-width:400px){
+  .af-kpis{grid-template-columns:1fr !important;}
+  .af-title{font-size:16px !important;}
 }
 </style>
 <script src="assets/bundle/dc-runtime.js"></script>
@@ -1469,14 +1497,14 @@ p, span, td, li, input, button, textarea, select {
   </style>
 </helmet>
 
-<div style="display:flex; height:100vh; font-family:var(--font-body); background:var(--color-bg); overflow:hidden;">
+<div class="af-layout" style="display:flex; height:100vh; font-family:var(--font-body); background:var(--color-bg); overflow:hidden;">
 
   <!-- ═══════════ SIDEBAR ═══════════ -->
-  <aside style="width:224px; flex-shrink:0; background:var(--color-pizarra); display:flex; flex-direction:column; position:relative; overflow:hidden;">
+  <aside class="af-sidebar" style="width:224px; flex-shrink:0; background:var(--color-pizarra); display:flex; flex-direction:column; position:relative; overflow:hidden;">
     <div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px;pointer-events:none;"></div>
     <div style="height:3px;background:linear-gradient(90deg,#E05A36,#F07554);flex-shrink:0;position:relative;z-index:1;"></div>
 
-    <div style="padding:22px 20px 20px; position:relative;z-index:1;">
+    <div class="af-side-head" style="padding:22px 20px 20px; position:relative;z-index:1;">
       <div style="display:flex;align-items:center;gap:11px;">
         <div style="width:38px;height:38px;background:var(--color-terracota);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(224,90,54,.4);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 9 12 2 21 9 21 20 3 20"></polygon><rect x="9" y="14" width="6" height="6"></rect></svg>
@@ -1486,29 +1514,29 @@ p, span, td, li, input, button, textarea, select {
           <div style="font-size:9.5px;color:rgba(255,255,255,.42);letter-spacing:0.05em;line-height:1.2;text-transform:uppercase;">Regional 5</div>
         </div>
       </div>
-      <div style="margin-top:18px;padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+      <div class="af-side-card" style="margin-top:18px;padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
         <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:0.12em;font-weight:700;margin-bottom:5px;font-family:var(--font-display);text-transform:uppercase;">Comercio Afiliado</div>
         <div style="font-family:var(--font-display);font-weight:800;font-size:13px;color:#fff;line-height:1.3;">Librería<br>Técnica Sur</div>
       </div>
     </div>
 
-    <nav style="flex:1;padding:0 14px;position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;">
+    <nav class="af-nav" style="flex:1;padding:0 14px;position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;">
       
-      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;background:rgba(224,90,54,.16);cursor:pointer;border-left:3px solid var(--color-terracota);">
+      <div class="af-nav-item" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;background:rgba(224,90,54,.16);cursor:pointer;border-left:3px solid var(--color-terracota);">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E05A36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
         <span style="font-size:12.5px;color:#fff;font-weight:700;font-family:var(--font-display);">Mis Beneficios</span>
-      </div><div onclick="{{ goAdd }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span style="font-size:12.5px;color:#fff;font-weight:700;font-family:var(--font-display);">Agregar beneficio</span></div><div onclick="{{ goScan }}" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg><span style="font-size:12.5px;color:#fff;font-weight:700;font-family:var(--font-display);">Escanear QR</span></div>
-      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)">
+      </div><div onclick="{{ goAdd }}" class="af-nav-item" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span style="font-size:12.5px;color:#fff;font-weight:700;font-family:var(--font-display);">Agregar beneficio</span></div><div onclick="{{ goScan }}" class="af-nav-item" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg><span style="font-size:12.5px;color:#fff;font-weight:700;font-family:var(--font-display);">Escanear QR</span></div>
+      <div class="af-nav-item" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span style="font-size:12.5px;color:rgba(255,255,255,.5);font-weight:500;">Sucursales</span>
       </div>
-      <div style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)">
+      <div class="af-nav-item" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;" style-hover="background:rgba(255,255,255,.06)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         <span style="font-size:12.5px;color:rgba(255,255,255,.5);font-weight:500;">Soporte</span>
       </div>
     </nav>
 
-    <div style="padding:16px;position:relative;z-index:1;">
+    <div class="af-side-foot" style="padding:16px;position:relative;z-index:1;">
       <div style="display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:9px;cursor:pointer;border:1px solid rgba(255,255,255,.08);" style-hover="background:rgba(255,255,255,.06)">
         <div style="width:30px;height:30px;border-radius:50%;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:11px;font-weight:800;color:#fff;flex-shrink:0;">LS</div>
         <div style="line-height:1.3;overflow:hidden;">
@@ -1520,30 +1548,30 @@ p, span, td, li, input, button, textarea, select {
   </aside>
 
   <!-- ═══════════ MAIN AREA ═══════════ -->
-  <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+  <div class="af-main" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
 
     <!-- HEADER EJECUTIVO -->
-    <header style="background:var(--color-pizarra);padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;overflow:hidden;">
+    <header class="af-header" style="background:var(--color-pizarra);padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px;pointer-events:none;"></div>
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#E05A36,#F07554);"></div>
-      <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1;">
+      <div class="af-header-left" style="display:flex;align-items:center;gap:16px;position:relative;z-index:1;">
         <div>
-          <div style="font-family:var(--font-display);font-weight:800;font-size:19px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Librería Técnica Sur</div>
+          <div class="af-title" style="font-family:var(--font-display);font-weight:800;font-size:19px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Librería Técnica Sur</div>
           <div style="font-size:11px;color:rgba(255,255,255,.45);letter-spacing:0.05em;margin-top:3px;">ID AFILIADO: <span style="color:rgba(255,255,255,.7);font-weight:600;">AFC-00847</span></div>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;background:var(--color-success-bg);border-radius:9999px;padding:5px 12px;">
+        <div class="af-pill" style="display:flex;align-items:center;gap:6px;background:var(--color-success-bg);border-radius:9999px;padding:5px 12px;">
           <div style="width:7px;height:7px;border-radius:50%;background:#10B981;animation:pulse 2s ease-in-out infinite;"></div>
           <span style="font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--color-success-text);">Cuenta Activa · Verificada</span>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1;">
+      <div class="af-header-right" style="display:flex;align-items:center;gap:16px;position:relative;z-index:1;">
         <div style="position:relative;color:rgba(255,255,255,.65);cursor:pointer;display:flex;">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
           <span style="position:absolute;top:-2px;right:-2px;width:7px;height:7px;background:var(--color-terracota);border-radius:50%;border:1.5px solid var(--color-pizarra);"></span>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <div style="width:34px;height:34px;border-radius:50%;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:800;color:#fff;">LS</div>
-          <div style="line-height:1.3;">
+          <div class="af-user-text" style="line-height:1.3;">
             <div style="font-family:var(--font-display);font-size:12.5px;font-weight:700;color:#fff;">Técnica Sur</div>
             <div style="font-size:10px;color:rgba(255,255,255,.42);">Administrador</div>
           </div>
@@ -1553,7 +1581,7 @@ p, span, td, li, input, button, textarea, select {
           Salir
         </button>
       </div>
-    </header><div style="flex:1;overflow-y:auto;padding:26px 32px 40px;">
+    </header><div class="af-content" style="flex:1;overflow-y:auto;padding:26px 32px 40px;">
 
       <!-- Encabezado de página -->
       <div style="margin-bottom:18px;">
@@ -1592,7 +1620,7 @@ p, span, td, li, input, button, textarea, select {
         <div style="background:#fff;border-radius:14px;border:1px solid var(--color-border-soft);box-shadow:0 4px 24px rgba(15,23,42,.06);overflow:hidden;animation:fadeSwap 350ms ease;">
 
           <!-- Detail header -->
-          <div style="padding:20px 28px;border-bottom:1px solid var(--color-border-card);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div class="af-detail-head" style="padding:20px 28px;border-bottom:1px solid var(--color-border-card);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
             <div>
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">
                 <span style="font-size:12px;color:var(--color-text-muted);display:flex;align-items:center;gap:5px;">
@@ -1617,10 +1645,10 @@ p, span, td, li, input, button, textarea, select {
           </div>
 
           <!-- 2-column grid -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;">
+          <div class="af-detail-grid" style="display:grid;grid-template-columns:1fr 1fr;">
 
             <!-- ── IZQUIERDA: Volumen de Consumo ── -->
-            <div style="padding:28px;border-right:1px solid var(--color-border-card);">
+            <div class="af-detail-col" style="padding:28px;border-right:1px solid var(--color-border-card);">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                 <div style="display:flex;align-items:center;gap:9px;">
                   <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
@@ -1669,7 +1697,7 @@ p, span, td, li, input, button, textarea, select {
             </div>
 
             <!-- ── DERECHA: Ranking ── -->
-            <div style="padding:28px;display:flex;flex-direction:column;">
+            <div class="af-detail-col" style="padding:28px;display:flex;flex-direction:column;">
               <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">
                 <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
@@ -1678,14 +1706,14 @@ p, span, td, li, input, button, textarea, select {
               </div>
 
               <div style="flex:1;">
-                <div style="display:grid;grid-template-columns:0.5fr 2.4fr 1.3fr 1fr;gap:8px;padding:0 12px 10px;border-bottom:1px solid var(--color-border);">
+                <div class="af-rank-row" style="display:grid;grid-template-columns:0.5fr 2.4fr 1.3fr 1fr;gap:8px;padding:0 12px 10px;border-bottom:1px solid var(--color-border);">
                   <div style="font-family:var(--font-display);font-size:10px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">#</div>
                   <div style="font-family:var(--font-display);font-size:10px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">Beneficio</div>
                   <div style="font-family:var(--font-display);font-size:10px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;text-align:right;">Clientes</div>
                   <div style="font-family:var(--font-display);font-size:10px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;text-align:center;">Estado</div>
                 </div>
                 <sc-for list="{{ rankingRows }}" as="row">
-                  <div style="display:grid;grid-template-columns:0.5fr 2.4fr 1.3fr 1fr;gap:8px;padding:13px 12px;border-bottom:1px solid var(--color-border-card);align-items:center;border-left:{{ row.rowBorder }};background:{{ row.rowBg }};transition:background 200ms;">
+                  <div class="af-rank-row" style="display:grid;grid-template-columns:0.5fr 2.4fr 1.3fr 1fr;gap:8px;padding:13px 12px;border-bottom:1px solid var(--color-border-card);align-items:center;border-left:{{ row.rowBorder }};background:{{ row.rowBg }};transition:background 200ms;">
                     <div style="font-family:var(--font-display);font-size:13px;font-weight:800;color:{{ row.posColor }};">{{ row.pos }}</div>
                     <div>
                       <div style="font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--color-pizarra);">{{ row.discount }} · {{ row.shortLabel }}</div>
@@ -1699,7 +1727,7 @@ p, span, td, li, input, button, textarea, select {
               </div>
 
               <!-- Resumen financiero estilo eventos -->
-              <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="af-kpis" style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                 <div style="padding:16px 18px;background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border-card);">
                   <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
@@ -1876,4 +1904,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260918"></script><script src="flow.js"></script></body></html>

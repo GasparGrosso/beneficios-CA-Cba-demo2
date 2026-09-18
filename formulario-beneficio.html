@@ -3,6 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style id="cac-responsive">
+/* Las interpolaciones {{ }} del runtime se envuelven en <span class="sc-interp">;
+   el CSS tipográfico del helmet pisa color/peso/fuente de cualquier span, así que
+   el valor perdía el estilo de su contenedor (p. ej. el % del beneficio no era
+   terracota). Heredar lo devuelve al lugar que le corresponde. */
+.sc-interp{font:inherit;font-family:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit;line-height:inherit;}
 @media (max-width: 720px){
   [style*="grid-template-columns: 1fr 1fr"]{ grid-template-columns: 1fr !important; }
   [style*="padding: 20px 32px"]{ padding-left: 16px !important; padding-right: 16px !important; }
@@ -1478,13 +1483,15 @@ p, span, td, li, input, button, textarea, select {
         </button>
         <div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <h1 style="font-family:var(--font-display);font-weight:800;font-size:21px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Modificar Beneficio</h1>
-            <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(224,90,54,.16);border:1px solid rgba(224,90,54,.35);border-radius:9999px;padding:3px 11px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#F07554;animation:pulse 2s ease-in-out infinite;"></span>
-              <span style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:#F5A98F;letter-spacing:0.04em;">MODO EDICIÓN</span>
-            </span>
+            <h1 style="font-family:var(--font-display);font-weight:800;font-size:21px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">{{ headerTitle }}</h1>
+            <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+              <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(224,90,54,.16);border:1px solid rgba(224,90,54,.35);border-radius:9999px;padding:3px 11px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#F07554;animation:pulse 2s ease-in-out infinite;"></span>
+                <span style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:#F5A98F;letter-spacing:0.04em;">MODO EDICIÓN</span>
+              </span>
+            </sc-if>
           </div>
-          <p style="font-size:11.5px;color:rgba(255,255,255,.45);margin-top:4px;">ID Beneficio: <span style="color:rgba(255,255,255,.7);font-weight:600;">BNF-00218</span> · Última edición: 04 Jul 2026</p>
+          <p style="font-size:11.5px;color:rgba(255,255,255,.45);margin-top:4px;">{{ headerSub }}</p>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;color:rgba(255,255,255,.5);">
@@ -1646,7 +1653,7 @@ p, span, td, li, input, button, textarea, select {
         <div style="display:flex;gap:12px;padding-top:6px;border-top:1px solid var(--color-border-card);margin-top:2px;padding-top:20px;">
           <button onclick="{{ onSave }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 170ms;box-shadow:0 8px 22px rgba(224,90,54,.32);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-            Guardar Cambios
+            {{ saveLabel }}
           </button>
           <button onclick="{{ onCancel }}" style="padding:12px 24px;background:#fff;border:1.5px solid var(--color-border);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--color-text-secondary);transition:all 170ms;" style-hover="border-color:var(--color-pizarra);color:var(--color-pizarra);">Cancelar</button>
         </div>
@@ -1768,7 +1775,7 @@ class Component extends DCLogic {
 
   navBack() {
     var from = window.CAC && window.CAC.qp('from');
-    window.location.href = from === 'afiliado' ? 'menu-afiliado.html' : 'panel-control.html';
+    window.location.href = from === 'afiliado' ? 'menu-afiliado.html' : 'panel-control.html?vista=beneficios';
   }
 
   buildBenefit() {
@@ -1860,7 +1867,13 @@ class Component extends DCLogic {
     const words = (s.name || 'Beneficio').trim().split(/\s+/);
     const previewInitials = ((words[0]?.[0] || '') + (words[1]?.[0] || '')).toUpperCase() || 'B';
 
+    const isEdit = !!this._editId;
     return {
+      isEdit,
+      headerTitle: isEdit ? 'Modificar Beneficio' : 'Registrar Beneficio',
+      headerSub: isEdit ? ('ID Beneficio: ' + String(this._editId).toUpperCase() + ' \u00b7 Editando en su lugar')
+                        : 'Alta de un beneficio nuevo. Los datos que cargues son los que ve el matriculado.',
+      saveLabel: isEdit ? 'Guardar Cambios' : 'Registrar Beneficio',
       name: s.name,
       description: s.description,
       isComercial, isAcademico,
@@ -1908,4 +1921,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260918"></script><script src="flow.js"></script></body></html>

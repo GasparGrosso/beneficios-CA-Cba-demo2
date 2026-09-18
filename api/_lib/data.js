@@ -7,10 +7,14 @@
 'use strict';
 
 /* ---------- Datos mock (copia exacta de store.js) ---------- */
+/* Eventos (ADR-0009: doble origen). Copia 1:1 de store.js; el cliente deriva
+   tag/tagBg/date en normalizeEvent(). */
 var EVENTS = [
-  { id: 'e1', title: 'Visitá Casa FOA',        subtitle: 'Solicitá entrada gratuita vía tu regional', date: 'Hasta 30 jun',      tag: 'Cultura',       tagBg: '#E05A36', img: 'assets/evento-gala40.png' },
-  { id: 'e2', title: 'Gala 40 Años C.A.C.',    subtitle: 'Transmisión en vivo · YouTube',             date: '25 mar · 19:30 hs', tag: 'Institucional', tagBg: '#0F172A', img: 'assets/evento-casafoa.png' },
-  { id: 'e3', title: 'Workshop BIM Avanzado',  subtitle: 'Online · Certificación oficial CPAU',       date: '12 jul · 9:00 hs',  tag: 'Formación',     tagBg: '#10B981', img: null },
+  { id: 'e1', title: 'Visitá Casa FOA',               subtitle: 'Solicitá entrada gratuita vía tu regional', categoria: 'Cultura',       inicio: '2026-09-25T10:00', fin: '2026-09-25T18:00', descripcion: 'Muestra de arquitectura, diseño e interiorismo. Entrada sin cargo para matriculados gestionada a través de tu regional.', urlInscripcion: '', urlEntrada: 'https://autogestion.colegio-arquitectos.com.ar/entradas/casa-foa', img: 'assets/evento-gala40.png', origen: 'api',    regional: 'Provincial' },
+  { id: 'e2', title: 'Gala 40 Años C.A.C.',           subtitle: 'Teatro del Libertador · Córdoba',           categoria: 'Institucional', inicio: '2026-10-09T20:00', fin: '2026-10-09T23:30', descripcion: 'Celebración por los 40 años del Colegio. Transmisión en vivo por YouTube para quienes no puedan asistir.', urlInscripcion: 'https://autogestion.colegio-arquitectos.com.ar/inscripcion/gala-40', urlEntrada: 'https://autogestion.colegio-arquitectos.com.ar/entradas/gala-40', img: 'assets/evento-casafoa.png', origen: 'api', regional: 'Provincial' },
+  { id: 'e3', title: 'Workshop BIM Avanzado',         subtitle: 'Online · Certificación oficial CPAU',       categoria: 'Formación',     inicio: '2026-09-22T09:00', fin: '2026-09-22T13:00', descripcion: 'Modelado colaborativo, familias paramétricas y coordinación de disciplinas. Cupo limitado, con certificación.', urlInscripcion: 'https://autogestion.colegio-arquitectos.com.ar/inscripcion/bim-avanzado', urlEntrada: '', img: null, origen: 'api', regional: 'Provincial' },
+  { id: 'e4', title: 'Bienal Sostenible 2026',        subtitle: 'Pabellón Argentina · Córdoba',              categoria: 'Cultura',       inicio: '2026-10-02T09:00', fin: '2026-10-04T19:00', descripcion: 'Tres jornadas de charlas, muestra de proyectos y recorridos por obras con criterios de sostenibilidad.', urlInscripcion: 'https://bienalsostenible.org/inscripcion', urlEntrada: '', img: null, origen: 'manual', regional: 'Regional 1' },
+  { id: 'e5', title: 'Taller de Cómputo y Presupuesto', subtitle: 'Sede Regional 5 · Laprida 40',            categoria: 'Formación',     inicio: '2026-09-29T18:00', fin: '2026-09-29T21:00', descripcion: 'Taller práctico de cómputo métrico y armado de presupuestos de obra. Traer notebook.', urlInscripcion: '', urlEntrada: '', img: null, origen: 'manual', regional: 'Regional 5' },
 ];
 
 var COMERCIALES = [

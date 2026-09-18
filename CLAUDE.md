@@ -1,4 +1,11 @@
-# CLAUDE.md — Prototipo de Interfaz · App de Gestión de Beneficios (C.A. Córdoba)
+# CLAUDE.md — Prototipo E5 · Portal de Beneficios (C.A. Córdoba)
+
+> **Qué es este repositorio.** El prototipo visual navegable del entregable E5, que evolucionó a
+> partir de la maqueta `demo2` (ADR-0006 de la bóveda del proyecto). **Desde el 18/09/2026 este
+> repositorio publica el prototipo y es el que manda**; la `demo2` aprobada por el Colegio el 10/09
+> queda preservada en el tag `demo2-aprobada-2026-09-10` y la rama `demo2-congelada`, y no se edita.
+> Toda diferencia respecto de esa versión se registra en `CAMBIOS.md` con su origen (minuta, ADR o
+> requisito). **Ningún cambio visual entra sin origen.**
 
 > **Contrato de dominio para Claude Code.** Este archivo delimita **qué** se puede
 > construir y **cómo**. Toda generación o modificación de código en este proyecto
@@ -33,11 +40,14 @@ Dos grandes grupos de trabajo con madurez distinta:
   desde cero: catálogo de beneficios (comerciales y académicos), convenios con
   comercios, canje por QR, reglas de uso y estadísticas. **Aquí vive todo el trabajo
   de código de este repo.**
-- **Gestión de Eventos / Autogestión — LO EXISTENTE (no se toca).** Ya está en
+- **Gestión de Eventos / Autogestión — LO EXISTENTE (no se duplica).** Ya está en
   producción (inscripción, pago, entradas QR, protocolos, estadísticas en vivo).
-  Requerimiento explícito del Colegio: **no duplicar, solo integrar**. En el
-  prototipo los eventos solo se **muestran** y la inscripción **redirige** a
-  Autogestión (link disfrazado detrás del botón "Inscribirse").
+  Requerimiento explícito del Colegio: **no duplicar, solo integrar**. La inscripción,
+  el pago y la emisión/validación de entradas siguen en Autogestión: el Portal enlaza.
+  **Lo que sí cambió (ADR-0009, 16/09/2026):** los eventos entran al Portal por **dos
+  vías que conviven** — la API de Autogestión, cuando exista, y la **carga manual** del
+  personal del Colegio desde el panel, dentro de su jurisdicción. El dominio distingue
+  el `origen` del evento (`api` | `manual`); ante conflicto manda el origen API.
 
 Problema de negocio que la herramienta debe ordenar: hoy **cada regional gestiona
 sus convenios a su manera**, sin estructura común. El Colegio necesita estandarizar
@@ -81,6 +91,22 @@ con mocks lo que falte, pero **el esquema canónico es este**:
 - No inventar campos fuera de esta tabla. Si un requisito nuevo necesita un campo,
   **primero se agrega al formulario** (fuente de verdad) y luego a las vistas.
 
+### 3.0. Evento (ADR-0009)
+
+`formulario-evento.html` es la **fuente de verdad del esquema del evento**. `store.js →
+normalizeEvent()` completa derivados. Campos: `id`, `title`, `categoria` (Cultura · Formación ·
+Institucional · Concurso · Visita de obra), `subtitle` (lugar o modalidad), `inicio`, `fin`
+(fecha-hora local ISO), `descripcion`, `urlInscripcion`, `urlEntrada`, `img`, `origen`
+(`'api'` | `'manual'`), `regional`; derivados `tag`, `tagBg`, `date`. Persistencia mock en
+`localStorage:cac_extra_events`; un extra con el mismo `id` que un evento base lo **reemplaza**.
+
+| Operación | Dónde | Mecanismo |
+|---|---|---|
+| **Alta** | `formulario-evento.html?mode=new&from=panel` (desde "Registrar Evento" en `panel-control.html?vista=eventos`) | `CAC.addOrUpdateEvent()` → `origen:'manual'`, `regional` de la sesión |
+| **Modificación** | `formulario-evento.html?mode=edit&from=panel` (desde "Editar evento" en la agenda del panel) | Precarga desde `CAC.getEditEvent()`; actualiza **en su lugar** |
+| **Consulta** | `panel-control.html?vista=eventos`, `menu-beneficios.html` (carrusel), `calendario-eventos.html`, `qr-entrada-evento.html` | `CAC.allEvents()` / `CAC.upcomingEvents()` / `CAC.findEventById()` |
+| **Baja** | — | No pedida todavía (ver `CAMBIOS.md`) |
+
 ### 3.1. ABMC del Beneficio (mapa canónico)
 
 | Operación | Dónde | Mecanismo actual | Invariantes |
@@ -101,12 +127,15 @@ decisión de negocio.
 | Archivo | Pantalla | Rol / población | Qué fija en el contrato |
 |---|---|---|---|
 | `index.html` | Login | Todos | Entrada; rutea por rol (Arquitecto → beneficios, Personal → panel, Afiliado → menú afiliado). Login **cruzado con Autogestión** (SSO): no se cargan ni migran datos del arquitecto |
-| `menu-beneficios.html` | Menú Beneficios | **Arquitecto** | **Consulta** del catálogo filtrado por su regional; "Solicitar beneficio" abre QR; carrusel de eventos (solo muestra, redirige) |
+| `menu-beneficios.html` | Menú Beneficios | **Arquitecto** | **Consulta** del catálogo filtrado por su regional; "Solicitar beneficio" abre QR; carrusel de eventos próximos (API + carga manual); navegación a Calendario y Mis Beneficios |
+| `calendario-eventos.html` | Calendario de Eventos | **Arquitecto** | Misma agenda en vista mensual (pedido del 10/09). Día con evento → carta → QR de entrada. Solo muestra; la inscripción sigue en Autogestión |
+| `mis-beneficios.html` | Mis Beneficios | **Arquitecto** | Selector "Beneficios y entradas". `?vista=beneficios`: más usados por el matriculado, ordenados por frecuencia, y los que están en espera (cooldown) con cuenta regresiva (pedido del 10/09). `?vista=entradas`: eventos con entrada del matriculado → QR (la entrada la emite Autogestión; el Portal solo la muestra, RN-13) |
 | `qr-beneficio.html` | QR de canje | Arquitecto | Despliega el QR del beneficio a escanear y el acuerdo asociado. **QR simulado** (el `cooldown` no se muestra aquí, sino en el escaneo) |
 | `qr-entrada-evento.html` | QR de entrada a evento | Arquitecto | Muestra la entrada dentro de la app (resuelve mails que no llegan / caen en spam) |
 | `menu-afiliado.html` | Menú Afiliado | **Comercio adherido** | **ABMC** del beneficio desde el comercio (Agregar / Modificar / **Borrar**), "Escanear QR", detalle; login propio del comerciante |
-| `panel-control.html` | Panel de Control | **Personal del Colegio** | **ABMC** del beneficio (Agregar / Modificar / **Borrar**) con **RBAC por regional**; catálogo + estadísticas ("N beneficios activos") |
-| `formulario-beneficio.html` | Formulario alta/edición | Comercio / Personal | **Fuente de verdad del esquema** (§3). Guardar registra; Cancelar no crea nada |
+| `panel-control.html` | Panel de Gestión | **Personal del Colegio** | Al ingresar, **"Eventos y beneficios"**: elige qué gestionar. `?vista=beneficios`: **ABMC** del beneficio (Agregar / Modificar / **Borrar**) con **RBAC por regional**, catálogo + estadísticas. `?vista=eventos`: agenda con la misma tarjeta que ve el matriculado, origen de cada evento y "Editar evento"; "Registrar Evento" en la cabecera |
+| `formulario-beneficio.html` | Formulario alta/edición de beneficio | Comercio / Personal | **Fuente de verdad del esquema** (§3). Guardar registra; Cancelar no crea nada |
+| `formulario-evento.html` | Formulario alta/edición de evento | Personal | **Fuente de verdad del esquema del evento** (§3.0). Vista previa en vivo de la tarjeta. Guardar vuelve a la agenda del panel |
 | `qr-validacion.html` | Validación / escaneo de QR | Comercio | El comercio escanea y valida el QR que presenta el arquitecto (antifraude, simulado). Al validar con éxito muestra qué beneficio se consumió y **cuánto falta para volver a usarlo** (`cooldown`, tomado del valor cargado en el formulario) |
 
 **Estadísticas (contrato de negocio, no solo UI):** dos vistas separadas —
@@ -128,8 +157,9 @@ de comercios.
   beneficio y del usuario (`Provincial` = toda la provincia de Córdoba). **Matrícula**:
   identificador del arquitecto (viene de Autogestión). **Cooldown**: tiempo de espera
   entre canjes del mismo beneficio.
-- **Evento / Protocolo / Inscripción**: pertenecen a Autogestión, **fuera del dominio**
-  de este repo (solo se muestran/redirigen).
+- **Evento**: objeto del dominio con **doble origen** (ADR-0009): llega por la API de
+  Autogestión o se carga a mano desde el panel. **Protocolo / Inscripción / Pago / Entrada**:
+  pertenecen a Autogestión, fuera del dominio (solo se enlazan y se muestran).
 
 ---
 
@@ -217,9 +247,10 @@ corrigiendo bugs y limpiando código según el §8.
 
 **Prohibido (detenerse y avisar si un prompt lo pide):**
 
-1. **Salir del dominio Beneficios.** No construir ni "mejorar" Eventos, Inscripción,
-   Pagos, Protocolos o Autogestión. Los eventos **solo se muestran**; la inscripción
-   **solo redirige** (deep link). No replicar su lógica.
+1. **Salir del dominio.** El dominio es Beneficios **y**, desde ADR-0009, la agenda de
+   Eventos (alta, edición y consulta, con su origen). No construir ni "mejorar" Inscripción,
+   Pagos, Protocolos, emisión o validación de entradas: pertenecen a Autogestión y **solo se
+   enlazan** (deep link). No replicar su lógica.
 2. **Tocar pagos o datos sensibles.** Los pagos viven íntegramente en Autogestión.
    No modelar cobros, tarjetas ni datos de pago. No persistir datos personales reales
    de arquitectos (Ley 25.326); en el prototipo son mock.
@@ -250,6 +281,7 @@ conflicto y proponer la alternativa dentro del dominio.
 - **Pegamento / navegación:** `flow.js`
 - **Bugs a corregir (paso 1):** `../errores prototipo de interfaz/ERRORES-DETECTADOS.md`
 - **Casos de prueba (paso 2):** `../errores prototipo de interfaz/CASOS-DE-PRUEBA.md`
+- **Qué cambia respecto de demo2 y por qué:** `CAMBIOS.md`
 - **Cómo correr y flujo de navegación:** `README.md`
 - **Decisiones de arquitectura del MVP objetivo (contexto, no aplicar al prototipo):**
   proyecto separado **«Arquitectura MVP»** → `Arquitectura_MVP_Beneficios_CA-Cba.docx`

@@ -7,10 +7,25 @@
   'use strict';
 
   /* ---------- Datos mock (fuente única de verdad) ---------- */
+  /* Eventos (ADR-0009: doble origen). `origen` = 'api' (llegó por Autogestión) o
+     'manual' (cargado por personal del Colegio en el panel). `inicio`/`fin` son
+     fecha-hora local ISO (sin zona); `tag`, `tagBg` y `date` se derivan en
+     normalizeEvent() a partir de `categoria` e `inicio`. */
   var EVENTS = [
-    { id: 'e1', title: 'Visitá Casa FOA',        subtitle: 'Solicitá entrada gratuita vía tu regional', date: 'Hasta 30 jun',      tag: 'Cultura',       tagBg: '#E05A36', img: 'assets/evento-gala40.png' },
-    { id: 'e2', title: 'Gala 40 Años C.A.C.',    subtitle: 'Transmisión en vivo · YouTube',             date: '25 mar · 19:30 hs', tag: 'Institucional', tagBg: '#0F172A', img: 'assets/evento-casafoa.png' },
-    { id: 'e3', title: 'Workshop BIM Avanzado',  subtitle: 'Online · Certificación oficial CPAU',       date: '12 jul · 9:00 hs',  tag: 'Formación',     tagBg: '#10B981', img: null },
+    { id: 'e1', title: 'Visitá Casa FOA',               subtitle: 'Solicitá entrada gratuita vía tu regional', categoria: 'Cultura',       inicio: '2026-09-25T10:00', fin: '2026-09-25T18:00', descripcion: 'Muestra de arquitectura, diseño e interiorismo. Entrada sin cargo para matriculados gestionada a través de tu regional.', urlInscripcion: '', urlEntrada: 'https://autogestion.colegio-arquitectos.com.ar/entradas/casa-foa', img: 'assets/evento-gala40.png', origen: 'api',    regional: 'Provincial' },
+    { id: 'e2', title: 'Gala 40 Años C.A.C.',           subtitle: 'Teatro del Libertador · Córdoba',           categoria: 'Institucional', inicio: '2026-10-09T20:00', fin: '2026-10-09T23:30', descripcion: 'Celebración por los 40 años del Colegio. Transmisión en vivo por YouTube para quienes no puedan asistir.', urlInscripcion: 'https://autogestion.colegio-arquitectos.com.ar/inscripcion/gala-40', urlEntrada: 'https://autogestion.colegio-arquitectos.com.ar/entradas/gala-40', img: 'assets/evento-casafoa.png', origen: 'api', regional: 'Provincial' },
+    { id: 'e3', title: 'Workshop BIM Avanzado',         subtitle: 'Online · Certificación oficial CPAU',       categoria: 'Formación',     inicio: '2026-09-22T09:00', fin: '2026-09-22T13:00', descripcion: 'Modelado colaborativo, familias paramétricas y coordinación de disciplinas. Cupo limitado, con certificación.', urlInscripcion: 'https://autogestion.colegio-arquitectos.com.ar/inscripcion/bim-avanzado', urlEntrada: '', img: null, origen: 'api', regional: 'Provincial' },
+    { id: 'e4', title: 'Bienal Sostenible 2026',        subtitle: 'Pabellón Argentina · Córdoba',              categoria: 'Cultura',       inicio: '2026-10-02T09:00', fin: '2026-10-04T19:00', descripcion: 'Tres jornadas de charlas, muestra de proyectos y recorridos por obras con criterios de sostenibilidad.', urlInscripcion: 'https://bienalsostenible.org/inscripcion', urlEntrada: '', img: null, origen: 'manual', regional: 'Regional 1' },
+    { id: 'e5', title: 'Taller de Cómputo y Presupuesto', subtitle: 'Sede Regional 5 · Laprida 40',            categoria: 'Formación',     inicio: '2026-09-29T18:00', fin: '2026-09-29T21:00', descripcion: 'Taller práctico de cómputo métrico y armado de presupuestos de obra. Traer notebook.', urlInscripcion: '', urlEntrada: '', img: null, origen: 'manual', regional: 'Regional 5' },
+  ];
+
+  /* Categorías de evento y su color de etiqueta (misma paleta del sistema). */
+  var CATEGORIAS_EVENTO = [
+    { nombre: 'Cultura',        color: '#E05A36' },
+    { nombre: 'Formación',      color: '#10B981' },
+    { nombre: 'Institucional',  color: '#0F172A' },
+    { nombre: 'Concurso',       color: '#8B5CF6' },
+    { nombre: 'Visita de obra', color: '#F59E0B' },
   ];
 
   // Regionales = subdivisiones internas de la provincia de Córdoba (§3). Los
@@ -45,6 +60,8 @@
   var K_EXTRA   = 'cac_extra_benefits';
   var K_EDIT    = 'cac_edit_benefit';
   var K_DELETED = 'cac_deleted_benefits';   // ids dados de baja (base o extra)
+  var K_EVENTS  = 'cac_extra_events';       // eventos cargados/editados a mano (ADR-0009)
+  var K_EDIT_EV = 'cac_edit_event';         // evento en edición (precarga del formulario)
 
   function read(key, fallback) {
     try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -92,6 +109,60 @@
       nuevo: true
     };
   }
+
+  /* ---------- Eventos: normalización y fechas ---------- */
+  var MESES_CORTO = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var MESES_LARGO = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  // Parsea 'YYYY-MM-DDTHH:mm' como hora local. Devuelve null si no es válido.
+  function parseLocal(iso) {
+    if (!iso) return null;
+    var m = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/.exec(String(iso));
+    if (!m) return null;
+    return new Date(+m[1], +m[2] - 1, +m[3], m[4] ? +m[4] : 0, m[5] ? +m[5] : 0);
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  // Etiqueta corta de fecha: '25 sep · 10:00 hs'. Si el evento dura más de un
+  // día: '2 – 4 oct'. Es la que muestran las tarjetas.
+  function eventDateLabel(ev) {
+    var a = parseLocal(ev && ev.inicio), b = parseLocal(ev && ev.fin);
+    if (!a) return (ev && ev.date) || 'Fecha a confirmar';
+    var multi = b && (b.getFullYear() !== a.getFullYear() || b.getMonth() !== a.getMonth() || b.getDate() !== a.getDate());
+    if (multi) {
+      if (b.getMonth() === a.getMonth()) return a.getDate() + ' \u2013 ' + b.getDate() + ' ' + MESES_CORTO[a.getMonth()];
+      return a.getDate() + ' ' + MESES_CORTO[a.getMonth()] + ' \u2013 ' + b.getDate() + ' ' + MESES_CORTO[b.getMonth()];
+    }
+    return a.getDate() + ' ' + MESES_CORTO[a.getMonth()] + ' \u00b7 ' + a.getHours() + ':' + pad2(a.getMinutes()) + ' hs';
+  }
+  function categoriaColor(nombre) {
+    for (var i = 0; i < CATEGORIAS_EVENTO.length; i++) if (CATEGORIAS_EVENTO[i].nombre === nombre) return CATEGORIAS_EVENTO[i].color;
+    return '#64748B';
+  }
+  /* Normaliza un evento: completa derivados (tag, tagBg, date) y defaults. */
+  function normalizeEvent(e) {
+    e = e || {};
+    var categoria = e.categoria || e.tag || 'Institucional';
+    var ev = {
+      id: e.id || ('ev' + Date.now() + Math.floor(Math.random() * 1000)),
+      title: e.title || e.nombre || 'Evento sin nombre',
+      subtitle: e.subtitle || '',
+      categoria: categoria,
+      inicio: e.inicio || '',
+      fin: e.fin || '',
+      descripcion: e.descripcion || '',
+      urlInscripcion: e.urlInscripcion || '',
+      urlEntrada: e.urlEntrada || '',
+      img: e.img || null,
+      origen: e.origen === 'manual' ? 'manual' : 'api',
+      regional: e.regional || 'Provincial',
+      tag: e.tag || categoria,
+      tagBg: e.tagBg || categoriaColor(categoria),
+    };
+    ev.date = (e.date && !e.inicio) ? e.date : eventDateLabel(ev);
+    if (!ev.subtitle) ev.subtitle = ev.descripcion ? ev.descripcion.slice(0, 48) + (ev.descripcion.length > 48 ? '\u2026' : '') : '';
+    return ev;
+  }
+  for (var ei = 0; ei < EVENTS.length; ei++) EVENTS[ei] = normalizeEvent(EVENTS[ei]);
 
   /* ---------- Hidratación desde la API mock (best-effort, con fallback) ----------
      XHR síncrono same-origin a GET /api/catalogo antes de que cualquier página lea
@@ -150,7 +221,7 @@
         didHydrate = true;
       }
       if (Array.isArray(dto.eventos)) {
-        replaceArrayInPlace(EVENTS, dto.eventos);
+        replaceArrayInPlace(EVENTS, dto.eventos.map(normalizeEvent));
       }
       if (Array.isArray(dto.regionales) && dto.regionales.length) {
         replaceArrayInPlace(CITIES, ['Todas'].concat(dto.regionales));
@@ -276,9 +347,74 @@
     for (var j = 0; j < base.length; j++) if (String(base[j].id) === sid) return base[j];
     return null;
   }
+  /* ---------- Eventos (ADR-0009): base (API) + carga manual (localStorage) ---------- */
+  function getExtraEvents() {
+    var arr = read(K_EVENTS, []);
+    return Array.isArray(arr) ? arr.map(normalizeEvent) : [];
+  }
+  // Un extra con el mismo id que un evento base lo REEMPLAZA (edición en su lugar).
+  // Orden: por fecha de inicio ascendente; sin fecha, al final.
+  function allEvents() {
+    var extras = getExtraEvents(), over = {};
+    extras.forEach(function (e) { over[String(e.id)] = true; });
+    var base = EVENTS.filter(function (e) { return !over[String(e.id)]; });
+    return base.concat(extras).sort(function (a, b) {
+      var da = parseLocal(a.inicio), db = parseLocal(b.inicio);
+      if (!da && !db) return 0; if (!da) return 1; if (!db) return -1;
+      return da - db;
+    });
+  }
+  // Eventos cuyo fin (o inicio) es hoy o posterior: lo que ve el matriculado.
+  function upcomingEvents(now) {
+    var ref = now || new Date();
+    var hoy = new Date(ref.getFullYear(), ref.getMonth(), ref.getDate());
+    return allEvents().filter(function (e) {
+      var d = parseLocal(e.fin) || parseLocal(e.inicio);
+      return !d || d >= hoy;
+    });
+  }
+  function addOrUpdateEvent(e) {
+    var ne = normalizeEvent(e);
+    var arr = read(K_EVENTS, []);
+    if (!Array.isArray(arr)) arr = [];
+    var i = arr.findIndex(function (x) { return String(x.id) === String(ne.id); });
+    if (i >= 0) arr[i] = ne; else arr.push(ne);
+    write(K_EVENTS, arr);
+    return ne;
+  }
   function findEventById(id) {
-    for (var i = 0; i < EVENTS.length; i++) if (String(EVENTS[i].id) === String(id)) return EVENTS[i];
+    if (!id) return null;
+    var sid = String(id);
+    var extras = getExtraEvents();            // la edición manual tiene prioridad
+    for (var i = 0; i < extras.length; i++) if (String(extras[i].id) === sid) return extras[i];
+    for (var j = 0; j < EVENTS.length; j++) if (String(EVENTS[j].id) === sid) return EVENTS[j];
     return null;
+  }
+  function getEditEvent()  { return read(K_EDIT_EV, null); }
+  function setEditEvent(e) { return write(K_EDIT_EV, e || null); }
+  function clearEditEvent(){ try { localStorage.removeItem(K_EDIT_EV); } catch (err) {} }
+
+  /* ---------- "Mis beneficios" del matriculado demo (mock) ----------
+     Pedido del 10/09: los más usados por el matriculado, ordenados por
+     frecuencia, y los que están en espera (cooldown) con cuenta regresiva.
+     Los tiempos de espera se expresan en minutos desde la carga de la página. */
+  var MIS_USOS   = { c7: 12, c1: 9, c5: 7, c3: 5 };
+  var MIS_ESPERA = { c2: 3 * 1440 + 7 * 60 + 42, c4: 19 * 60 + 15, a1: 11 * 1440 + 2 * 60 };
+  // Eventos para los que el matriculado demo ya tiene entrada (la emite Autogestión;
+  // el Portal solo la muestra, RN-13). Orden: por fecha del evento.
+  var MIS_ENTRADAS = ['e1', 'e3', 'e2'];
+  var LOAD_TIME  = Date.now();
+  function myBenefits() {
+    var todos = allBenefits('comercial').concat(allBenefits('academico'));
+    var top = [], espera = [];
+    todos.forEach(function (b) {
+      var id = String(b.id);
+      if (MIS_USOS[id] != null)   top.push(Object.assign({}, b, { usos: MIS_USOS[id] }));
+      if (MIS_ESPERA[id] != null) espera.push(Object.assign({}, b, { hasta: LOAD_TIME + MIS_ESPERA[id] * 60000 }));
+    });
+    top.sort(function (a, b) { return b.usos - a.usos; });
+    espera.sort(function (a, b) { return a.hasta - b.hasta; });
+    return { top: top, espera: espera };
   }
 
   function getEdit()  { return read(K_EDIT, null); }
@@ -293,12 +429,26 @@
   // Hidratación automática al cargar CUALQUIER página, antes de exponer window.CAC.
   var HYDRATED = hydrateFromApi();
 
+  function myTickets() {
+    var ids = {};
+    MIS_ENTRADAS.forEach(function (id) { ids[String(id)] = true; });
+    return allEvents().filter(function (e) { return ids[String(e.id)]; });
+  }
+
   window.CAC = {
     EVENTS: EVENTS, COMERCIALES: COMERCIALES, ACADEMICOS: ACADEMICOS, CITIES: CITIES,
+    CATEGORIAS_EVENTO: CATEGORIAS_EVENTO, MESES_LARGO: MESES_LARGO,
     getExtra: getExtra, allBenefits: allBenefits, addOrUpdateExtra: addOrUpdateExtra,
     removeBenefit: removeBenefit, isDeleted: isDeleted, getDeleted: getDeleted,
-    findBenefitById: findBenefitById, findEventById: findEventById,
+    findBenefitById: findBenefitById,
     getEdit: getEdit, setEdit: setEdit, clearEdit: clearEdit,
+    // eventos (ADR-0009)
+    allEvents: allEvents, upcomingEvents: upcomingEvents, findEventById: findEventById,
+    addOrUpdateEvent: addOrUpdateEvent, normalizeEvent: normalizeEvent,
+    getEditEvent: getEditEvent, setEditEvent: setEditEvent, clearEditEvent: clearEditEvent,
+    eventDateLabel: eventDateLabel, parseLocal: parseLocal, categoriaColor: categoriaColor,
+    // mis beneficios (matriculado)
+    myBenefits: myBenefits, myTickets: myTickets,
     initialsOf: initialsOf, colorFor: colorFor, normalize: normalize, qp: qp,
     discountText: discountText, deriveUsages: deriveUsages, deriveTrend: deriveTrend,
     hydrated: HYDRATED

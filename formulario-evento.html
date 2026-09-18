@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrar Evento · Colegio de Arquitectos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <script src="assets/vendor/react.production.min.js"></script>
+  <script src="assets/vendor/react-dom.production.min.js"></script>
+  <script src="assets/vendor/babel.min.js"></script>
+  <script src="store.js?v=20260918"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    input, button, textarea, select { font-family:inherit; }
+    input:focus, textarea:focus { border-color:#E05A36 !important; background:#fff !important; outline:none; }
+    a { text-decoration:none; }
+    @keyframes popIn { from { opacity:0; transform:scale(.97);} to { opacity:1; transform:none;} }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .drop:hover { border-color:#E05A36 !important; background:#FFF3F0 !important; }
+    .btn-primary { transition:all .18s; }
+    .btn-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
+    .btn-ghost:hover { background:#F1F5F9 !important; }
+    .h-back:hover { background:rgba(255,255,255,.12) !important; color:#fff !important; }
+    .chip { transition:all .18s; }
+    .chip:hover { border-color:#E05A36 !important; color:#E05A36 !important; }
+    .chip.on:hover { color:#fff !important; }
+
+    /* Layout: formulario + vista previa. Una columna por debajo de 1000px. */
+    .fe-wrap { max-width:1240px; margin:0 auto; padding:0 32px; }
+    .fe-header { padding:20px 0; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+    .fe-main { padding:28px 0 48px; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr); gap:28px; align-items:start; }
+    .fe-two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .fe-preview { position:sticky; top:20px; }
+    .fe-actions { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+    @media (max-width:1000px) {
+      .fe-main { grid-template-columns:1fr; }
+      .fe-preview { position:static; }
+    }
+    @media (max-width:720px) {
+      .fe-wrap { padding:0 16px; }
+      .fe-two { grid-template-columns:1fr; }
+      .fe-card { padding:20px !important; }
+      .fe-actions button { flex:1; justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/plain" id="app-source">
+const { useState, useRef, useEffect } = React;
+const DISP = "'Plus Jakarta Sans',sans-serif";
+const C = { bg:'#F8FAFC', surface:'#fff', pizarra:'#0F172A', terracota:'#E05A36', success:'#10B981', successBg:'#F0FDF4', successText:'#166534', border:'#E2E8F0', borderCard:'#F1F5F9', t1:'#0F172A', t3:'#475569', t4:'#64748B', t5:'#94A3B8', info:'#3B82F6', infoBg:'#EFF6FF' };
+const sv = (e={}) => ({ fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', ...e });
+const ITag    = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>;
+const ICal    = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+const IPin    = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>;
+const ILink   = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>;
+const ITicket = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><path d="M3 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><line x1="13" y1="5" x2="13" y2="19"/></svg>;
+const IText   = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>;
+const IImg    = p => <svg width="28" height="28" viewBox="0 0 24 24" {...sv(p)}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>;
+const ICheck  = p => <svg width="18" height="18" viewBox="0 0 24 24" {...sv({strokeWidth:2.5,...p})}><polyline points="20 6 9 17 4 12"/></svg>;
+const IAlert  = p => <svg width="11" height="11" viewBox="0 0 24 24" {...sv({strokeWidth:2.5,...p})}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="17"/></svg>;
+const IInfo   = p => <svg width="15" height="15" viewBox="0 0 24 24" {...sv({strokeWidth:2.2,...p})}><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>;
+const IX      = p => <svg width="14" height="14" viewBox="0 0 24 24" {...sv({strokeWidth:2.5,...p})}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const IBack   = p => <svg width="17" height="17" viewBox="0 0 24 24" {...sv({strokeWidth:2.2,...p})}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>;
+const IQR     = p => <svg width="14" height="14" viewBox="0 0 24 24" {...sv({strokeWidth:2.5,...p})}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>;
+
+const CATEGORIAS = CAC.CATEGORIAS_EVENTO.map(c => c.nombre);
+const MODE = CAC.qp('mode') === 'edit' ? 'edit' : 'new';
+const EDITING = MODE === 'edit' ? CAC.getEditEvent() : null;
+const RETURN_URL = 'panel-control.html?vista=eventos';
+
+/* Sesión demo del personal (index.html la deja en localStorage). Define la
+   jurisdicción del evento cargado a mano (ADR-0009: cada regional carga los suyos). */
+function sesionRegional() {
+  try { const s = JSON.parse(localStorage.getItem('cac_session') || 'null'); return (s && s.regional) || 'Provincial'; }
+  catch (e) { return 'Provincial'; }
+}
+
+const EMPTY = { nombre:'', categoria:'', lugar:'', inicio:'', fin:'', descripcion:'', urlInscripcion:'', urlEntrada:'', imagen:null };
+function fromEvent(ev) {
+  if (!ev) return EMPTY;
+  return {
+    nombre: ev.title || '', categoria: ev.categoria || '', lugar: ev.subtitle || '',
+    inicio: ev.inicio || '', fin: ev.fin || '', descripcion: ev.descripcion || '',
+    urlInscripcion: ev.urlInscripcion || '', urlEntrada: ev.urlEntrada || '',
+    imagen: ev.img ? { name: 'Imagen actual', size: '', src: ev.img } : null,
+  };
+}
+
+/* Redimensiona la imagen en el navegador (máx. 1200 px de ancho, JPEG) para que
+   la portada entre en localStorage sin pesar megabytes. Es una simulación: en el
+   producto la imagen va al almacenamiento propio de eventos (ADR-0009). */
+function readImage(file) {
+  return new Promise((resolve, reject) => {
+    if (!file || !/^image\//.test(file.type)) return reject(new Error('El archivo debe ser una imagen (JPG o PNG).'));
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1200, scale = Math.min(1, MAX / img.width);
+        const cv = document.createElement('canvas');
+        cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        const src = cv.toDataURL('image/jpeg', 0.82);
+        resolve({ name: file.name, size: Math.round(src.length * 0.75 / 1024) + ' KB', src });
+      };
+      img.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+    reader.readAsDataURL(file);
+  });
+}
+
+const Label = ({ children, req, hint }) => (
+  <label style={{ display:'flex', alignItems:'baseline', gap:'6px', flexWrap:'wrap', fontFamily:DISP, fontSize:'10px', fontWeight:700, color:C.t4, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px' }}>
+    <span>{children}{req && <span style={{ color:C.terracota, marginLeft:'3px' }}>*</span>}</span>
+    {hint && <span style={{ fontWeight:500, letterSpacing:0, textTransform:'none', color:C.t5, fontSize:'10.5px' }}>{hint}</span>}
+  </label>
+);
+const Err = ({ msg }) => msg ? (
+  <p style={{ margin:'5px 0 0', fontSize:'11.5px', color:C.terracota, display:'flex', alignItems:'center', gap:'4px' }}><IAlert/>{msg}</p>
+) : null;
+const fieldSt = err => ({ width:'100%', padding:'12px 12px 12px 42px', borderRadius:'6px', fontSize:'14px', color:C.t1, background:'#FAFAFA', border:`1.5px solid ${err ? C.terracota : C.border}`, transition:'border-color .18s,background .18s' });
+const iconSt = { position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:C.t5, display:'flex' };
+
+function Field({ label, req, hint, icon, error, children }) {
+  return (
+    <div>
+      <Label req={req} hint={hint}>{label}</Label>
+      <div style={{ position:'relative' }}>{icon && <div style={iconSt}>{icon}</div>}{children}</div>
+      <Err msg={error}/>
+    </div>
+  );
+}
+
+/* Vista previa: la misma tarjeta que ve el matriculado en "Próximos Eventos". */
+function EventPreview({ f }) {
+  const ev = CAC.normalizeEvent({
+    title: f.nombre || 'Nombre del evento', categoria: f.categoria || 'Institucional',
+    subtitle: f.lugar || (f.descripcion ? undefined : 'Lugar o modalidad'),
+    descripcion: f.descripcion, inicio: f.inicio, fin: f.fin, img: f.imagen ? f.imagen.src : null,
+  });
+  return (
+    <div style={{ width:'100%', maxWidth:'300px', margin:'0 auto', background:'#fff', borderRadius:'10px', overflow:'hidden', boxShadow:'0 8px 30px rgba(15,23,42,.14)' }}>
+      <div style={{ padding:'13px 14px 10px' }}>
+        <span style={{ display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:700, letterSpacing:'.07em', textTransform:'uppercase' }}>{ev.tag}</span>
+        <div style={{ fontFamily:DISP, fontWeight:800, fontSize:'15px', color:C.t1, marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em' }}>{ev.title}</div>
+        <div style={{ fontSize:'11px', color:C.t5, marginTop:'3px' }}>{ev.subtitle}</div>
+        <div style={{ fontSize:'10.5px', color:C.t4, marginTop:'3px', display:'flex', alignItems:'center', gap:'4px' }}><ICal width="10" height="10"/> {ev.date}</div>
+      </div>
+      <div style={{ position:'relative', height:'210px', overflow:'hidden' }}>
+        {ev.img ? (
+          <div style={{ width:'100%', height:'210px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center' }}/>
+        ) : (
+          <div style={{ width:'100%', height:'210px', background:C.pizarra, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'16px 16px', padding:'0 16px' }}>
+            <div style={{ fontFamily:DISP, fontWeight:800, fontSize:'20px', color:'#fff', textAlign:'center', lineHeight:1.2 }}>{ev.title}</div>
+            <div style={{ fontSize:'11px', color:'#94A3B8', marginTop:'8px', textAlign:'center' }}>{ev.subtitle}</div>
+          </div>
+        )}
+        <div style={{ position:'absolute', bottom:'12px', left:'12px', background:C.terracota, color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:DISP, fontWeight:700, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px' }}>
+          <IQR/> Obtener entrada
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [f, setF] = useState(fromEvent(EDITING));
+  const [err, setErr] = useState({});
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const fileRef = useRef(null);
+  const isEdit = MODE === 'edit' && !!EDITING;
+  const fromApi = isEdit && EDITING.origen === 'api';
+  const set = (k, v) => { setF(p => ({ ...p, [k]: v })); setErr(p => ({ ...p, [k]: '' })); setSaved(false); };
+
+  function pickFile(file) {
+    if (!file) return;
+    readImage(file).then(img => set('imagen', img)).catch(e => setErr(p => ({ ...p, imagen: e.message })));
+  }
+
+  function validate() {
+    const e = {};
+    if (!f.nombre.trim()) e.nombre = 'El nombre del evento es requerido';
+    if (!f.categoria) e.categoria = 'Seleccioná una categoría';
+    if (!f.inicio) e.inicio = 'Indicá la fecha y hora de inicio';
+    if (!f.fin) e.fin = 'Indicá la fecha y hora de fin';
+    if (f.inicio && f.fin && new Date(f.fin) <= new Date(f.inicio)) e.fin = 'La fecha de fin debe ser posterior al inicio';
+    if (!f.descripcion.trim()) e.descripcion = 'Agregá una descripción';
+    const url = /^https?:\/\/.+\..+/;
+    if (f.urlInscripcion && !url.test(f.urlInscripcion)) e.urlInscripcion = 'Debe ser una URL válida (https://...)';
+    if (f.urlEntrada && !url.test(f.urlEntrada)) e.urlEntrada = 'Debe ser una URL válida (https://...)';
+    setErr(e);
+    return Object.keys(e).length === 0;
+  }
+
+  function buildEvent() {
+    return {
+      id: isEdit ? EDITING.id : undefined,
+      title: f.nombre.trim(), categoria: f.categoria, subtitle: f.lugar.trim(),
+      inicio: f.inicio, fin: f.fin, descripcion: f.descripcion.trim(),
+      urlInscripcion: f.urlInscripcion.trim(), urlEntrada: f.urlEntrada.trim(),
+      img: f.imagen ? f.imagen.src : null,
+      origen: isEdit ? EDITING.origen : 'manual',
+      regional: isEdit ? EDITING.regional : sesionRegional(),
+    };
+  }
+
+  function navBack() { CAC.clearEditEvent(); window.location.href = RETURN_URL; }
+
+  function submit() {
+    if (saving) return;
+    if (!validate()) { const k = document.querySelector('[data-err="1"]'); if (k) k.scrollIntoView({ block:'center', behavior:'smooth' }); return; }
+    setSaving(true);
+    setTimeout(() => {
+      CAC.addOrUpdateEvent(buildEvent());
+      CAC.clearEditEvent();
+      setSaving(false); setSaved(true);
+      setTimeout(() => { window.location.href = RETURN_URL; }, 1100);
+    }, 700);
+  }
+
+  const chipSt = on => ({ padding:'9px 16px', borderRadius:'9999px', border:`1.5px solid ${on ? C.terracota : C.border}`, background: on ? C.terracota : '#fff', color: on ? '#fff' : C.t3, fontFamily:DISP, fontSize:'12.5px', fontWeight:700, cursor:'pointer' });
+
+  return (
+    <div style={{ minHeight:'100vh' }}>
+      {/* Header */}
+      <header style={{ background:C.pizarra, position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px', pointerEvents:'none' }}/>
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'linear-gradient(90deg,#E05A36,#F07554)' }}/>
+        <div className="fe-wrap fe-header" style={{ position:'relative', zIndex:1 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'14px', minWidth:0 }}>
+            <button onClick={navBack} className="h-back" title="Volver a la agenda" style={{ width:'38px', height:'38px', borderRadius:'9px', border:'1px solid rgba(255,255,255,.14)', background:'rgba(255,255,255,.06)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,.7)', transition:'all .16s', flexShrink:0 }}><IBack/></button>
+            <div style={{ minWidth:0 }}>
+              <div style={{ fontFamily:DISP, fontSize:'10px', fontWeight:700, color:'rgba(255,255,255,.4)', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'5px' }}>Panel de Gestión · Eventos</div>
+              <div style={{ display:'flex', alignItems:'center', gap:'10px', flexWrap:'wrap' }}>
+                <h1 style={{ fontFamily:DISP, fontWeight:800, fontSize:'21px', color:'#fff', letterSpacing:'-.02em', lineHeight:1.1 }}>{isEdit ? 'Editar evento' : 'Registrar nuevo evento'}</h1>
+                {isEdit && (
+                  <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', background:'rgba(224,90,54,.16)', border:'1px solid rgba(224,90,54,.35)', borderRadius:'9999px', padding:'3px 11px' }}>
+                    <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#F07554', animation:'pulse 2s ease-in-out infinite' }}/>
+                    <span style={{ fontFamily:DISP, fontSize:'10.5px', fontWeight:700, color:'#F5A98F', letterSpacing:'.04em' }}>MODO EDICIÓN</span>
+                  </span>
+                )}
+              </div>
+              <p style={{ fontSize:'11.5px', color:'rgba(255,255,255,.45)', marginTop:'4px' }}>
+                {isEdit ? <span>ID Evento: <span style={{ color:'rgba(255,255,255,.7)', fontWeight:600 }}>{String(EDITING.id).toUpperCase()}</span> · Origen: {EDITING.origen === 'api' ? 'Autogestión' : 'Carga manual'}</span>
+                        : <span>Completá los datos del evento. Los campos con <span style={{ color:C.terracota }}>*</span> son obligatorios.</span>}
+              </p>
+            </div>
+          </div>
+          <div style={{ display:'flex', alignItems:'center', gap:'8px', fontSize:'11.5px', color:'rgba(255,255,255,.5)' }}>
+            <IPin width="14" height="14"/> Colegio de Arquitectos · {sesionRegional()}
+          </div>
+        </div>
+      </header>
+
+      <main className="fe-wrap fe-main">
+        {/* Formulario */}
+        <div className="fe-card" style={{ background:C.surface, borderRadius:'14px', border:'1px solid #E8EFF6', boxShadow:'0 4px 24px rgba(15,23,42,.06)', padding:'28px', display:'flex', flexDirection:'column', gap:'20px' }}>
+
+          {fromApi && (
+            <div style={{ background:C.infoBg, border:'1px solid #BFDBFE', borderRadius:'10px', padding:'12px 14px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
+              <span style={{ color:'#1D4ED8', display:'flex', marginTop:'1px' }}><IInfo/></span>
+              <div style={{ fontSize:'12.5px', color:'#1E3A8A', lineHeight:1.5 }}>
+                <strong>Este evento llegó por la API de Autogestión.</strong> Ante conflicto manda el origen API: lo que la API provee se actualiza en cada sincronización; lo que la API no trae (imagen, descripción ampliada, URLs) se completa desde acá.
+              </div>
+            </div>
+          )}
+
+          <div data-err={err.nombre ? '1' : '0'}>
+            <Field label="Nombre" req icon={<ITag/>} error={err.nombre}>
+              <input value={f.nombre} onChange={e => set('nombre', e.target.value)} placeholder="Ej: Workshop BIM Avanzado" style={fieldSt(err.nombre)}/>
+            </Field>
+          </div>
+
+          <div data-err={err.categoria ? '1' : '0'}>
+            <Field label="Categoría" req error={err.categoria}>
+              <div style={{ display:'flex', gap:'8px', flexWrap:'wrap' }}>
+                {CATEGORIAS.map(c => {
+                  const on = f.categoria === c;
+                  return <button key={c} type="button" className={'chip' + (on ? ' on' : '')} onClick={() => set('categoria', c)} style={chipSt(on)}>{c}</button>;
+                })}
+              </div>
+            </Field>
+          </div>
+
+          <div>
+            <Field label="Lugar o modalidad" hint="se muestra debajo del nombre en la tarjeta" icon={<IPin/>}>
+              <input value={f.lugar} onChange={e => set('lugar', e.target.value)} placeholder="Ej: Sede Regional 5 · Laprida 40 — u Online" style={fieldSt(false)}/>
+            </Field>
+          </div>
+
+          <div className="fe-two">
+            <div data-err={err.inicio ? '1' : '0'}>
+              <Field label="Fecha y hora de inicio" req icon={<ICal/>} error={err.inicio}>
+                <input type="datetime-local" value={f.inicio} onChange={e => set('inicio', e.target.value)} style={fieldSt(err.inicio)}/>
+              </Field>
+            </div>
+            <div data-err={err.fin ? '1' : '0'}>
+              <Field label="Fecha y hora de fin" req icon={<ICal/>} error={err.fin}>
+                <input type="datetime-local" value={f.fin} onChange={e => set('fin', e.target.value)} style={fieldSt(err.fin)}/>
+              </Field>
+            </div>
+          </div>
+
+          <div data-err={err.descripcion ? '1' : '0'}>
+            <Field label="Descripción" req error={err.descripcion}>
+              <div style={{ position:'absolute', left:'13px', top:'14px', color:C.t5, display:'flex', pointerEvents:'none' }}><IText/></div>
+              <textarea value={f.descripcion} onChange={e => set('descripcion', e.target.value)} rows={4} maxLength={400} placeholder="Detalle del evento, disertantes, modalidad y requisitos de inscripción." style={{ ...fieldSt(err.descripcion), paddingTop:'12px', resize:'vertical', lineHeight:1.55 }}/>
+              <div style={{ position:'absolute', right:'10px', bottom:'8px', fontSize:'10.5px', color:C.t5 }}>{f.descripcion.length}/400</div>
+            </Field>
+          </div>
+
+          <div className="fe-two">
+            <div data-err={err.urlInscripcion ? '1' : '0'}>
+              <Field label="URL de inscripción" hint="vía de inscripción del evento" icon={<ILink/>} error={err.urlInscripcion}>
+                <input value={f.urlInscripcion} onChange={e => set('urlInscripcion', e.target.value)} placeholder="https://autogestion.colegio-arquitectos.com.ar/…" style={fieldSt(err.urlInscripcion)}/>
+              </Field>
+            </div>
+            <div data-err={err.urlEntrada ? '1' : '0'}>
+              <Field label="URL de entrada" hint="dónde retira la entrada el matriculado" icon={<ITicket/>} error={err.urlEntrada}>
+                <input value={f.urlEntrada} onChange={e => set('urlEntrada', e.target.value)} placeholder="https://autogestion.colegio-arquitectos.com.ar/…" style={fieldSt(err.urlEntrada)}/>
+              </Field>
+            </div>
+          </div>
+
+          {/* Imagen de portada */}
+          <div data-err={err.imagen ? '1' : '0'}>
+            <Label hint="sin imagen, la tarjeta muestra el nombre sobre fondo pizarra">Imagen de portada</Label>
+            <input ref={fileRef} type="file" accept="image/*" onChange={e => pickFile(e.target.files[0])} style={{ display:'none' }}/>
+            {!f.imagen ? (
+              <div className="drop" onClick={() => fileRef.current.click()}
+                onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); pickFile(e.dataTransfer.files[0]); }}
+                style={{ border:`1.5px dashed ${err.imagen ? C.terracota : C.border}`, borderRadius:'10px', padding:'28px', textAlign:'center', cursor:'pointer', background:'#FAFAFA', transition:'all .18s' }}>
+                <div style={{ color:C.t5, display:'flex', justifyContent:'center', marginBottom:'10px' }}><IImg/></div>
+                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:700, color:C.t1 }}>Arrastrá una imagen o hacé clic para subirla</div>
+                <div style={{ fontSize:'11.5px', color:C.t5, marginTop:'4px' }}>JPG o PNG · Recomendado 1200×800 px</div>
+              </div>
+            ) : (
+              <div style={{ display:'flex', gap:'14px', alignItems:'center', border:`1px solid ${C.borderCard}`, borderRadius:'10px', padding:'12px', background:'#FAFAFA', animation:'popIn .3s ease' }}>
+                <img src={f.imagen.src} alt="" style={{ width:'120px', height:'76px', objectFit:'cover', borderRadius:'7px', flexShrink:0 }}/>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontFamily:DISP, fontSize:'13px', fontWeight:700, color:C.t1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{f.imagen.name}</div>
+                  <div style={{ fontSize:'11.5px', color:C.t4, marginTop:'3px' }}>{f.imagen.size ? f.imagen.size + ' · ' : ''}Cargada</div>
+                </div>
+                <button type="button" onClick={() => set('imagen', null)} title="Quitar imagen" style={{ background:'#fff', border:`1.5px solid ${C.border}`, borderRadius:'7px', padding:'8px', display:'flex', color:C.t4, cursor:'pointer' }}><IX/></button>
+              </div>
+            )}
+            <Err msg={err.imagen}/>
+          </div>
+
+          {saved && (
+            <div style={{ background:C.successBg, border:'1.5px solid #86EFAC', borderRadius:'10px', padding:'14px 16px', display:'flex', alignItems:'center', gap:'10px', animation:'popIn .35s ease' }}>
+              <span style={{ color:'#16A34A', display:'flex' }}><ICheck/></span>
+              <div>
+                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:700, color:C.successText }}>{isEdit ? 'Cambios guardados' : 'Evento registrado correctamente'}</div>
+                <div style={{ fontSize:'12px', color:'#15803D', marginTop:'2px' }}>Ya está visible en la agenda del panel y en el calendario de la app de matriculados. Volviendo a la agenda…</div>
+              </div>
+            </div>
+          )}
+
+          {/* Acciones */}
+          <div className="fe-actions" style={{ borderTop:`1px solid ${C.borderCard}`, paddingTop:'20px', marginTop:'2px' }}>
+            {isEdit ? (
+              <button type="button" className="btn-ghost" onClick={navBack} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor:'pointer' }}>Cancelar</button>
+            ) : (
+              <button type="button" className="btn-ghost" onClick={() => { setF(EMPTY); setErr({}); setSaved(false); }} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor:'pointer' }}>Limpiar</button>
+            )}
+            <button type="button" className="btn-primary" onClick={submit} disabled={saving}
+              style={{ padding:'12px 28px', borderRadius:'8px', border:'none', background: saving ? '#94A3B8' : C.terracota, color:'#fff', fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor: saving ? 'default' : 'pointer', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 6px 18px rgba(224,90,54,.3)' }}>
+              {saving && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{ animation:'spin .75s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>}
+              {saving ? 'Guardando...' : (isEdit ? 'Guardar cambios' : 'Registrar evento')}
+            </button>
+          </div>
+        </div>
+
+        {/* Vista previa */}
+        <aside className="fe-preview">
+          <div style={{ background:C.pizarra, borderRadius:'14px', padding:'22px 20px 26px', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px' }}>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'10px', marginBottom:'16px', flexWrap:'wrap' }}>
+              <div>
+                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:800, color:'#fff' }}>Vista previa de la tarjeta</div>
+                <div style={{ fontSize:'11px', color:'#94A3B8', marginTop:'2px' }}>Así la ve el matriculado en "Próximos Eventos" y en el calendario</div>
+              </div>
+              <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', fontFamily:DISP, fontSize:'9.5px', fontWeight:700, color:'#10B981', letterSpacing:'.08em', textTransform:'uppercase' }}><span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#10B981', animation:'pulse 2s ease-in-out infinite' }}/> Actualización en vivo</span>
+            </div>
+            <EventPreview f={f}/>
+          </div>
+        </aside>
+      </main>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+
+  <script>
+    (function () {
+      try {
+        var src = document.getElementById('app-source').textContent;
+        var out = Babel.transform(src, { presets: [['react', { runtime: 'classic' }]] }).code;
+        var s = document.createElement('script');
+        s.textContent = out;
+        document.body.appendChild(s);
+      } catch (e) {
+        document.getElementById('root').innerHTML =
+          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          (e && e.message ? e.message : e) + '</pre>';
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>

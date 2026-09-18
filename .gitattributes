@@ -1,0 +1,9 @@
+# Los archivos de terceros y los bundles se guardan byte a byte: dc-runtime.js
+# verifica React con Subresource Integrity (SRI) y una conversión LF→CRLF al
+# clonar en Windows (core.autocrlf=true) rompe el hash y deja en blanco las
+# páginas bundle (panel-control, menu-afiliado, formulario-beneficio, qr-validacion).
+* text=auto
+assets/vendor/** -text
+assets/bundle/** -text
+*.png  binary
+*.woff2 binary

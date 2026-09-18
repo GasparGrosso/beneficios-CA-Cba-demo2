@@ -2,14 +2,107 @@
 <html><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style id="cac-responsive">
-@media (max-width: 720px){
-  [style*="grid-template-columns: repeat(3, 1fr)"]{ grid-template-columns: 1fr !important; }
-  [style*="grid-template-columns: 0.9fr 1.1fr"]{ grid-template-columns: 1fr !important; }
-  [style*="height: 472px"]{ height: auto !important; max-height: none !important; }
-  [style*="padding: 22px 32px"]{ padding-left: 16px !important; padding-right: 16px !important; }
-  [style*="padding: 0px 32px 20px"]{ padding-left: 16px !important; padding-right: 16px !important; }
-  [style*="padding: 26px 32px 40px"]{ padding-left: 16px !important; padding-right: 16px !important; }
+<title>Panel de Gestión · Colegio de Arquitectos</title>
+<style id="cac-layout">
+/* Las interpolaciones {{ }} del runtime se envuelven en <span class="sc-interp">;
+   el CSS tipográfico del helmet pisa color/peso/fuente de cualquier span, así que
+   el valor perdía el estilo de su contenedor (p. ej. el % del beneficio no era
+   terracota). Heredar lo devuelve al lugar que le corresponde. */
+.sc-interp{font:inherit;font-family:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit;line-height:inherit;}
+/* ── Panel de Gestión: layout responsive por clases ──
+   Reemplaza las reglas [style*="…"] de demo2. Los estilos visuales de cada
+   pieza siguen inline; acá vive sólo lo que cambia con el ancho de pantalla
+   y el efecto de las tarjetas de elección. */
+.pc-wrap{max-width:1240px;width:100%;margin:0 auto;padding-left:32px;padding-right:32px;box-sizing:border-box;}
+.pc-header-row{padding-top:22px;padding-bottom:22px;position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.pc-header-left{display:flex;align-items:center;gap:14px;min-width:0;}
+.pc-back{width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;flex-shrink:0;}
+.pc-back:hover{background:rgba(255,255,255,.12);color:#fff;}
+.pc-brand{width:44px;height:44px;background:var(--color-terracota);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(224,90,54,.4);}
+.pc-crumb{font-family:var(--font-display);font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;}
+.pc-title{font-family:var(--font-display);font-weight:800;font-size:23px;color:#fff;letter-spacing:-0.02em;line-height:1.1;margin:0;}
+.pc-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:14px;}
+.pc-user{display:flex;align-items:center;gap:11px;}
+.pc-user-text{text-align:right;line-height:1.35;}
+.pc-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+.pc-btn-primary{display:flex;align-items:center;gap:7px;padding:10px 18px;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 160ms;box-shadow:0 6px 18px rgba(224,90,54,.34);white-space:nowrap;}
+.pc-btn-ghost{display:flex;align-items:center;gap:7px;padding:10px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 160ms;white-space:nowrap;}
+.pc-period{padding-bottom:20px;position:relative;z-index:1;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.pc-main{padding-top:26px;padding-bottom:40px;flex:1;}
+.pc-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap;}
+
+/* Galería de beneficios: columnas fluidas (antes 3 fijas, se rompía en tablet) */
+.pc-gallery{max-height:560px;overflow-y:auto;padding:4px;border:1px solid var(--color-border-card);border-radius:14px;background:#fff;}
+.pc-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;padding:14px;}
+.pc-btn-delete{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;background:transparent;border:1.5px solid #DC2626;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;color:#DC2626;letter-spacing:0.02em;transition:all 160ms;white-space:nowrap;}
+.pc-btn-edit{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 8px;background:transparent;border:1.5px solid var(--color-terracota);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--color-terracota);letter-spacing:0.02em;transition:all 160ms;white-space:nowrap;}
+.pc-stats{display:grid;grid-template-columns:0.9fr 1.1fr;gap:20px;align-items:stretch;}
+.pc-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.pc-ranking{flex:1;max-height:352px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px;}
+
+/* Inicio: elegir entre Eventos y Beneficios */
+.pc-home{padding:18px 0 8px;}
+.pc-home-head{text-align:center;max-width:640px;margin:0 auto 28px;}
+.pc-kicker{font-family:var(--font-display);font-size:11px;font-weight:800;color:var(--color-terracota);letter-spacing:.14em;text-transform:uppercase;}
+.pc-home-title{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--color-pizarra);letter-spacing:-.02em;margin:8px 0 0;line-height:1.1;}
+.pc-home-sub{font-size:14px;color:var(--color-text-muted);margin:10px 0 0;line-height:1.55;}
+.pc-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:920px;margin:0 auto;}
+.pc-choice{position:relative;overflow:hidden;background:#fff;border:1.5px solid var(--color-border);border-radius:18px;padding:36px 28px 28px;text-align:center;cursor:pointer;font-family:var(--font-body);color:var(--color-pizarra);box-shadow:0 2px 10px rgba(15,23,42,.05);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;-webkit-tap-highlight-color:transparent;}
+/* Brillo naranja que entra desde los costados al pasar el cursor */
+.pc-choice::before,.pc-choice::after{content:'';position:absolute;top:0;bottom:0;width:52%;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;}
+/* Brillo suave: un velo terracota que entra desde cada costado, borde apenas
+   teñido y sombra baja. Sin halo exterior fuerte. */
+.pc-choice::before{left:0;background:linear-gradient(90deg,rgba(224,90,54,.13) 0%,rgba(240,117,84,.05) 45%,rgba(224,90,54,0) 100%);transform:translateX(-22%);}
+.pc-choice::after{right:0;background:linear-gradient(270deg,rgba(224,90,54,.13) 0%,rgba(240,117,84,.05) 45%,rgba(224,90,54,0) 100%);transform:translateX(22%);}
+.pc-choice:hover::before,.pc-choice:hover::after,.pc-choice:focus-visible::before,.pc-choice:focus-visible::after{opacity:1;transform:none;}
+.pc-choice:hover,.pc-choice:focus-visible{outline:none;border-color:rgba(224,90,54,.5);transform:translateY(-2px);box-shadow:0 10px 26px rgba(15,23,42,.08),-10px 0 24px -16px rgba(224,90,54,.35),10px 0 24px -16px rgba(224,90,54,.35);}
+.pc-choice:active{transform:translateY(0);}
+.pc-choice>*{position:relative;z-index:1;}
+.pc-choice-icon{width:66px;height:66px;border-radius:18px;background:var(--color-surface-hover);color:var(--color-terracota);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;transition:background .28s,color .28s,transform .28s,box-shadow .28s;}
+.pc-choice:hover .pc-choice-icon{background:var(--color-terracota);color:#fff;transform:scale(1.03);box-shadow:0 6px 16px rgba(224,90,54,.22);}
+.pc-choice-title{font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.1;}
+.pc-choice-desc{font-size:13px;color:var(--color-text-muted);line-height:1.5;margin:8px auto 0;max-width:300px;}
+.pc-choice-meta{display:inline-block;margin-top:14px;background:var(--color-surface-muted);border-radius:9999px;padding:5px 12px;font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--color-text-secondary);transition:background .28s,color .28s;}
+.pc-choice:hover .pc-choice-meta{background:var(--color-surface-hover);color:var(--color-terracota-dark);}
+.pc-choice-cta{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--color-terracota);}
+
+/* Eventos: misma tarjeta que el carrusel del matriculado, en grilla fluida */
+.pc-legend{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-bottom:16px;font-size:11.5px;color:var(--color-text-muted);}
+.pc-legend-item{display:inline-flex;align-items:center;gap:7px;}
+.pc-origen{display:inline-flex;align-items:center;border-radius:9999px;padding:2px 8px;font-family:var(--font-display);font-size:9.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap;}
+.pc-origen-api{background:var(--color-info-bg);color:#1D4ED8;border:1px solid #BFDBFE;}
+.pc-origen-manual{background:var(--color-success-bg);color:var(--color-success-text);border:1px solid var(--color-success-border);}
+.pc-events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px;}
+.pc-event-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(15,23,42,.08),0 1px 4px rgba(15,23,42,.05);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;}
+.pc-event-hero{position:relative;height:210px;overflow:hidden;margin-top:auto;}
+.pc-event-img{width:100%;height:210px;background-size:cover;background-position:center;}
+.pc-event-hero-dark{width:100%;height:210px;background:var(--color-pizarra);display:flex;flex-direction:column;align-items:center;justify-content:center;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:16px 16px;}
+.pc-event-edit{position:absolute;bottom:12px;left:12px;background:var(--color-terracota);color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:13px;font-family:var(--font-display);font-weight:700;box-shadow:0 2px 12px rgba(0,0,0,.22);display:flex;align-items:center;gap:6px;cursor:pointer;transition:all 160ms;}
+
+@media (max-width:960px){
+  .pc-stats{grid-template-columns:1fr;}
+}
+@media (max-width:720px){
+  .pc-wrap{padding-left:16px;padding-right:16px;}
+  .pc-header-row{padding-top:18px;padding-bottom:16px;gap:14px;}
+  .pc-title{font-size:20px;}
+  .pc-header-right{align-items:stretch;width:100%;gap:12px;}
+  .pc-user{flex-direction:row-reverse;justify-content:flex-end;}
+  .pc-user-text{text-align:left;}
+  .pc-actions{width:100%;}
+  .pc-actions button{flex:1;justify-content:center;}
+  .pc-gallery{max-height:none;}
+  .pc-gallery-grid{grid-template-columns:1fr;}
+  .pc-kpis{grid-template-columns:1fr 1fr;}
+  .pc-ranking{max-height:none;}
+  .pc-home{padding-top:6px;}
+  .pc-home-title{font-size:25px;}
+  .pc-choices{grid-template-columns:1fr;gap:14px;}
+  .pc-choice{padding:26px 20px 22px;}
+  .pc-events-grid{grid-template-columns:1fr;}
+}
+@media (max-width:400px){
+  .pc-kpis{grid-template-columns:1fr;}
 }
 </style>
 <script src="assets/bundle/dc-runtime.js"></script>
@@ -1473,15 +1566,26 @@ p, span, td, li, input, button, textarea, select {
     <div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px;pointer-events:none;"></div>
     <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#E05A36,#F07554);"></div>
 
-    <div style="max-width:1240px;margin:0 auto;padding:22px 32px;position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;">
-      <!-- Izq: título + badge -->
-      <div style="display:flex;align-items:center;gap:16px;">
-        <div style="width:44px;height:44px;background:var(--color-terracota);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(224,90,54,.4);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"></path><path d="M2 7h20v5H2z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+    <div class="pc-wrap pc-header-row">
+      <!-- Izq: volver + título + badge -->
+      <div class="pc-header-left">
+        <sc-if value="{{ notHome }}" hint-placeholder-val="{{ false }}">
+          <button onclick="{{ goHome }}" class="pc-back" title="Volver a Eventos y beneficios" aria-label="Volver">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+        </sc-if>
+        <div class="pc-brand">
+          <sc-if value="{{ isEventos }}" hint-placeholder-val="{{ false }}">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </sc-if>
+          <sc-if value="{{ notEventos }}" hint-placeholder-val="{{ true }}">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"></path><path d="M2 7h20v5H2z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+          </sc-if>
         </div>
-        <div>
-          <h1 style="font-family:var(--font-display);font-weight:800;font-size:23px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Gestión de Beneficios</h1>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:7px;">
+        <div style="min-width:0;">
+          <div class="pc-crumb">Panel de Gestión · Personal del Colegio</div>
+          <h1 class="pc-title">{{ headerTitle }}</h1>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:7px;flex-wrap:wrap;">
             <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(224,90,54,.16);border:1px solid rgba(224,90,54,.35);border-radius:9999px;padding:4px 12px;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F07554" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               <span style="font-family:var(--font-display);font-size:11.5px;font-weight:700;color:#F5A98F;letter-spacing:0.03em;">Regional Córdoba</span>
@@ -1491,193 +1595,315 @@ p, span, td, li, input, button, textarea, select {
       </div>
 
       <!-- Der: usuario + botones -->
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
-        <!-- Identidad usuario -->
-        <div style="display:flex;align-items:center;gap:11px;">
-          <div style="text-align:right;line-height:1.35;">
+      <div class="pc-header-right">
+        <div class="pc-user">
+          <div class="pc-user-text">
             <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;">Arq. María Belén Ferreyra</div>
             <div style="font-size:11px;color:rgba(255,255,255,.5);">Personal del Colegio · Coordinación de Beneficios</div>
             <div style="font-size:10px;color:rgba(255,255,255,.38);letter-spacing:0.04em;margin-top:1px;">Regional Córdoba · Regional 5</div>
           </div>
           <div style="width:42px;height:42px;border-radius:50%;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:800;color:#fff;flex-shrink:0;">MF</div>
         </div>
-        <!-- Botones de acción -->
-        <div style="display:flex;gap:10px;">
-          <button onclick="{{ goAdd }}" style="display:flex;align-items:center;gap:7px;padding:10px 18px;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 160ms;box-shadow:0 6px 18px rgba(224,90,54,.34);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            Agregar Beneficio
-          </button>
-          <button onclick="{{ goLogout }}" style="display:flex;align-items:center;gap:7px;padding:10px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 160ms;" style-hover="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.32);" style-active="transform:translateY(1px);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Salir</button>
+        <div class="pc-actions">
+          <sc-if value="{{ isBeneficios }}" hint-placeholder-val="{{ false }}">
+            <button onclick="{{ goAdd }}" class="pc-btn-primary" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Agregar Beneficio
+            </button>
+          </sc-if>
+          <sc-if value="{{ isEventos }}" hint-placeholder-val="{{ false }}">
+            <button onclick="{{ goAddEvent }}" class="pc-btn-primary" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Registrar Evento
+            </button>
+          </sc-if>
+          <button onclick="{{ goLogout }}" class="pc-btn-ghost" style-hover="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.32);" style-active="transform:translateY(1px);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Salir</button>
         </div>
       </div>
     </div>
 
-    <!-- Filtro de tiempo -->
-    <div style="max-width:1240px;margin:0 auto;padding:0 32px 20px;position:relative;z-index:1;display:flex;align-items:center;gap:14px;">
-      <span style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:0.1em;text-transform:uppercase;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        Período
-      </span>
-      <div style="display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:3px;">
-        <button onclick="{{ setPeriodSemanal }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgSemanal }};color:{{ tabColorSemanal }};">Semanal</button>
-        <button onclick="{{ setPeriodMensual }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgMensual }};color:{{ tabColorMensual }};">Mensual</button>
-        <button onclick="{{ setPeriodAnual }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgAnual }};color:{{ tabColorAnual }};">Anual</button>
+    <!-- Filtro de tiempo (solo estadísticas de beneficios) -->
+    <sc-if value="{{ isBeneficios }}" hint-placeholder-val="{{ false }}">
+      <div class="pc-wrap pc-period">
+        <span style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:0.1em;text-transform:uppercase;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Período
+        </span>
+        <div style="display:inline-flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:3px;">
+          <button onclick="{{ setPeriodSemanal }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgSemanal }};color:{{ tabColorSemanal }};">Semanal</button>
+          <button onclick="{{ setPeriodMensual }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgMensual }};color:{{ tabColorMensual }};">Mensual</button>
+          <button onclick="{{ setPeriodAnual }}" style="padding:7px 20px;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:0.02em;transition:all 160ms;background:{{ tabBgAnual }};color:{{ tabColorAnual }};">Anual</button>
+        </div>
       </div>
-    </div>
+    </sc-if>
   </header>
 
   <!-- ═══════════ CONTENIDO ═══════════ -->
-  <main style="max-width:1240px;width:100%;margin:0 auto;padding:26px 32px 40px;flex:1;">
+  <main class="pc-wrap pc-main">
 
-    <!-- GALERÍA DE BENEFICIOS -->
-    <section style="margin-bottom:26px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div style="display:flex;align-items:center;gap:9px;">
-          <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"></path><path d="M2 7h20v5H2z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
-          </div>
-          <h2 style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Catálogo de Beneficios</h2>
+    <!-- ══ INICIO: elegir qué gestionar ══ -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <section class="pc-home">
+        <div class="pc-home-head">
+          <div class="pc-kicker">Opciones de gestión</div>
+          <h2 class="pc-home-title">Eventos y beneficios</h2>
+          <p class="pc-home-sub">Elegí qué querés gestionar. Los eventos entran por Autogestión o por carga manual; los beneficios se administran desde su catálogo.</p>
         </div>
-        <span style="font-size:12px;color:var(--color-text-muted);">{{ benefitCount }} beneficios activos · desplazá para ver todos</span>
-      </div>
-
-      <!-- Grid 2 filas visibles, scroll vertical -->
-      <div style="height:472px;overflow-y:auto;padding:4px;border:1px solid var(--color-border-card);border-radius:14px;background:#fff;">
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:14px;">
-          <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
-            <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:12px;overflow:hidden;transition:all 200ms;" style-hover="transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.09);border-color:#E2E8F0;">
-              <div style="height:4px;background:{{ b.barColor }};"></div>
-              <div style="padding:16px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                  <!-- Logo comercio -->
-                  <div style="display:flex;align-items:center;gap:9px;">
-                    <div style="width:38px;height:38px;border-radius:9px;background:var(--color-pizarra);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:800;color:#fff;flex-shrink:0;">{{ b.logo }}</div>
-                    <div style="line-height:1.25;">
-                      <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--color-pizarra);">{{ b.commerce }}</div>
-                      </div>
-                  </div>
-                </div>
-                <!-- Descuento -->
-                <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
-                  <div style="font-family:var(--font-display);font-weight:800;font-size:34px;color:var(--color-terracota);line-height:1;letter-spacing:-0.03em;">{{ b.discount }}</div>
-                  <div style="font-size:11px;font-weight:600;color:var(--color-text-muted);">de descuento</div>
-                </div>
-                <div style="font-size:12.5px;color:var(--color-text-body);line-height:1.35;min-height:34px;">{{ b.label }}</div>
-                <!-- Bloque analítico usos -->
-                <div style="margin-top:14px;padding-top:13px;border-top:1px dashed var(--color-border);display:flex;align-items:center;justify-content:space-between;">
-                  <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    </div>
-                    <div style="line-height:1.2;">
-                      <div style="font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--color-pizarra);animation:countUp 300ms ease-out;" key="{{ b.animKey }}">{{ b.uses }}</div>
-                      <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;">Usos · {{ periodShort }}</div>
-                    </div>
-                  </div>
-                  <span style="display:inline-flex;align-items:center;gap:4px;background:var(--color-success-bg);border-radius:9999px;padding:4px 9px;">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                    <span style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-success-text);">{{ b.trend }}</span>
-                  </span>
-                </div>
-                <!-- Botón modificar beneficio -->
-                <div style="display:flex;gap:8px;margin-top:13px;"><button onclick="{{ b.onDelete }}" style="flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;background:transparent;border:1.5px solid #DC2626;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;color:#DC2626;letter-spacing:0.02em;transition:all 160ms;" style-hover="background:#DC2626;color:#fff;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Borrar</button><button onclick="{{ b.onEdit }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 0;background:transparent;border:1.5px solid var(--color-terracota);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--color-terracota);letter-spacing:0.02em;transition:all 160ms;" style-hover="background:var(--color-terracota);color:#fff;" style-active="transform:translateY(1px);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Modificar beneficio</button></div>
-              </div>
+        <div class="pc-choices">
+          <button onclick="{{ goEventos }}" class="pc-choice">
+            <div class="pc-choice-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><circle cx="12" cy="16" r="1.6" fill="currentColor" stroke="none"></circle></svg>
             </div>
-          </sc-for>
-        </div>
-      </div>
-    </section>
-
-    <!-- INFORME + RANKING -->
-    <section style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:20px;align-items:stretch;">
-
-      <!-- IZQ: Resumen regional -->
-      <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;padding:24px;display:flex;flex-direction:column;">
-        <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;">
-          <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          </div>
-          <h3 style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Resumen de la Regional</h3>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-          <div style="padding:18px;background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border-card);">
-            <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">Beneficios activos</div>
-            <div style="font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.03em;margin-top:6px;line-height:1;">{{ benefitCount }}</div>
-          </div>
-          <div style="padding:18px;background:var(--color-surface-hover);border-radius:12px;border:1px solid #FADBD0;">
-            <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-terracota-dark);letter-spacing:0.08em;text-transform:uppercase;">Usos totales · {{ periodShort }}</div>
-            <div style="font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--color-terracota);letter-spacing:-0.03em;margin-top:6px;line-height:1;animation:countUp 300ms ease-out;" key="{{ period }}">{{ totalUses }}</div>
-          </div>
-        </div>
-
-        <!-- Tarjeta pizarra: promedio -->
-        <div style="padding:18px;background:var(--color-pizarra);border-radius:12px;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:14px 14px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:#94A3B8;letter-spacing:0.08em;text-transform:uppercase;">Promedio de usos por beneficio</div>
-              <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-top:5px;line-height:1;">{{ avgUses }}</div>
+            <div class="pc-choice-title">Eventos</div>
+            <div class="pc-choice-desc">Agenda del Colegio: registrá eventos nuevos y editá los que ya están publicados.</div>
+            <div class="pc-choice-meta">{{ eventCount }} eventos en agenda</div>
+            <div class="pc-choice-cta">Ingresar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+          </button>
+          <button onclick="{{ goBeneficios }}" class="pc-choice">
+            <div class="pc-choice-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"></path><path d="M2 7h20v5H2z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
             </div>
-            <div style="width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#F07554;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-            </div>
-          </div>
+            <div class="pc-choice-title">Beneficios</div>
+            <div class="pc-choice-desc">Catálogo de convenios: alta, edición y baja de beneficios, con estadísticas de uso.</div>
+            <div class="pc-choice-meta">{{ benefitCount }} beneficios activos</div>
+            <div class="pc-choice-cta">Ingresar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></div>
+          </button>
         </div>
+      </section>
+    </sc-if>
 
-        <!-- Comercio destacado -->
-        <div style="margin-top:auto;padding:16px 18px;background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border-card);display:flex;align-items:center;gap:12px;">
-          <div style="width:40px;height:40px;border-radius:10px;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-          </div>
-          <div style="line-height:1.3;">
-            <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">Beneficio más usado</div>
-            <div style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--color-pizarra);margin-top:2px;">{{ topBenefit }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DER: Ranking completo scrollable -->
-      <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;padding:24px;display:flex;flex-direction:column;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <!-- ══ BENEFICIOS ══ -->
+    <sc-if value="{{ isBeneficios }}" hint-placeholder-val="{{ false }}">
+      <!-- GALERÍA DE BENEFICIOS -->
+      <section style="margin-bottom:26px;">
+        <div class="pc-section-head">
           <div style="display:flex;align-items:center;gap:9px;">
-            <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"></path><path d="M2 7h20v5H2z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
             </div>
-            <h3 style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Ranking de Usabilidad</h3>
+            <h2 style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Catálogo de Beneficios</h2>
           </div>
-          <span style="font-size:11.5px;color:var(--color-text-muted);">Todos los beneficios · {{ periodShort }}</span>
+          <span style="font-size:12px;color:var(--color-text-muted);">{{ benefitCount }} beneficios activos · desplazá para ver todos</span>
         </div>
 
-        <!-- Lista scrollable -->
-        <div style="flex:1;max-height:352px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px;">
-          <sc-for list="{{ rankingRows }}" as="row" hint-placeholder-count="6">
-            <div style="display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:11px;border-left:{{ row.rowBorder }};background:{{ row.rowBg }};border-top:{{ row.rowTopBorder }};border-right:{{ row.rowTopBorder }};border-bottom:{{ row.rowTopBorder }};transition:all 200ms;">
-              <div style="width:32px;height:32px;border-radius:8px;background:{{ row.posBg }};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:800;color:{{ row.posColor }};flex-shrink:0;">{{ row.pos }}</div>
-              <div style="flex:1;min-width:0;">
-                <div style="display:flex;align-items:center;gap:7px;">
-                  <span style="font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--color-pizarra);">{{ row.discount }}</span>
-                  <span style="font-size:12px;color:var(--color-text-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ row.commerce }}</span>
-                </div>
-                <!-- Barra horizontal -->
-                <div style="margin-top:7px;height:7px;background:var(--color-surface-muted);border-radius:9999px;overflow:hidden;">
-                  <div style="height:100%;width:{{ row.barWidth }};background:{{ row.barColor }};border-radius:9999px;animation:growBar 700ms cubic-bezier(.16,1,.3,1);"></div>
+        <!-- Grid: 2 filas visibles en desktop, scroll vertical -->
+        <div class="pc-gallery">
+          <div class="pc-gallery-grid">
+            <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
+              <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:12px;overflow:hidden;transition:all 200ms;display:flex;flex-direction:column;" style-hover="transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.09);border-color:#E2E8F0;">
+                <div style="height:4px;background:{{ b.barColor }};"></div>
+                <div style="padding:16px;display:flex;flex-direction:column;flex:1;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <!-- Logo comercio -->
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+                      <div style="width:38px;height:38px;border-radius:9px;background:var(--color-pizarra);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:800;color:#fff;flex-shrink:0;">{{ b.logo }}</div>
+                      <div style="line-height:1.25;min-width:0;">
+                        <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--color-pizarra);">{{ b.commerce }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Descuento -->
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+                    <div style="font-family:var(--font-display);font-weight:800;font-size:34px;color:var(--color-terracota);line-height:1;letter-spacing:-0.03em;">{{ b.discount }}</div>
+                    <div style="font-size:11px;font-weight:600;color:var(--color-text-muted);">de descuento</div>
+                  </div>
+                  <div style="font-size:12.5px;color:var(--color-text-body);line-height:1.35;min-height:34px;">{{ b.label }}</div>
+                  <!-- Bloque analítico usos -->
+                  <div style="margin-top:14px;padding-top:13px;border-top:1px dashed var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                      </div>
+                      <div style="line-height:1.2;">
+                        <div style="font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--color-pizarra);animation:countUp 300ms ease-out;" key="{{ b.animKey }}">{{ b.uses }}</div>
+                        <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;">Usos · {{ periodShort }}</div>
+                      </div>
+                    </div>
+                    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--color-success-bg);border-radius:9999px;padding:4px 9px;flex-shrink:0;">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                      <span style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-success-text);">{{ b.trend }}</span>
+                    </span>
+                  </div>
+                  <!-- Acciones -->
+                  <div style="display:flex;gap:8px;margin-top:auto;padding-top:13px;">
+                    <button onclick="{{ b.onDelete }}" class="pc-btn-delete" style-hover="background:#DC2626;color:#fff;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>Borrar</button>
+                    <button onclick="{{ b.onEdit }}" class="pc-btn-edit" style-hover="background:var(--color-terracota);color:#fff;" style-active="transform:translateY(1px);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Modificar beneficio</button>
+                  </div>
                 </div>
               </div>
-              <div style="text-align:right;flex-shrink:0;">
-                <div style="font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--color-pizarra);line-height:1;">{{ row.clients }}</div>
-                <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;">usos</div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <!-- INFORME + RANKING -->
+      <section class="pc-stats">
+
+        <!-- IZQ: Resumen regional -->
+        <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;padding:24px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:18px;">
+            <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <h3 style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Resumen de la Regional</h3>
+          </div>
+
+          <div class="pc-kpis">
+            <div style="padding:18px;background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border-card);">
+              <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">Beneficios activos</div>
+              <div style="font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.03em;margin-top:6px;line-height:1;">{{ benefitCount }}</div>
+            </div>
+            <div style="padding:18px;background:var(--color-surface-hover);border-radius:12px;border:1px solid #FADBD0;">
+              <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-terracota-dark);letter-spacing:0.08em;text-transform:uppercase;">Usos totales · {{ periodShort }}</div>
+              <div style="font-family:var(--font-display);font-size:34px;font-weight:800;color:var(--color-terracota);letter-spacing:-0.03em;margin-top:6px;line-height:1;animation:countUp 300ms ease-out;" key="{{ period }}">{{ totalUses }}</div>
+            </div>
+          </div>
+
+          <!-- Tarjeta pizarra: promedio -->
+          <div style="padding:18px;background:var(--color-pizarra);border-radius:12px;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:14px 14px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:#94A3B8;letter-spacing:0.08em;text-transform:uppercase;">Promedio de usos por beneficio</div>
+                <div style="font-family:var(--font-display);font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-top:5px;line-height:1;">{{ avgUses }}</div>
+              </div>
+              <div style="width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#F07554;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comercio destacado -->
+          <div style="margin-top:auto;padding:16px 18px;background:var(--color-bg);border-radius:12px;border:1px solid var(--color-border-card);display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div style="line-height:1.3;min-width:0;">
+              <div style="font-family:var(--font-display);font-size:9.5px;font-weight:700;color:var(--color-text-placeholder);letter-spacing:0.08em;text-transform:uppercase;">Beneficio más usado</div>
+              <div style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--color-pizarra);margin-top:2px;">{{ topBenefit }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DER: Ranking completo scrollable -->
+        <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;padding:24px;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              </div>
+              <h3 style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Ranking de Usabilidad</h3>
+            </div>
+            <span style="font-size:11.5px;color:var(--color-text-muted);">Todos los beneficios · {{ periodShort }}</span>
+          </div>
+
+          <!-- Lista scrollable -->
+          <div class="pc-ranking">
+            <sc-for list="{{ rankingRows }}" as="row" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:11px;border-left:{{ row.rowBorder }};background:{{ row.rowBg }};border-top:{{ row.rowTopBorder }};border-right:{{ row.rowTopBorder }};border-bottom:{{ row.rowTopBorder }};transition:all 200ms;">
+                <div style="width:32px;height:32px;border-radius:8px;background:{{ row.posBg }};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:800;color:{{ row.posColor }};flex-shrink:0;">{{ row.pos }}</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:7px;">
+                    <span style="font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--color-pizarra);">{{ row.discount }}</span>
+                    <span style="font-size:12px;color:var(--color-text-body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ row.commerce }}</span>
+                  </div>
+                  <!-- Barra horizontal -->
+                  <div style="margin-top:7px;height:7px;background:var(--color-surface-muted);border-radius:9999px;overflow:hidden;">
+                    <div style="height:100%;width:{{ row.barWidth }};background:{{ row.barColor }};border-radius:9999px;animation:growBar 700ms cubic-bezier(.16,1,.3,1);"></div>
+                  </div>
+                </div>
+                <div style="text-align:right;flex-shrink:0;">
+                  <div style="font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--color-pizarra);line-height:1;">{{ row.clients }}</div>
+                  <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;">usos</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- ══ EVENTOS ══ -->
+    <sc-if value="{{ isEventos }}" hint-placeholder-val="{{ false }}">
+      <section>
+        <div class="pc-section-head">
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h2 style="font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Agenda de Eventos</h2>
+          </div>
+          <span style="font-size:12px;color:var(--color-text-muted);">{{ eventCount }} eventos · ordenados por fecha</span>
+        </div>
+
+        <!-- Leyenda de origen (ADR-0009) -->
+        <div class="pc-legend">
+          <span class="pc-legend-item"><span class="pc-origen pc-origen-api">Autogestión</span> llegó por la API del sistema de eventos del Colegio</span>
+          <span class="pc-legend-item"><span class="pc-origen pc-origen-manual">Carga manual</span> registrado desde este panel</span>
+        </div>
+
+        <!-- Galería: misma tarjeta que ve el matriculado, con "Editar evento" -->
+        <div class="pc-events-grid">
+          <sc-for list="{{ events }}" as="ev" hint-placeholder-count="3">
+            <div class="pc-event-card" style-hover="transform:translateY(-2px);box-shadow:0 8px 26px rgba(15,23,42,.12);">
+              <div style="padding:13px 14px 10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                  <span style="display:inline-block;background:{{ ev.tagBg }};color:#fff;border-radius:3px;padding:2px 8px;font-size:9.5px;font-family:var(--font-display);font-weight:700;letter-spacing:.07em;text-transform:uppercase;">{{ ev.tag }}</span>
+                  <span class="pc-origen {{ ev.origenClass }}">{{ ev.origenLabel }}</span>
+                </div>
+                <div style="font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--color-pizarra);margin-top:8px;line-height:1.25;letter-spacing:-.01em;">{{ ev.title }}</div>
+                <div style="font-size:11px;color:var(--color-text-placeholder);margin-top:3px;">{{ ev.subtitle }}</div>
+                <div style="font-size:10.5px;color:var(--color-text-muted);margin-top:3px;display:flex;align-items:center;gap:4px;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  {{ ev.date }}
+                </div>
+              </div>
+              <div class="pc-event-hero">
+                <sc-if value="{{ ev.hasImg }}" hint-placeholder-val="{{ false }}">
+                  <div class="pc-event-img" style="background-image:url('{{ ev.img }}');"></div>
+                </sc-if>
+                <sc-if value="{{ ev.noImg }}" hint-placeholder-val="{{ true }}">
+                  <div class="pc-event-hero-dark">
+                    <div style="font-family:var(--font-display);font-weight:800;font-size:20px;color:#fff;text-align:center;line-height:1.2;padding:0 16px;">{{ ev.title }}</div>
+                    <div style="font-size:11px;color:#94A3B8;margin-top:8px;text-align:center;padding:0 16px;">{{ ev.subtitle }}</div>
+                  </div>
+                </sc-if>
+                <button onclick="{{ ev.onEdit }}" class="pc-event-edit" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  Editar evento
+                </button>
               </div>
             </div>
           </sc-for>
         </div>
-      </div>
-    </section>
+      </section>
+    </sc-if>
   </main>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script="">
 class Component extends DCLogic {
-  state = { period: 'mensual' };
+  // `view` sale de la URL (?vista=beneficios|eventos) para que el formulario
+  // pueda volver a la sección correcta y para que recargar no pierda la vista.
+  state = { view: Component.viewFromUrl(), period: 'mensual' };
+
+  static viewFromUrl() {
+    try {
+      var v = new URLSearchParams(window.location.search).get('vista');
+      return (v === 'beneficios' || v === 'eventos') ? v : 'home';
+    } catch (e) { return 'home'; }
+  }
+
+  componentDidMount() {
+    var self = this;
+    window.addEventListener('popstate', function () { self.setState({ view: Component.viewFromUrl() }); });
+  }
+
+  setView(v) {
+    var url = v === 'home' ? 'panel-control.html' : 'panel-control.html?vista=' + v;
+    try { window.history.pushState({ vista: v }, '', url); } catch (e) { /* file:// */ }
+    this.setState({ view: v });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
 
   // Catálogo derivado de la única fuente de verdad (store.js -> CAC).
   // Reemplaza el array horneado: alta/edición/baja se reflejan al recargar.
@@ -1703,9 +1929,20 @@ class Component extends DCLogic {
     });
   }
 
+  // Agenda completa (API + carga manual), ordenada por fecha (ADR-0009).
+  get eventRows() {
+    var CAC = window.CAC;
+    if (!CAC || !CAC.allEvents) return [];
+    return CAC.allEvents();
+  }
+
   goAdd() {
     window.CAC.clearEdit();
     window.location.href = 'formulario-beneficio.html?mode=new&from=panel';
+  }
+  goAddEvent() {
+    window.CAC.clearEditEvent();
+    window.location.href = 'formulario-evento.html?mode=new&from=panel';
   }
   goLogout() {
     window.location.href = 'index.html';
@@ -1715,18 +1952,24 @@ class Component extends DCLogic {
     if (full) window.CAC.setEdit(full);
     window.location.href = 'formulario-beneficio.html?mode=edit&from=panel';
   }
+  editEvent(id) {
+    var ev = window.CAC.findEventById(id);
+    if (ev) window.CAC.setEditEvent(ev);
+    window.location.href = 'formulario-evento.html?mode=edit&from=panel';
+  }
   deleteBenefit(id, name) {
-    if (!window.confirm('\u00bfBorrar el beneficio "' + (name || '') + '"? Se quitar\u00e1 de todo el sistema.')) return;
+    if (!window.confirm('¿Borrar el beneficio "' + (name || '') + '"? Se quitará de todo el sistema.')) return;
     window.CAC.removeBenefit(id);
     window.location.reload();
   }
 
   renderVals() {
+    const view = this.state.view;
     const period = this.state.period;
     const self = this;
     const periodShort = period === 'semanal' ? 'esta semana'
                        : period === 'mensual' ? 'este mes'
-                       : 'este a\u00f1o';
+                       : 'este año';
 
     const tabBg    = (p) => period === p ? '#E05A36' : 'transparent';
     const tabColor = (p) => period === p ? '#ffffff' : 'rgba(255,255,255,.6)';
@@ -1766,7 +2009,27 @@ class Component extends DCLogic {
     const avgUses = rows.length ? Math.round(totalUses / rows.length) : 0;
     const top = [...rows].sort((a, b) => b.usages[period] - a.usages[period])[0];
 
+    const events = this.eventRows.map((ev) => ({
+      ...ev,
+      hasImg: !!ev.img,
+      noImg: !ev.img,
+      origenLabel: ev.origen === 'manual' ? 'Carga manual' : 'Autogestión',
+      origenClass: ev.origen === 'manual' ? 'pc-origen-manual' : 'pc-origen-api',
+      onEdit: () => self.editEvent(ev.id),
+    }));
+
+    const headerTitle = view === 'beneficios' ? 'Gestión de Beneficios'
+                      : view === 'eventos'    ? 'Gestión de Eventos'
+                      : 'Eventos y beneficios';
+
     return {
+      isHome: view === 'home',
+      notHome: view !== 'home',
+      isBeneficios: view === 'beneficios',
+      isEventos: view === 'eventos',
+      notEventos: view !== 'eventos',
+      headerTitle,
+
       period,
       periodShort,
       benefits,
@@ -1774,10 +2037,17 @@ class Component extends DCLogic {
       rankingRows,
       totalUses,
       avgUses,
-      topBenefit: top ? (top.discount + ' \u00b7 ' + top.commerce) : '',
+      topBenefit: top ? (top.discount + ' · ' + top.commerce) : '',
 
-      goAdd: () => this.goAdd(),
-      goLogout: () => this.goLogout(),
+      events,
+      eventCount: events.length,
+
+      goHome:       () => this.setView('home'),
+      goBeneficios: () => this.setView('beneficios'),
+      goEventos:    () => this.setView('eventos'),
+      goAdd:        () => this.goAdd(),
+      goAddEvent:   () => this.goAddEvent(),
+      goLogout:     () => this.goLogout(),
 
       tabBgSemanal:    tabBg('semanal'),
       tabColorSemanal: tabColor('semanal'),
@@ -1795,4 +2065,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260918"></script><script src="flow.js"></script></body></html>
