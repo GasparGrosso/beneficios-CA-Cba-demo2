@@ -28,501 +28,76 @@
 
 :root {
   /* ── Brand core ── */
-  --color-terracota:        #E05A36;   /* Acento / Acción — "Óxido Activo" */
-  --color-terracota-dark:   #C44E2B;   /* Hover / pressed del terracota */
-  --color-terracota-light:  #F07554;   /* Gradiente / shimmer */
-  --color-pizarra:          #0F172A;   /* Secundario — "Azul Viga" */
-  --color-pizarra-mid:      #1E293B;   /* Hover oscuro */
-  --color-pizarra-soft:     #334155;   /* Texto cuerpo */
+  --color-terracota:        #E9500E;   /* Acento / Acción — naranja CAPC (el nombre del token se conserva) */
+  --color-terracota-dark:   #C8440B;   /* Hover / pressed del terracota */
+  --color-terracota-light:  #F17A42;   /* Gradiente / shimmer */
+  --color-pizarra:          #161616;   /* Secundario — "Azul Viga" */
+  --color-pizarra-mid:      #2B2928;   /* Hover oscuro */
+  --color-pizarra-soft:     #3f3b39;   /* Texto cuerpo */
 
   /* ── Backgrounds ── */
-  --color-bg:               #F8FAFC;   /* Dominante — "Blanco Cemento" */
+  --color-bg:               #F5F2F0;   /* Dominante — "Blanco Cemento" */
   --color-surface:          #FFFFFF;   /* Cards — "Blanco Puro" */
-  --color-surface-muted:    #F1F5F9;   /* Tabs, pills, inputs sin foco */
-  --color-surface-hover:    #FFF3F0;   /* Hover sobre elementos de acento */
+  --color-surface-muted:    #F0ECEA;   /* Tabs, pills, inputs sin foco */
+  --color-surface-hover:    #FEF0E8;   /* Hover sobre elementos de acento */
 
   /* ── Text ── */
-  --color-text-primary:     #0F172A;
-  --color-text-body:        #334155;
-  --color-text-secondary:   #475569;
-  --color-text-muted:       #64748B;
-  --color-text-placeholder: #94A3B8;
+  --color-text-primary:     #161616;
+  --color-text-body:        #3f3b39;
+  --color-text-secondary:   #5b5652;
+  --color-text-muted:       #7A736E;
+  --color-text-placeholder: #9E968F;
   --color-text-on-dark:     #FFFFFF;
   --color-text-on-accent:   #FFFFFF;
 
   /* ── Borders ── */
-  --color-border:           #E2E8F0;
-  --color-border-soft:      #E8EFF6;
-  --color-border-card:      #F1F5F9;
+  --color-border:           #E2DBD7;
+  --color-border-soft:      #E7E2E1;
+  --color-border-card:      #F0ECEA;
 
   /* ── Semantic ── */
-  --color-success:          #10B981;   /* "Verde Cemento / Sándalo" */
-  --color-success-bg:       #F0FDF4;
-  --color-success-border:   #86EFAC;
-  --color-success-text:     #166534;
-  --color-success-dark:     #16A34A;
+  --color-success:          #7CB553;   /* "Verde Cemento / Sándalo" */
+  --color-success-bg:       #F2F8EC;
+  --color-success-border:   #BFDEA6;
+  --color-success-text:     #3f6b22;
+  --color-success-dark:     #5E9A38;
 
-  --color-warning:          #F59E0B;
-  --color-warning-bg:       #FFFBEB;
-  --color-warning-border:   #FDE68A;
+  --color-warning:          #EFCE44;
+  --color-warning-bg:       #FDF9E6;
+  --color-warning-border:   #F7E68F;
 
-  --color-error:            #E05A36;   /* Re-usa terracota para errores */
-  --color-error-bg:         #FFF3F0;
-  --color-error-border:     #FECACA;
+  --color-error:            #E9500E;   /* Re-usa terracota para errores */
+  --color-error-bg:         #FEF0E8;
+  --color-error-border:     #F9C6D6;
 
-  --color-info:             #3B82F6;
-  --color-info-bg:          #EFF6FF;
+  --color-info:             #5B93CE;
+  --color-info-bg:          #EEF4FA;
 
   /* ── Overlays & glass ── */
   --color-overlay-light:    rgba(255,255,255,0.06);
-  --color-overlay-dark:     rgba(15,23,42,0.08);
+  --color-overlay-dark:     rgba(22,22,22,0.08);
 
   /* ── Gradients (as CSS values) ── */
-  --gradient-accent:        linear-gradient(90deg, #E05A36 0%, #F07554 100%); /* @kind other */
-  --gradient-accent-v:      linear-gradient(180deg, #E05A36 0%, #C44E2B 100%); /* @kind other */
-  --gradient-header-bg:     radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); /* @kind other */
+  --gradient-accent:        linear-gradient(90deg, #E9500E 0%, #F17A42 100%); /* @kind other */
+  --gradient-accent-v:      linear-gradient(180deg, #E9500E 0%, #C8440B 100%); /* @kind other */
+  --gradient-header-bg:     none; /* @kind other */  /* la marca CAPC usa superficies planas */
 }
 </style>
   <style>/* ─────────────────────────────────────────────
    C.A. Córdoba Design System — Typography Tokens
    ───────────────────────────────────────────── */
 
-/* Google Fonts — Plus Jakarta Sans + Inter */
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-
+/* Work Sans se carga desde Google Fonts en el <head> (ver assets/marca-capc.css) */
 :root {
   /* ── Font families ── */
-  --font-display:  'Plus Jakarta Sans', sans-serif;   /* Títulos / Encabezados */
-  --font-body:     'Inter', sans-serif;               /* Cuerpo / Datos / UI */
+  --font-display:  'Work Sans', sans-serif;   /* Títulos / Encabezados (extra bold) */
+  --font-body:     'Work Sans', sans-serif;   /* Cuerpo / Datos / UI (regular · semibold) */
 
   /* ── Font weights ── */
   --fw-regular:    400; /* @kind other */
-  --fw-medium:     500; /* @kind other */
+  --fw-medium:     400; /* @kind other */
   --fw-semibold:   600; /* @kind other */
-  --fw-bold:       700; /* @kind other */
+  --fw-bold:       600; /* @kind other */
   --fw-extrabold:  800; /* @kind other */
 
   /* ── Type scale ── */
@@ -631,33 +206,33 @@ p, span, td, li, input, button, textarea, select {
   /* ── Elevation scale ── */
   --shadow-none:    none;
 
-  --shadow-xs:      0 1px 2px rgba(15,23,42,0.04);
+  --shadow-xs:      0 1px 2px rgba(22,22,22,0.04);
 
-  --shadow-sm:      0 2px 10px rgba(15,23,42,0.07),
-                    0 1px 2px rgba(15,23,42,0.04);
+  --shadow-sm:      0 2px 10px rgba(22,22,22,0.07),
+                    0 1px 2px rgba(22,22,22,0.04);
 
-  --shadow-md:      0 4px 20px rgba(15,23,42,0.08),
-                    0 1px 4px rgba(15,23,42,0.05);
+  --shadow-md:      0 4px 20px rgba(22,22,22,0.08),
+                    0 1px 4px rgba(22,22,22,0.05);
 
-  --shadow-lg:      0 8px 26px rgba(15,23,42,0.12),
-                    0 2px 6px rgba(15,23,42,0.06);
+  --shadow-lg:      0 8px 26px rgba(22,22,22,0.12),
+                    0 2px 6px rgba(22,22,22,0.06);
 
-  --shadow-xl:      0 16px 56px rgba(15,23,42,0.10),
-                    0 4px 16px rgba(15,23,42,0.05);
+  --shadow-xl:      0 16px 56px rgba(22,22,22,0.10),
+                    0 4px 16px rgba(22,22,22,0.05);
 
   /* ── Component-specific ── */
   --shadow-card:        var(--shadow-sm);
   --shadow-card-hover:  var(--shadow-lg);
   --shadow-modal:       var(--shadow-xl);
-  --shadow-nav-bottom:  0 -4px 16px rgba(15,23,42,0.06);
-  --shadow-accent-btn:  0 8px 24px rgba(224,90,54,0.34);
-  --shadow-logo-badge:  0 4px 16px rgba(224,90,54,0.45);
+  --shadow-nav-bottom:  0 -4px 16px rgba(22,22,22,0.06);
+  --shadow-accent-btn:  0 8px 24px rgba(233,80,14,0.34);
+  --shadow-logo-badge:  0 4px 16px rgba(233,80,14,0.45);
   --shadow-arrow-btn:   0 2px 10px rgba(0,0,0,0.14);
-  --shadow-qr-card:     0 4px 24px rgba(15,23,42,0.10),
-                        0 1px 4px rgba(15,23,42,0.06);
+  --shadow-qr-card:     0 4px 24px rgba(22,22,22,0.10),
+                        0 1px 4px rgba(22,22,22,0.06);
 
   /* ── Dark header badge ── */
-  --shadow-logo-sm:     0 2px 8px rgba(224,90,54,0.40);
+  --shadow-logo-sm:     0 2px 8px rgba(233,80,14,0.40);
 }
 </style>
   <style>/* ─────────────────────────────────────────────
@@ -747,501 +322,76 @@ p, span, td, li, input, button, textarea, select {
 
 :root {
   /* ── Brand core ── */
-  --color-terracota:        #E05A36;   /* Acento / Acción — "Óxido Activo" */
-  --color-terracota-dark:   #C44E2B;   /* Hover / pressed del terracota */
-  --color-terracota-light:  #F07554;   /* Gradiente / shimmer */
-  --color-pizarra:          #0F172A;   /* Secundario — "Azul Viga" */
-  --color-pizarra-mid:      #1E293B;   /* Hover oscuro */
-  --color-pizarra-soft:     #334155;   /* Texto cuerpo */
+  --color-terracota:        #E9500E;   /* Acento / Acción — naranja CAPC (el nombre del token se conserva) */
+  --color-terracota-dark:   #C8440B;   /* Hover / pressed del terracota */
+  --color-terracota-light:  #F17A42;   /* Gradiente / shimmer */
+  --color-pizarra:          #161616;   /* Secundario — "Azul Viga" */
+  --color-pizarra-mid:      #2B2928;   /* Hover oscuro */
+  --color-pizarra-soft:     #3f3b39;   /* Texto cuerpo */
 
   /* ── Backgrounds ── */
-  --color-bg:               #F8FAFC;   /* Dominante — "Blanco Cemento" */
+  --color-bg:               #F5F2F0;   /* Dominante — "Blanco Cemento" */
   --color-surface:          #FFFFFF;   /* Cards — "Blanco Puro" */
-  --color-surface-muted:    #F1F5F9;   /* Tabs, pills, inputs sin foco */
-  --color-surface-hover:    #FFF3F0;   /* Hover sobre elementos de acento */
+  --color-surface-muted:    #F0ECEA;   /* Tabs, pills, inputs sin foco */
+  --color-surface-hover:    #FEF0E8;   /* Hover sobre elementos de acento */
 
   /* ── Text ── */
-  --color-text-primary:     #0F172A;
-  --color-text-body:        #334155;
-  --color-text-secondary:   #475569;
-  --color-text-muted:       #64748B;
-  --color-text-placeholder: #94A3B8;
+  --color-text-primary:     #161616;
+  --color-text-body:        #3f3b39;
+  --color-text-secondary:   #5b5652;
+  --color-text-muted:       #7A736E;
+  --color-text-placeholder: #9E968F;
   --color-text-on-dark:     #FFFFFF;
   --color-text-on-accent:   #FFFFFF;
 
   /* ── Borders ── */
-  --color-border:           #E2E8F0;
-  --color-border-soft:      #E8EFF6;
-  --color-border-card:      #F1F5F9;
+  --color-border:           #E2DBD7;
+  --color-border-soft:      #E7E2E1;
+  --color-border-card:      #F0ECEA;
 
   /* ── Semantic ── */
-  --color-success:          #10B981;   /* "Verde Cemento / Sándalo" */
-  --color-success-bg:       #F0FDF4;
-  --color-success-border:   #86EFAC;
-  --color-success-text:     #166534;
-  --color-success-dark:     #16A34A;
+  --color-success:          #7CB553;   /* "Verde Cemento / Sándalo" */
+  --color-success-bg:       #F2F8EC;
+  --color-success-border:   #BFDEA6;
+  --color-success-text:     #3f6b22;
+  --color-success-dark:     #5E9A38;
 
-  --color-warning:          #F59E0B;
-  --color-warning-bg:       #FFFBEB;
-  --color-warning-border:   #FDE68A;
+  --color-warning:          #EFCE44;
+  --color-warning-bg:       #FDF9E6;
+  --color-warning-border:   #F7E68F;
 
-  --color-error:            #E05A36;   /* Re-usa terracota para errores */
-  --color-error-bg:         #FFF3F0;
-  --color-error-border:     #FECACA;
+  --color-error:            #E9500E;   /* Re-usa terracota para errores */
+  --color-error-bg:         #FEF0E8;
+  --color-error-border:     #F9C6D6;
 
-  --color-info:             #3B82F6;
-  --color-info-bg:          #EFF6FF;
+  --color-info:             #5B93CE;
+  --color-info-bg:          #EEF4FA;
 
   /* ── Overlays & glass ── */
   --color-overlay-light:    rgba(255,255,255,0.06);
-  --color-overlay-dark:     rgba(15,23,42,0.08);
+  --color-overlay-dark:     rgba(22,22,22,0.08);
 
   /* ── Gradients (as CSS values) ── */
-  --gradient-accent:        linear-gradient(90deg, #E05A36 0%, #F07554 100%); /* @kind other */
-  --gradient-accent-v:      linear-gradient(180deg, #E05A36 0%, #C44E2B 100%); /* @kind other */
-  --gradient-header-bg:     radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); /* @kind other */
+  --gradient-accent:        linear-gradient(90deg, #E9500E 0%, #F17A42 100%); /* @kind other */
+  --gradient-accent-v:      linear-gradient(180deg, #E9500E 0%, #C8440B 100%); /* @kind other */
+  --gradient-header-bg:     none; /* @kind other */  /* la marca CAPC usa superficies planas */
 }
 
 /* ─────────────────────────────────────────────
    C.A. Córdoba Design System — Typography Tokens
    ───────────────────────────────────────────── */
 
-/* Google Fonts — Plus Jakarta Sans + Inter */
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* cyrillic */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-cyrillic.woff2") format('woff2');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* greek-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek-ext.woff2") format('woff2');
-  unicode-range: U+1F00-1FFF;
-}
-/* greek */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-greek.woff2") format('woff2');
-  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/inter-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-cyrillic-ext.woff2") format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-vietnamese.woff2") format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin-ext.woff2") format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Plus Jakarta Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("assets/bundle/fonts/plus-jakarta-sans-latin.woff2") format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-
+/* Work Sans se carga desde Google Fonts en el <head> (ver assets/marca-capc.css) */
 :root {
   /* ── Font families ── */
-  --font-display:  'Plus Jakarta Sans', sans-serif;   /* Títulos / Encabezados */
-  --font-body:     'Inter', sans-serif;               /* Cuerpo / Datos / UI */
+  --font-display:  'Work Sans', sans-serif;   /* Títulos / Encabezados (extra bold) */
+  --font-body:     'Work Sans', sans-serif;   /* Cuerpo / Datos / UI (regular · semibold) */
 
   /* ── Font weights ── */
   --fw-regular:    400; /* @kind other */
-  --fw-medium:     500; /* @kind other */
+  --fw-medium:     400; /* @kind other */
   --fw-semibold:   600; /* @kind other */
-  --fw-bold:       700; /* @kind other */
+  --fw-bold:       600; /* @kind other */
   --fw-extrabold:  800; /* @kind other */
 
   /* ── Type scale ── */
@@ -1350,33 +500,33 @@ p, span, td, li, input, button, textarea, select {
   /* ── Elevation scale ── */
   --shadow-none:    none;
 
-  --shadow-xs:      0 1px 2px rgba(15,23,42,0.04);
+  --shadow-xs:      0 1px 2px rgba(22,22,22,0.04);
 
-  --shadow-sm:      0 2px 10px rgba(15,23,42,0.07),
-                    0 1px 2px rgba(15,23,42,0.04);
+  --shadow-sm:      0 2px 10px rgba(22,22,22,0.07),
+                    0 1px 2px rgba(22,22,22,0.04);
 
-  --shadow-md:      0 4px 20px rgba(15,23,42,0.08),
-                    0 1px 4px rgba(15,23,42,0.05);
+  --shadow-md:      0 4px 20px rgba(22,22,22,0.08),
+                    0 1px 4px rgba(22,22,22,0.05);
 
-  --shadow-lg:      0 8px 26px rgba(15,23,42,0.12),
-                    0 2px 6px rgba(15,23,42,0.06);
+  --shadow-lg:      0 8px 26px rgba(22,22,22,0.12),
+                    0 2px 6px rgba(22,22,22,0.06);
 
-  --shadow-xl:      0 16px 56px rgba(15,23,42,0.10),
-                    0 4px 16px rgba(15,23,42,0.05);
+  --shadow-xl:      0 16px 56px rgba(22,22,22,0.10),
+                    0 4px 16px rgba(22,22,22,0.05);
 
   /* ── Component-specific ── */
   --shadow-card:        var(--shadow-sm);
   --shadow-card-hover:  var(--shadow-lg);
   --shadow-modal:       var(--shadow-xl);
-  --shadow-nav-bottom:  0 -4px 16px rgba(15,23,42,0.06);
-  --shadow-accent-btn:  0 8px 24px rgba(224,90,54,0.34);
-  --shadow-logo-badge:  0 4px 16px rgba(224,90,54,0.45);
+  --shadow-nav-bottom:  0 -4px 16px rgba(22,22,22,0.06);
+  --shadow-accent-btn:  0 8px 24px rgba(233,80,14,0.34);
+  --shadow-logo-badge:  0 4px 16px rgba(233,80,14,0.45);
   --shadow-arrow-btn:   0 2px 10px rgba(0,0,0,0.14);
-  --shadow-qr-card:     0 4px 24px rgba(15,23,42,0.10),
-                        0 1px 4px rgba(15,23,42,0.06);
+  --shadow-qr-card:     0 4px 24px rgba(22,22,22,0.10),
+                        0 1px 4px rgba(22,22,22,0.06);
 
   /* ── Dark header badge ── */
-  --shadow-logo-sm:     0 2px 8px rgba(224,90,54,0.40);
+  --shadow-logo-sm:     0 2px 8px rgba(233,80,14,0.40);
 }
 
 /* ─────────────────────────────────────────────
@@ -1463,10 +613,10 @@ p, span, td, li, input, button, textarea, select {
     html, body { height: 100%; background: var(--color-bg); }
     a { color: inherit; text-decoration: none; }
     input, textarea, select { font-family: inherit; }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: #E05A36 !important; box-shadow: 0 0 0 3px rgba(224,90,54,.12); }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #E9500E !important; box-shadow: 0 0 0 3px rgba(233,80,14,.12); }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #E2DBD7; border-radius: 4px; }
   </style>
 </helmet>
 
@@ -1474,8 +624,8 @@ p, span, td, li, input, button, textarea, select {
 
   <!-- ═══════════ HEADER ═══════════ -->
   <header style="background:var(--color-pizarra);position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:18px 18px;pointer-events:none;"></div>
-    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#E05A36,#F07554);"></div>
+    <div style="position:absolute;inset:0;pointer-events:none;"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--capc-degrade);"></div>
     <div style="max-width:1240px;margin:0 auto;padding:20px 32px;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:14px;">
         <button onclick="{{ navBack }}" style="width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;" style-hover="background:rgba(255,255,255,.12);color:#fff;">
@@ -1485,9 +635,9 @@ p, span, td, li, input, button, textarea, select {
           <div style="display:flex;align-items:center;gap:10px;">
             <h1 style="font-family:var(--font-display);font-weight:800;font-size:21px;color:#fff;letter-spacing:-0.02em;line-height:1.1;">{{ headerTitle }}</h1>
             <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
-              <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(224,90,54,.16);border:1px solid rgba(224,90,54,.35);border-radius:9999px;padding:3px 11px;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#F07554;animation:pulse 2s ease-in-out infinite;"></span>
-                <span style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:#F5A98F;letter-spacing:0.04em;">MODO EDICIÓN</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(233,80,14,.16);border:1px solid rgba(233,80,14,.35);border-radius:9999px;padding:3px 11px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#F17A42;animation:pulse 2s ease-in-out infinite;"></span>
+                <span style="font-family:var(--font-display);font-size:10.5px;font-weight:600;color:#F7B08B;letter-spacing:0.04em;">MODO EDICIÓN</span>
               </span>
             </sc-if>
           </div>
@@ -1505,7 +655,7 @@ p, span, td, li, input, button, textarea, select {
   <main style="max-width:1240px;margin:0 auto;padding:28px 32px 48px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
 
     <!-- ══ COLUMNA 1: FORMULARIO ══ -->
-    <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;box-shadow:0 2px 14px rgba(15,23,42,.05);overflow:hidden;">
+    <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;box-shadow:0 2px 14px rgba(22,22,22,.05);overflow:hidden;">
       <div style="padding:20px 26px;border-bottom:1px solid var(--color-border-card);display:flex;align-items:center;gap:9px;">
         <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
@@ -1517,7 +667,7 @@ p, span, td, li, input, button, textarea, select {
 
         <!-- 1. Nombre -->
         <div>
-          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
             Nombre del Beneficio / Comercio
           </label>
@@ -1529,7 +679,7 @@ p, span, td, li, input, button, textarea, select {
 
         <!-- 2. Descripción -->
         <div>
-          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
             Descripción del Beneficio
           </label>
@@ -1538,26 +688,26 @@ p, span, td, li, input, button, textarea, select {
 
         <!-- 3. Tipo de beneficio -->
         <div>
-          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
             Tipo de Beneficio
           </label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <button onclick="{{ setTypeComercial }}" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;transition:all 160ms;border:{{ comercialBorder }};background:{{ comercialBg }};">
+            <button onclick="{{ setTypeComercial }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;border:{{ comercialBorder }};background:{{ comercialBg }};">
               <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ comercialIconBg }};color:{{ comercialIconColor }};">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
               </div>
               <div style="line-height:1.25;">
-                <div style="font-family:var(--font-display);font-size:12.5px;font-weight:700;color:{{ comercialTextColor }};">Comercial</div>
+                <div style="font-family:var(--font-display);font-size:12.5px;font-weight:600;color:{{ comercialTextColor }};">Comercial</div>
                 <div style="font-size:10px;color:var(--color-text-muted);">Descuento</div>
               </div>
             </button>
-            <button onclick="{{ setTypeAcademico }}" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;transition:all 160ms;border:{{ academicoBorder }};background:{{ academicoBg }};">
+            <button onclick="{{ setTypeAcademico }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;border:{{ academicoBorder }};background:{{ academicoBg }};">
               <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ academicoIconBg }};color:{{ academicoIconColor }};">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
               </div>
               <div style="line-height:1.25;">
-                <div style="font-family:var(--font-display);font-size:12.5px;font-weight:700;color:{{ academicoTextColor }};">Académico</div>
+                <div style="font-family:var(--font-display);font-size:12.5px;font-weight:600;color:{{ academicoTextColor }};">Académico</div>
                 <div style="font-size:10px;color:var(--color-text-muted);">Capacitación</div>
               </div>
             </button>
@@ -1567,12 +717,12 @@ p, span, td, li, input, button, textarea, select {
         <!-- 4a. CAMPOS CONDICIONALES — COMERCIAL -->
         <sc-if value="{{ isComercial }}" hint-placeholder-val="{{ true }}">
           <div style="padding:18px;background:var(--color-bg);border:1px solid var(--color-border-card);border-radius:11px;animation:fadeUp 280ms ease-out;">
-            <div style="font-family:var(--font-display);font-size:10.5px;font-weight:700;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:11px;">Modalidad del descuento</div>
+            <div style="font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:11px;">Modalidad del descuento</div>
             <!-- tabs -->
             <div style="display:flex;gap:0;border:1px solid var(--color-border);border-radius:8px;overflow:hidden;background:#fff;margin-bottom:16px;">
-              <button onclick="{{ setModePct }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:700;letter-spacing:0.02em;transition:all 150ms;background:{{ modePctBg }};color:{{ modePctColor }};">% OFF</button>
-              <button onclick="{{ setMode2x1 }}" style="flex:1;padding:9px 0;border:none;border-left:1px solid var(--color-border);border-right:1px solid var(--color-border);cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:700;letter-spacing:0.02em;transition:all 150ms;background:{{ mode2x1Bg }};color:{{ mode2x1Color }};">2x1</button>
-              <button onclick="{{ setModeNxM }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:700;letter-spacing:0.02em;transition:all 150ms;background:{{ modeNxMBg }};color:{{ modeNxMColor }};">NxM</button>
+              <button onclick="{{ setModePct }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ modePctBg }};color:{{ modePctColor }};">% OFF</button>
+              <button onclick="{{ setMode2x1 }}" style="flex:1;padding:9px 0;border:none;border-left:1px solid var(--color-border);border-right:1px solid var(--color-border);cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ mode2x1Bg }};color:{{ mode2x1Color }};">2x1</button>
+              <button onclick="{{ setModeNxM }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ modeNxMBg }};color:{{ modeNxMColor }};">NxM</button>
             </div>
 
             <!-- input % -->
@@ -1583,18 +733,18 @@ p, span, td, li, input, button, textarea, select {
                   Porcentaje de descuento
                 </label>
                 <div style="display:flex;align-items:center;gap:0;max-width:180px;">
-                  <input value="{{ pct }}" oninput="{{ onPct }}" type="number" min="1" max="99" style="flex:1;padding:11px 14px;border:1.5px solid var(--color-border);border-right:none;border-radius:8px 0 0 8px;font-size:15px;font-weight:700;color:var(--color-pizarra);text-align:center;">
-                  <div style="padding:11px 16px;background:var(--color-pizarra);color:#fff;font-family:var(--font-display);font-size:14px;font-weight:700;border-radius:0 8px 8px 0;">% OFF</div>
+                  <input value="{{ pct }}" oninput="{{ onPct }}" type="number" min="1" max="99" style="flex:1;padding:11px 14px;border:1.5px solid var(--color-border);border-right:none;border-radius:8px 0 0 8px;font-size:15px;font-weight:600;color:var(--color-pizarra);text-align:center;">
+                  <div style="padding:11px 16px;background:var(--color-pizarra);color:#fff;font-family:var(--font-display);font-size:14px;font-weight:600;border-radius:0 8px 8px 0;">% OFF</div>
                 </div>
               </div>
             </sc-if>
 
             <!-- 2x1 fijo -->
             <sc-if value="{{ show2x1 }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--color-surface-hover);border:1px solid #FADBD0;border-radius:9px;animation:popIn 250ms ease-out;">
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--color-surface-hover);border:1px solid #FBDDCB;border-radius:9px;animation:popIn 250ms ease-out;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
                 <div style="line-height:1.3;">
-                  <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--color-terracota-dark);">Promoción 2x1 activada</div>
+                  <div style="font-family:var(--font-display);font-size:13px;font-weight:600;color:var(--color-terracota-dark);">Promoción 2x1 activada</div>
                   <div style="font-size:11px;color:var(--color-text-muted);">Llevás dos productos y pagás uno.</div>
                 </div>
               </div>
@@ -1615,7 +765,7 @@ p, span, td, li, input, button, textarea, select {
                     <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;letter-spacing:0.08em;margin-top:4px;">PAGÁS (M)</div>
                   </div>
                   <div style="margin-left:auto;text-align:center;padding:8px 16px;background:var(--color-pizarra);border-radius:9px;">
-                    <div style="font-size:9px;color:#94A3B8;font-weight:600;letter-spacing:0.06em;">RESULTADO</div>
+                    <div style="font-size:9px;color:#9E968F;font-weight:600;letter-spacing:0.06em;">RESULTADO</div>
                     <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#fff;">{{ nxmLabel }}</div>
                   </div>
                 </div>
@@ -1651,11 +801,11 @@ p, span, td, li, input, button, textarea, select {
 
         <!-- 5. Botones -->
         <div style="display:flex;gap:12px;padding-top:6px;border-top:1px solid var(--color-border-card);margin-top:2px;padding-top:20px;">
-          <button onclick="{{ onSave }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:700;color:#fff;letter-spacing:0.02em;transition:all 170ms;box-shadow:0 8px 22px rgba(224,90,54,.32);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
+          <button onclick="{{ onSave }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:#fff;letter-spacing:0.02em;transition:all 170ms;box-shadow:0 8px 22px rgba(233,80,14,.32);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
             {{ saveLabel }}
           </button>
-          <button onclick="{{ onCancel }}" style="padding:12px 24px;background:#fff;border:1.5px solid var(--color-border);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--color-text-secondary);transition:all 170ms;" style-hover="border-color:var(--color-pizarra);color:var(--color-pizarra);">Cancelar</button>
+          <button onclick="{{ onCancel }}" style="padding:12px 24px;background:#fff;border:1.5px solid var(--color-border);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--color-text-secondary);transition:all 170ms;" style-hover="border-color:var(--color-pizarra);color:var(--color-pizarra);">Cancelar</button>
         </div>
       </div>
     </div>
@@ -1674,8 +824,8 @@ p, span, td, li, input, button, textarea, select {
 
       <!-- Fondo blueprint -->
       <div style="border-radius:16px;padding:40px 32px;background:var(--color-pizarra);background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:26px 26px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:14px;left:16px;font-family:var(--font-display);font-size:9px;font-weight:700;color:rgba(255,255,255,.22);letter-spacing:0.14em;">C.A. CBA · PORTAL DE BENEFICIOS</div>
-        <div style="position:absolute;top:14px;right:16px;font-family:var(--font-display);font-size:9px;font-weight:700;color:rgba(255,255,255,.22);letter-spacing:0.14em;">VISTA ARQUITECTO</div>
+        <div style="position:absolute;top:14px;left:16px;font-family:var(--font-display);font-size:9px;font-weight:600;color:rgba(255,255,255,.22);letter-spacing:0.14em;">C.A. CBA · PORTAL DE BENEFICIOS</div>
+        <div style="position:absolute;top:14px;right:16px;font-family:var(--font-display);font-size:9px;font-weight:600;color:rgba(255,255,255,.22);letter-spacing:0.14em;">VISTA ARQUITECTO</div>
 
         <!-- La tarjeta -->
         <div style="max-width:340px;margin:14px auto 0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);">
@@ -1691,7 +841,7 @@ p, span, td, li, input, button, textarea, select {
           <!-- cuerpo tarjeta -->
           <div style="padding:18px;">
             <div style="display:inline-flex;align-items:center;gap:5px;background:{{ catTagBg }};border-radius:4px;padding:3px 9px;margin-bottom:11px;">
-              <span style="font-family:var(--font-display);font-size:9px;font-weight:700;color:{{ catTagColor }};letter-spacing:0.09em;">{{ catTag }}</span>
+              <span style="font-family:var(--font-display);font-size:9px;font-weight:600;color:{{ catTagColor }};letter-spacing:0.09em;">{{ catTag }}</span>
             </div>
             <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;line-height:1.2;">{{ previewName }}</div>
             <div style="font-size:12.5px;color:var(--color-text-body);line-height:1.5;margin-top:8px;min-height:38px;">{{ previewDescription }}</div>
@@ -1700,19 +850,19 @@ p, span, td, li, input, button, textarea, select {
             <sc-if value="{{ isAcademico }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex;align-items:center;gap:7px;margin-top:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
-                <span style="font-size:11.5px;color:var(--color-text-secondary);font-weight:500;">{{ previewInstitution }}</span>
+                <span style="font-size:11.5px;color:var(--color-text-secondary);font-weight:400;">{{ previewInstitution }}</span>
               </div>
             </sc-if>
 
             <!-- CTA simulado -->
-            <button style="width:100%;margin-top:14px;padding:11px 0;background:var(--color-terracota);border:none;border-radius:8px;font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(224,90,54,.28);">Solicitar Beneficio</button>
+            <button style="width:100%;margin-top:14px;padding:11px 0;background:var(--color-terracota);border:none;border-radius:8px;font-family:var(--font-display);font-size:13px;font-weight:600;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(233,80,14,.28);">Solicitar Beneficio</button>
           </div>
         </div>
 
         <!-- indicador live -->
         <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:20px;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#10B981;animation:pulse 1.6s ease-in-out infinite;"></span>
-          <span style="font-family:var(--font-display);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:0.1em;">ACTUALIZACIÓN EN VIVO</span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#7CB553;animation:pulse 1.6s ease-in-out infinite;"></span>
+          <span style="font-family:var(--font-display);font-size:10px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:0.1em;">ACTUALIZACIÓN EN VIVO</span>
         </div>
       </div>
     </div>
@@ -1825,18 +975,18 @@ class Component extends DCLogic {
     const isAcademico = s.type === 'academico';
 
     const typeSel = (active) => ({
-      border: active ? '1.5px solid #E05A36' : '1.5px solid #E8EFF6',
-      bg: active ? 'rgba(224,90,54,0.06)' : '#fff',
-      iconBg: active ? '#E05A36' : 'var(--color-surface-muted)',
-      iconColor: active ? '#ffffff' : '#94A3B8',
-      textColor: active ? '#0F172A' : '#64748B',
+      border: active ? '1.5px solid #E9500E' : '1.5px solid #E7E2E1',
+      bg: active ? 'rgba(233,80,14,0.06)' : '#fff',
+      iconBg: active ? '#E9500E' : 'var(--color-surface-muted)',
+      iconColor: active ? '#ffffff' : '#9E968F',
+      textColor: active ? '#161616' : '#7A736E',
     });
     const c = typeSel(isComercial);
     const a = typeSel(isAcademico);
 
     const modeTab = (m) => ({
-      bg: s.mode === m ? '#0F172A' : 'transparent',
-      color: s.mode === m ? '#ffffff' : '#64748B',
+      bg: s.mode === m ? '#161616' : 'transparent',
+      color: s.mode === m ? '#ffffff' : '#7A736E',
     });
     const mp = modeTab('pct');
     const m2 = modeTab('2x1');
@@ -1846,23 +996,23 @@ class Component extends DCLogic {
 
     let badgeText, badgeBg, badgeTextColor, badgeShadow;
     if (isComercial) {
-      badgeBg = '#E05A36';
+      badgeBg = '#E9500E';
       badgeTextColor = '#ffffff';
-      badgeShadow = 'rgba(224,90,54,.45)';
+      badgeShadow = 'rgba(233,80,14,.45)';
       if (s.mode === 'pct')      badgeText = (s.pct || 0) + '% OFF';
       else if (s.mode === '2x1') badgeText = '2x1';
       else                       badgeText = nxmLabel;
     } else {
       const isBeca = s.academicSubtype === 'Beca';
-      badgeBg = isBeca ? '#10B981' : '#0F172A';
+      badgeBg = isBeca ? '#7CB553' : '#161616';
       badgeTextColor = '#ffffff';
-      badgeShadow = isBeca ? 'rgba(16,185,129,.4)' : 'rgba(15,23,42,.4)';
+      badgeShadow = isBeca ? 'rgba(16,185,129,.4)' : 'rgba(22,22,22,.4)';
       badgeText = s.academicSubtype.split(' ')[0].toUpperCase();
     }
 
     const catTag = isComercial ? 'DESCUENTO COMERCIAL' : 'ACAD\u00c9MICO';
-    const catTagBg = isComercial ? 'var(--color-surface-hover)' : '#EFF6FF';
-    const catTagColor = isComercial ? 'var(--color-terracota-dark)' : '#1E40AF';
+    const catTagBg = isComercial ? 'var(--color-surface-hover)' : '#EEF4FA';
+    const catTagColor = isComercial ? 'var(--color-terracota-dark)' : '#1D3354';
 
     const words = (s.name || 'Beneficio').trim().split(/\s+/);
     const previewInitials = ((words[0]?.[0] || '') + (words[1]?.[0] || '')).toUpperCase() || 'B';
@@ -1921,4 +1071,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js?v=20260918"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260921"></script><script src="flow.js"></script></body></html>

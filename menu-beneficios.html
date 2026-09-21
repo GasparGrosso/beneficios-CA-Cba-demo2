@@ -4,31 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Menú Beneficios · Colegio de Arquitectos</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/marca-capc.css?v=20260921">
 
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260918"></script>
+  <script src="store.js?v=20260921"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height:100%; }
-    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    body { background:#F5F2F0; font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased; color:#161616; }
     input, button, textarea { font-family:inherit; }
     a { text-decoration:none; }
     ::-webkit-scrollbar { width:0; height:0; }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
     @keyframes popIn { from { opacity:0; transform:scale(.96);} to { opacity:1; transform:scale(1);} }
     .h-primary { transition:all .2s; }
-    .h-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
-    .h-dark:hover { background:#1E293B !important; }
+    .h-primary:hover { background:#C8440B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(233,80,14,.34) !important; }
+    .h-dark:hover { background:#2B2928 !important; }
     .h-arrow:hover { box-shadow:0 3px 14px rgba(0,0,0,.2) !important; }
-    .h-lift { transition:transform .2s, box-shadow .2s; }
-    .h-lift:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(15,23,42,.12) !important; }
     /* Shell: móvil = una columna de 430px; desde 768px el contenido usa el ancho disponible (máx. 1240px). */
     .dash-screen { width:100%; max-width:430px; margin:0 auto; }
     .dash-inner  { width:100%; }
@@ -76,30 +74,28 @@ function Dashboard() {
 
   const tabSt = (t) => ({
     flex:1, border:'none', borderRadius:'3px', cursor:'pointer', padding:'10px 8px', fontSize:'12px', lineHeight:1.3,
-    fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight: tab===t ? 700 : 500,
-    background: tab===t ? '#0F172A' : 'transparent', color: tab===t ? '#FFFFFF' : '#64748B', transition:'all .18s',
+    fontFamily:"'Work Sans',sans-serif", fontWeight: tab===t ? 600 : 400,
+    background: tab===t ? '#161616' : 'transparent', color: tab===t ? '#FFFFFF' : '#7A736E', transition:'all .18s',
   });
 
   return (
-    <div className="dash-screen" style={{background:'#F8FAFC', minHeight:'100vh', position:'relative', paddingBottom:'90px'}}>
-      <div style={{position:'sticky', top:0, zIndex:50, background:'#0F172A', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px'}}>
-        <div style={{height:'3px', background:'linear-gradient(90deg,#E05A36,#F07554)'}}/>
+    <div className="dash-screen" style={{background:'#F5F2F0', minHeight:'100vh', position:'relative', paddingBottom:'90px'}}>
+      <div style={{position:'sticky', top:0, zIndex:50, background:'#161616'}}>
+        <div style={{height:'3px', background:'var(--capc-degrade)'}}/>
         <div className="dash-inner" style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px 10px'}}>
           <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
-            <div style={{width:'34px', height:'34px', background:'#E05A36', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 2px 8px rgba(224,90,54,.4)'}}>
-              <img src="assets/logo-ca-blanco.png" alt="CA" style={{width:'24px', height:'auto', display:'block'}}/>
-            </div>
+            <img src="assets/marca/isotipo-color.png" alt="Colegio de Arquitectos de la Provincia de Córdoba" style={{height:'34px', width:'auto', display:'block', flexShrink:0}}/>
             <div>
-              <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'11.5px', fontWeight:800, color:'#FFFFFF', letterSpacing:'.08em', textTransform:'uppercase', lineHeight:1.2}}>Menú Beneficios</div>
-              <div style={{fontSize:'9.5px', color:'#94A3B8', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px'}}>Colegio de Arquitectos</div>
+              <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'11.5px', fontWeight:800, color:'#FFFFFF', letterSpacing:'.08em', textTransform:'uppercase', lineHeight:1.2}}>Menú Beneficios</div>
+              <div style={{fontSize:'9.5px', color:'#9E968F', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px'}}>Colegio de Arquitectos</div>
             </div>
           </div>
           <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
             <div style={{position:'relative', cursor:'pointer', padding:'4px'}}>
-              <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#64748B'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:'#E05A36', borderRadius:'50%', border:'1.5px solid #0F172A'}}/>
+              <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#7A736E'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:'#E9500E', borderRadius:'50%', border:'1.5px solid #161616'}}/>
             </div>
-            <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#FFFFFF', borderRadius:'7px', padding:'7px 12px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'11.5px', fontWeight:700, letterSpacing:'.02em', cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
+            <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#FFFFFF', borderRadius:'7px', padding:'7px 12px', fontFamily:"'Work Sans',sans-serif", fontSize:'11.5px', fontWeight:600, letterSpacing:'.02em', cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
               <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Salir
             </button>
@@ -109,20 +105,20 @@ function Dashboard() {
         <div className="dash-inner" style={{padding:'2px 16px 14px'}}>
           <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'8px'}}>
             <div>
-              <div style={{fontSize:'11.5px', color:'#94A3B8', marginBottom:'3px'}}>Bienvenido/a de vuelta,</div>
-              <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#FFFFFF', lineHeight:1.2, letterSpacing:'-.02em'}}>Arq. Carlos Rodríguez</div>
-              <div style={{fontSize:'11.5px', color:'#94A3B8', marginTop:'3px'}}>Matrícula N° 12.458 · Córdoba · Regional 5</div>
+              <div style={{fontSize:'11.5px', color:'#9E968F', marginBottom:'3px'}}>Bienvenido/a de vuelta,</div>
+              <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#FFFFFF', lineHeight:1.2, letterSpacing:'-.02em'}}>Arq. Carlos Rodríguez</div>
+              <div style={{fontSize:'11.5px', color:'#9E968F', marginTop:'3px'}}>Matrícula N° 12.458 · Córdoba · Regional 5</div>
             </div>
-            <div style={{flexShrink:0, background:'#10B981', borderRadius:'20px', padding:'5px 11px', display:'flex', alignItems:'center', gap:'5px', marginTop:'6px'}}>
+            <div style={{flexShrink:0, background:'#7CB553', borderRadius:'20px', padding:'5px 11px', display:'flex', alignItems:'center', gap:'5px', marginTop:'6px'}}>
               <div style={{width:'6px', height:'6px', background:'#fff', borderRadius:'50%'}}/>
-              <span style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#fff', whiteSpace:'nowrap', letterSpacing:'.03em'}}>Habilitado</span>
+              <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#fff', whiteSpace:'nowrap', letterSpacing:'.03em'}}>Habilitado</span>
             </div>
           </div>
           <div style={{display:'flex', gap:'8px', marginTop:'12px'}}>
-            {[[String(source.length),'Beneficios activos','#fff'],[String(EVENTS.length),'Eventos próximos','#E05A36'],['Al día','Cuota anual','#10B981']].map((s,i)=>(
+            {[[String(source.length),'Beneficios activos','#fff'],[String(EVENTS.length),'Eventos próximos','#E9500E'],['Al día','Cuota anual','#7CB553']].map((s,i)=>(
               <div key={i} style={{flex:1, background:'rgba(255,255,255,.06)', borderRadius:'6px', padding:'8px 10px', border:'1px solid rgba(255,255,255,.08)'}}>
-                <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize: s[0]==='Al día'?'14px':'17px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
-                <div style={{fontSize:'10px', color:'#94A3B8', marginTop:'2px'}}>{s[1]}</div>
+                <div style={{fontFamily:"'Work Sans',sans-serif", fontSize: s[0]==='Al día'?'14px':'17px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
+                <div style={{fontSize:'10px', color:'#9E968F', marginTop:'2px'}}>{s[1]}</div>
               </div>
             ))}
           </div>
@@ -132,21 +128,21 @@ function Dashboard() {
       {/* CARRUSEL DE EVENTOS — seleccionar un evento abre su Qr Entrada Evento */}
       <div className="dash-inner" style={{paddingTop:'22px'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 16px 12px'}}>
-          <h2 style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'16px', color:'#0F172A', margin:0, letterSpacing:'-.01em'}}>Próximos Eventos</h2>
-          <a href="calendario-eventos.html" style={{fontSize:'12px', color:'#E05A36', fontWeight:600, fontFamily:"'Plus Jakarta Sans',sans-serif"}}>Ver calendario →</a>
+          <h2 style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'16px', color:'#161616', margin:0, letterSpacing:'-.01em'}}>Próximos Eventos</h2>
+          <a href="calendario-eventos.html" style={{fontSize:'12px', color:'#E9500E', fontWeight:600, fontFamily:"'Work Sans',sans-serif"}}>Ver calendario →</a>
         </div>
         <div style={{position:'relative'}}>
           <button onClick={()=>scrollBy(-1)} className="h-arrow" style={arrowSt('left')}>
-            <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#0F172A', strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#161616', strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <div ref={carouselRef} style={{display:'flex', gap:'14px', padding:'4px 42px 16px 42px', overflowX:'auto', scrollSnapType:'x mandatory'}}>
             {EVENTS.map(ev => (
-              <div key={ev.id} onClick={()=>goEvent(ev)} className="h-lift" style={{width:'255px', flex:'none', background:'#FFFFFF', borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(15,23,42,.08),0 1px 4px rgba(15,23,42,.05)', scrollSnapAlign:'start', cursor:'pointer'}}>
+              <div key={ev.id} onClick={()=>goEvent(ev)} className="capc-sel" style={{width:'255px', flex:'none', background:'#FFFFFF', border:'1px solid #F0ECEA', borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(22,22,22,.08),0 1px 4px rgba(22,22,22,.05)', scrollSnapAlign:'start', cursor:'pointer'}}>
                 <div style={{padding:'13px 14px 10px'}}>
-                  <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
-                  <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'15px', color:'#0F172A', marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em'}}>{ev.title}</div>
-                  <div style={{fontSize:'11px', color:'#94A3B8', marginTop:'3px'}}>{ev.subtitle}</div>
-                  <div style={{fontSize:'10.5px', color:'#64748B', marginTop:'3px', display:'flex', alignItems:'center', gap:'4px'}}>
+                  <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
+                  <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'15px', color:'#161616', marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em'}}>{ev.title}</div>
+                  <div style={{fontSize:'11px', color:'#9E968F', marginTop:'3px'}}>{ev.subtitle}</div>
+                  <div style={{fontSize:'10.5px', color:'#7A736E', marginTop:'3px', display:'flex', alignItems:'center', gap:'4px'}}>
                     <svg width="10" height="10" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     {ev.date}
                   </div>
@@ -155,12 +151,12 @@ function Dashboard() {
                   {ev.img ? (
                     <div style={{width:'100%', height:'210px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
                   ) : (
-                    <div style={{width:'100%', height:'210px', background:'#0F172A', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'16px 16px', padding:'0 16px'}}>
-                      <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#fff', textAlign:'center', lineHeight:1.2}}>{ev.title}</div>
-                      <div style={{fontSize:'11px', color:'#94A3B8', marginTop:'8px', textAlign:'center'}}>{ev.subtitle}</div>
+                    <div style={{width:'100%', height:'210px', background:'#161616', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'0 16px'}}>
+                      <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#fff', textAlign:'center', lineHeight:1.2}}>{ev.title}</div>
+                      <div style={{fontSize:'11px', color:'#9E968F', marginTop:'8px', textAlign:'center'}}>{ev.subtitle}</div>
                     </div>
                   )}
-                  <div style={{position:'absolute', bottom:'12px', left:'12px', background:'#E05A36', color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px'}}>
+                  <div style={{position:'absolute', bottom:'12px', left:'12px', background:'#E9500E', color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px'}}>
                     <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                     Obtener entrada
                   </div>
@@ -169,14 +165,14 @@ function Dashboard() {
             ))}
           </div>
           <button onClick={()=>scrollBy(1)} className="h-arrow" style={arrowSt('right')}>
-            <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#0F172A', strokeWidth:2.5})}><polyline points="9 18 15 12 9 6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#161616', strokeWidth:2.5})}><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
       </div>
 
       <div className="dash-inner">
       <div style={{padding:'18px 16px 0'}}>
-        <div style={{display:'flex', background:'#F1F5F9', borderRadius:'4px', padding:'3px', gap:'2px'}}>
+        <div style={{display:'flex', background:'#F0ECEA', borderRadius:'4px', padding:'3px', gap:'2px'}}>
           <button style={tabSt('comercial')} onClick={()=>setTab('comercial')}>Beneficios Comerciales</button>
           <button style={tabSt('academico')} onClick={()=>setTab('academico')}>Beneficios Académicos</button>
         </div>
@@ -184,26 +180,26 @@ function Dashboard() {
 
       <div style={{padding:'12px 16px 8px', display:'flex', gap:'8px', alignItems:'center'}}>
         <div style={{position:'relative', flex:1}}>
-          <button onClick={()=>setFilterOpen(v=>!v)} style={{width:'100%', padding:'10px 12px', background:'#fff', border:'1.5px solid #E2E8F0', borderRadius:'6px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer', fontSize:'13px', color:'#0F172A', fontWeight:500}}>
+          <button onClick={()=>setFilterOpen(v=>!v)} style={{width:'100%', padding:'10px 12px', background:'#fff', border:'1.5px solid #E2DBD7', borderRadius:'6px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer', fontSize:'13px', color:'#161616', fontWeight:400}}>
             <div style={{display:'flex', alignItems:'center', gap:'7px'}}>
-              <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#94A3B8'})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               {effectiveCity}
             </div>
-            <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#94A3B8', strokeWidth:2.5})}><polyline points="6 9 12 15 18 9"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F', strokeWidth:2.5})}><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           {filterOpen && (
-            <div style={{position:'absolute', top:'calc(100% + 4px)', left:0, right:0, background:'#fff', borderRadius:'6px', boxShadow:'0 8px 24px rgba(15,23,42,.12),0 1px 4px rgba(15,23,42,.06)', zIndex:100, overflow:'hidden', border:'1px solid #E4EBF2', animation:'popIn .2s ease'}}>
+            <div style={{position:'absolute', top:'calc(100% + 4px)', left:0, right:0, background:'#fff', borderRadius:'6px', boxShadow:'0 8px 24px rgba(22,22,22,.12),0 1px 4px rgba(22,22,22,.06)', zIndex:100, overflow:'hidden', border:'1px solid #E7E2E1', animation:'popIn .2s ease'}}>
               {CITIES.map(c => (
-                <div key={c} onClick={()=>{ setCity(c); setFilterOpen(false); setNearMe(false); }} style={{padding:'10px 16px', cursor:'pointer', background: effectiveCity===c ? '#FFF3F0' : '#fff', color: effectiveCity===c ? '#E05A36' : '#0F172A', fontWeight: effectiveCity===c ? 600 : 400, borderBottom:'1px solid #F1F5F9', fontSize:'13px'}}>{c}</div>
+                <div key={c} onClick={()=>{ setCity(c); setFilterOpen(false); setNearMe(false); }} style={{padding:'10px 16px', cursor:'pointer', background: effectiveCity===c ? '#FEF0E8' : '#fff', color: effectiveCity===c ? '#E9500E' : '#161616', fontWeight: effectiveCity===c ? 600 : 400, borderBottom:'1px solid #F0ECEA', fontSize:'13px'}}>{c}</div>
               ))}
             </div>
           )}
         </div>
         <button onClick={()=>{ setNearMe(v=>!v); setFilterOpen(false); }} style={{
           display:'flex', alignItems:'center', gap:'6px', padding:'10px 12px', flexShrink:0,
-          border:`1.5px solid ${nearMe ? '#10B981' : '#E2E8F0'}`, background: nearMe ? '#F0FDF4' : '#fff',
-          color: nearMe ? '#10B981' : '#64748B', borderRadius:'6px', fontSize:'12px',
-          fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap',
+          border:`1.5px solid ${nearMe ? '#7CB553' : '#E2DBD7'}`, background: nearMe ? '#F2F8EC' : '#fff',
+          color: nearMe ? '#7CB553' : '#7A736E', borderRadius:'6px', fontSize:'12px',
+          fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap',
         }}>
           <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
           Cerca de mí
@@ -211,47 +207,47 @@ function Dashboard() {
       </div>
 
       {nearMe && (
-        <div style={{margin:'0 16px 8px', background:'#F0FDF4', border:'1px solid #86EFAC', borderRadius:'6px', padding:'8px 12px', display:'flex', alignItems:'center', gap:'8px', animation:'fadeUp .25s ease'}}>
-          <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#16A34A', strokeWidth:2.5})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span style={{fontSize:'12px', color:'#166534', fontWeight:500}}>Mostrando beneficios en <strong>Córdoba</strong> · ubicación simulada</span>
+        <div style={{margin:'0 16px 8px', background:'#F2F8EC', border:'1px solid #BFDEA6', borderRadius:'6px', padding:'8px 12px', display:'flex', alignItems:'center', gap:'8px', animation:'fadeUp .25s ease'}}>
+          <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#5E9A38', strokeWidth:2.5})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span style={{fontSize:'12px', color:'#3f6b22', fontWeight:400}}>Mostrando beneficios en <strong>Córdoba</strong> · ubicación simulada</span>
         </div>
       )}
 
       <div style={{padding:'6px 16px 10px', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'16px', fontWeight:800, color:'#0F172A', letterSpacing:'-.01em'}}>{tab==='comercial' ? 'Beneficios Comerciales' : 'Beneficios Académicos'}</div>
-        <div style={{fontSize:'12px', color:'#94A3B8'}}>{filtered.length} disponibles</div>
+        <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'16px', fontWeight:800, color:'#161616', letterSpacing:'-.01em'}}>{tab==='comercial' ? 'Beneficios Comerciales' : 'Beneficios Académicos'}</div>
+        <div style={{fontSize:'12px', color:'#9E968F'}}>{filtered.length} disponibles</div>
       </div>
 
       {filtered.length === 0 ? (
         <div style={{padding:'48px 24px', textAlign:'center'}}>
-          <div style={{width:'48px', height:'48px', background:'#F1F5F9', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', color:'#94A3B8'}}>
+          <div style={{width:'48px', height:'48px', background:'#F0ECEA', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', color:'#9E968F'}}>
             <svg width="22" height="22" viewBox="0 0 24 24" {...stroke()}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
-          <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'15px', fontWeight:700, color:'#0F172A', marginBottom:'6px'}}>Sin beneficios en esta región</div>
-          <div style={{fontSize:'13px', color:'#94A3B8'}}>Probá con otra ciudad o seleccioná "Todas".</div>
+          <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'15px', fontWeight:600, color:'#161616', marginBottom:'6px'}}>Sin beneficios en esta región</div>
+          <div style={{fontSize:'13px', color:'#9E968F'}}>Probá con otra ciudad o seleccioná "Todas".</div>
         </div>
       ) : (
         <div className="benefits-grid" style={{padding:'0 16px 16px'}}>
           {filtered.map(b => {
             const badge = discountBadge(b);
             return (
-            <div key={b.id} className="h-lift" style={{background:'#FFFFFF', borderRadius:'8px', padding:'13px', boxShadow:'0 2px 10px rgba(15,23,42,.07),0 1px 2px rgba(15,23,42,.04)', border: b.nuevo ? '1.5px solid #FDCFBA' : '1px solid #F1F5F9', display:'flex', flexDirection:'column', gap:'8px', position:'relative'}}>
-              {b.nuevo && <div style={{position:'absolute', top:'-8px', right:'10px', background:'#10B981', color:'#fff', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'8.5px', fontWeight:800, letterSpacing:'.06em', textTransform:'uppercase', padding:'3px 7px', borderRadius:'4px'}}>Nuevo</div>}
+            <div key={b.id} className="capc-sel" style={{background:'#FFFFFF', borderRadius:'8px', padding:'13px', boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', border: b.nuevo ? '1.5px solid #FBD3BC' : '1px solid #F0ECEA', display:'flex', flexDirection:'column', gap:'8px', position:'relative'}}>
+              {b.nuevo && <div style={{position:'absolute', top:'-8px', right:'10px', background:'#7CB553', color:'#fff', fontFamily:"'Work Sans',sans-serif", fontSize:'8.5px', fontWeight:800, letterSpacing:'.06em', textTransform:'uppercase', padding:'3px 7px', borderRadius:'4px'}}>Nuevo</div>}
               <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'6px'}}>
-                <div style={{width:'38px', height:'38px', borderRadius:'8px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'12px', fontWeight:800, fontFamily:"'Plus Jakarta Sans',sans-serif", flexShrink:0}}>{b.logo}</div>
-                <div style={{background:'#FFF3F0', borderRadius:'4px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
-                  <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'15px', fontWeight:800, color:'#E05A36', lineHeight:1.1}}>{badge.big}</div>
-                  <div style={{fontSize:'8px', color:'#E05A36', fontWeight:700, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
+                <div style={{width:'38px', height:'38px', borderRadius:'8px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'12px', fontWeight:800, fontFamily:"'Work Sans',sans-serif", flexShrink:0}}>{b.logo}</div>
+                <div style={{background:'#FEF0E8', borderRadius:'4px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
+                  <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'15px', fontWeight:800, color:'#E9500E', lineHeight:1.1}}>{badge.big}</div>
+                  <div style={{fontSize:'8px', color:'#E9500E', fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
                 </div>
               </div>
-              <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, fontSize:'12.5px', color:'#0F172A', lineHeight:1.3}}>{b.nombre}</div>
-              <div style={{display:'inline-flex', background:'#F1F5F9', borderRadius:'3px', padding:'2px 7px', width:'fit-content'}}>
-                <span style={{fontSize:'10px', color:'#475569', fontWeight:500}}>{b.regional}</span>
+              <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:600, fontSize:'12.5px', color:'#161616', lineHeight:1.3}}>{b.nombre}</div>
+              <div style={{display:'inline-flex', background:'#F0ECEA', borderRadius:'3px', padding:'2px 7px', width:'fit-content'}}>
+                <span style={{fontSize:'10px', color:'#5b5652', fontWeight:400}}>{b.regional}</span>
               </div>
               <button onClick={()=>goBenefit(b)} className="h-primary" style={{
-                width:'100%', padding:'8px 10px', borderRadius:'5px', border:'1.5px solid #E05A36',
-                background:'transparent', color:'#E05A36', fontSize:'11.5px',
-                fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700, cursor:'pointer', transition:'all .2s', marginTop:'auto',
+                width:'100%', padding:'8px 10px', borderRadius:'5px', border:'1.5px solid #E9500E',
+                background:'transparent', color:'#E9500E', fontSize:'11.5px',
+                fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', marginTop:'auto',
               }}>Solicitar Beneficio</button>
             </div>
           );})}
@@ -259,17 +255,17 @@ function Dashboard() {
       )}
       </div>
 
-      <div className="dash-nav" style={{position:'fixed', bottom:0, left:0, right:0, width:'100%', background:'#fff', borderTop:'1px solid #E8EFF6', padding:'8px 16px 14px', zIndex:50, boxShadow:'0 -4px 16px rgba(15,23,42,.06)'}}>
+      <div className="dash-nav" style={{position:'fixed', bottom:0, left:0, right:0, width:'100%', background:'#fff', borderTop:'1px solid #E7E2E1', padding:'8px 16px 14px', zIndex:50, boxShadow:'0 -4px 16px rgba(22,22,22,.06)'}}>
         <div className="dash-inner" style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
         {[
-          { label:'Inicio', href:'menu-beneficios.html', active:true, icon:(<svg width="16" height="16" viewBox="0 0 24 24" {...stroke({stroke:'#E05A36', strokeWidth:2.5})}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>) },
-          { label:'Eventos', href:'calendario-eventos.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#94A3B8'})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>) },
-          { label:'Mis Beneficios', href:'mis-beneficios.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#94A3B8'})}><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>) },
-          { label:'Perfil', href:'#', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#94A3B8'})}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>) },
+          { label:'Inicio', href:'menu-beneficios.html', active:true, icon:(<svg width="16" height="16" viewBox="0 0 24 24" {...stroke({stroke:'#E9500E', strokeWidth:2.5})}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>) },
+          { label:'Eventos', href:'calendario-eventos.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>) },
+          { label:'Mis Beneficios', href:'mis-beneficios.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>) },
+          { label:'Perfil', href:'#', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>) },
         ].map((n,i)=>(
           <a key={i} href={n.href} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'3px', cursor:'pointer', minWidth:'64px'}}>
-            <div style={{width:'30px', height:'30px', background: n.active ? '#FFF3F0' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon}</div>
-            <span style={{fontSize:'9.5px', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight: n.active ? 700 : 500, color: n.active ? '#E05A36' : '#94A3B8'}}>{n.label}</span>
+            <div style={{width:'30px', height:'30px', background: n.active ? '#FEF0E8' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon}</div>
+            <span style={{fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight: n.active ? 600 : 400, color: n.active ? '#E9500E' : '#9E968F'}}>{n.label}</span>
           </a>
         ))}
         </div>
@@ -294,7 +290,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
         document.body.appendChild(s);
       } catch (e) {
         document.getElementById('root').innerHTML =
-          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          '<pre style="padding:24px;color:#8F3105;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
           (e && e.message ? e.message : e) + '</pre>';
         console.error(e);
       }

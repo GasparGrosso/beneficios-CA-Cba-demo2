@@ -18,30 +18,30 @@ var EVENTS = [
 ];
 
 var COMERCIALES = [
-  { id:'c1', logo:'EP', color:'#3B82F6', nombre:'El Plano · Librería Técnica',  cat:'Papelería & Técnica',        desc:20, regional:'Regional 1', tipo:'comercial', uses:84 },
-  { id:'c2', logo:'CM', color:'#8B5CF6', nombre:'Casa Central Materiales',       cat:'Materiales de Construcción',  desc:15, regional:'Regional 2', tipo:'comercial', uses:61 },
-  { id:'c3', logo:'SR', color:'#E05A36', nombre:'Studio Render Pro',             cat:'Software & Visualización 3D', desc:30, regional:'Provincial', tipo:'comercial', uses:45 },
-  { id:'c4', logo:'FO', color:'#F59E0B', nombre:'Ferretería Obra Plus',          cat:'Herramientas Profesionales',  desc:10, regional:'Regional 3', tipo:'comercial', uses:39 },
-  { id:'c5', logo:'PI', color:'#10B981', nombre:'Ploteo & Impresión Digital',    cat:'Planos e Impresión Técnica',  desc:25, regional:'Regional 1', tipo:'comercial', uses:33 },
-  { id:'c6', logo:'MD', color:'#06B6D4', nombre:'Mobiliario Diseño Urbano',      cat:'Mobiliario & Decoración',     desc:18, regional:'Regional 4', tipo:'comercial', uses:27 },
-  { id:'c7', logo:'CS', color:'#0F172A', nombre:'CAD & BIM Soluciones',          cat:'Licencias Software BIM',      desc:40, regional:'Provincial', tipo:'comercial', uses:22 },
-  { id:'c8', logo:'LS', color:'#EC4899', nombre:'Librería Técnica Sur',          cat:'Libros & Revistas',           desc:15, regional:'Regional 5', tipo:'comercial', uses:17 },
-  { id:'c9', logo:'LS', color:'#EC4899', nombre:'Librería Técnica Sur',          cat:'Planos e Impresión Técnica',  desc:50, descLabel:'2x1', regional:'Regional 5', tipo:'comercial', uses:9 },
+  { id:'c1', logo:'EP', color:'#5B93CE', nombre:'El Plano · Librería Técnica',  cat:'Papelería & Técnica',        desc:20, regional:'Regional 1', tipo:'comercial', uses:84 },
+  { id:'c2', logo:'CM', color:'#B472AD', nombre:'Casa Central Materiales',       cat:'Materiales de Construcción',  desc:15, regional:'Regional 2', tipo:'comercial', uses:61 },
+  { id:'c3', logo:'SR', color:'#E9500E', nombre:'Studio Render Pro',             cat:'Software & Visualización 3D', desc:30, regional:'Provincial', tipo:'comercial', uses:45 },
+  { id:'c4', logo:'FO', color:'#1D3354', nombre:'Ferretería Obra Plus',          cat:'Herramientas Profesionales',  desc:10, regional:'Regional 3', tipo:'comercial', uses:39 },
+  { id:'c5', logo:'PI', color:'#E8376F', nombre:'Ploteo & Impresión Digital',    cat:'Planos e Impresión Técnica',  desc:25, regional:'Regional 1', tipo:'comercial', uses:33 },
+  { id:'c6', logo:'MD', color:'#5B93CE', nombre:'Mobiliario Diseño Urbano',      cat:'Mobiliario & Decoración',     desc:18, regional:'Regional 4', tipo:'comercial', uses:27 },
+  { id:'c7', logo:'CS', color:'#161616', nombre:'CAD & BIM Soluciones',          cat:'Licencias Software BIM',      desc:40, regional:'Provincial', tipo:'comercial', uses:22 },
+  { id:'c8', logo:'LS', color:'#B472AD', nombre:'Librería Técnica Sur',          cat:'Libros & Revistas',           desc:15, regional:'Regional 5', tipo:'comercial', uses:17 },
+  { id:'c9', logo:'LS', color:'#B472AD', nombre:'Librería Técnica Sur',          cat:'Planos e Impresión Técnica',  desc:50, descLabel:'2x1', regional:'Regional 5', tipo:'comercial', uses:9 },
 ];
 
 var ACADEMICOS = [
-  { id:'a1', logo:'UN', color:'#3B82F6', nombre:'UNC · Fac. de Arquitectura', cat:'Posgrado & Especialización', desc:50, regional:'Regional 1', tipo:'academico', uses:52 },
-  { id:'a2', logo:'FA', color:'#8B5CF6', nombre:'FADU · UBA',                 cat:'Diseño Sustentable',         desc:30, regional:'Regional 4', tipo:'academico', uses:40 },
-  { id:'a3', logo:'CP', color:'#10B981', nombre:'CPAU · Cursos Online',       cat:'Capacitación Profesional',   desc:25, regional:'Provincial', tipo:'academico', uses:31 },
-  { id:'a4', logo:'UA', color:'#F59E0B', nombre:'Universidad Austral',        cat:'Management en Obras',        desc:20, regional:'Regional 2', tipo:'academico', uses:24 },
-  { id:'a5', logo:'IS', color:'#EC4899', nombre:'ISU · Urbanismo',            cat:'Planificación & Urbanismo',  desc:35, regional:'Regional 3', tipo:'academico', uses:18 },
-  { id:'a6', logo:'PH', color:'#E05A36', nombre:'Patrimonio Histórico',      cat:'Conservación Patrimonial',   desc:40, regional:'Regional 5', tipo:'academico', uses:12 },
+  { id:'a1', logo:'UN', color:'#5B93CE', nombre:'UNC · Fac. de Arquitectura', cat:'Posgrado & Especialización', desc:50, regional:'Regional 1', tipo:'academico', uses:52 },
+  { id:'a2', logo:'FA', color:'#B472AD', nombre:'FADU · UBA',                 cat:'Diseño Sustentable',         desc:30, regional:'Regional 4', tipo:'academico', uses:40 },
+  { id:'a3', logo:'CP', color:'#E8376F', nombre:'CPAU · Cursos Online',       cat:'Capacitación Profesional',   desc:25, regional:'Provincial', tipo:'academico', uses:31 },
+  { id:'a4', logo:'UA', color:'#1D3354', nombre:'Universidad Austral',        cat:'Management en Obras',        desc:20, regional:'Regional 2', tipo:'academico', uses:24 },
+  { id:'a5', logo:'IS', color:'#B472AD', nombre:'ISU · Urbanismo',            cat:'Planificación & Urbanismo',  desc:35, regional:'Regional 3', tipo:'academico', uses:18 },
+  { id:'a6', logo:'PH', color:'#E9500E', nombre:'Patrimonio Histórico',      cat:'Conservación Patrimonial',   desc:40, regional:'Regional 5', tipo:'academico', uses:12 },
 ];
 
 var CITIES = ['Todas', 'Regional 1', 'Regional 2', 'Regional 3', 'Regional 4', 'Regional 5', 'Provincial'];
 var REGIONALES = CITIES.filter(function (c) { return c !== 'Todas'; });
 
-var PALETTE = ['#3B82F6', '#8B5CF6', '#E05A36', '#F59E0B', '#10B981', '#06B6D4', '#EC4899', '#0F172A'];
+var PALETTE = ['#5B93CE', '#B472AD', '#E9500E', '#1D3354', '#E8376F', '#161616'];
 
 /* ---------- Usuarios mock (§5 del contrato) ---------- */
 var USERS = {

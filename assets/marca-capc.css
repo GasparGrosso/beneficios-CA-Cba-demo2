@@ -1,0 +1,103 @@
+/* ============================================================
+   marca-capc.css — Identidad visual del Colegio (Gestión 2024-26)
+   ------------------------------------------------------------
+   Fuente: bóveda del proyecto, `02-producto/marca/CAPC - Gestion
+   2024-26 - Recursos graficos.pdf` (recibido el 21/09/2026).
+
+   Paleta principal (provincial)   #E9500E · #161616 · #E7E2E1 · #E2DBD7 · #CCC5BE
+   Paleta secundaria (regionales)  #1D3354 · #5B93CE · #96C66F · #E8376F · #B472AD · #EFCE44
+   Tipografía                      Work Sans — regular (textos), regular italic,
+                                   semibold (subtítulos), extra bold (títulos)
+   Efecto de selección             el de Autogestión CAPC: contorno naranja,
+                                   velo cálido y elevación al pasar el cursor,
+                                   tocar, enfocar o quedar seleccionado.
+
+   Los tonos derivados (naranja oscuro/claro, grises intermedios,
+   estados) no están en el PDF: se interpolan a partir de la paleta
+   para cubrir hover, texto secundario y estados de éxito/aviso/error.
+   ============================================================ */
+:root {
+  /* Principal */
+  --capc-naranja:         #E9500E;
+  --capc-naranja-oscuro:  #C8440B;   /* hover de botones primarios */
+  --capc-naranja-claro:   #F17A42;   /* acentos suaves */
+  --capc-naranja-velo:    #FEF9F6;   /* fondo de la pieza seleccionada */
+  --capc-naranja-tinte:   #FEF0E8;   /* chips y superficies teñidas */
+  --capc-negro:           #161616;
+  --capc-gris-100:        #E7E2E1;
+  --capc-gris-200:        #E2DBD7;
+  --capc-gris-300:        #CCC5BE;
+  /* Neutros derivados */
+  --capc-fondo:           #F5F2F0;   /* fondo de página */
+  --capc-superficie:      #FFFFFF;
+  --capc-texto:           #161616;
+  --capc-texto-2:         #5B5652;
+  --capc-texto-3:         #7A736E;
+  --capc-texto-4:         #9E968F;
+  /* Secundaria (regionales) */
+  --capc-azul-oscuro:     #1D3354;
+  --capc-azul:            #5B93CE;
+  --capc-verde:           #96C66F;
+  --capc-rosa:            #E8376F;
+  --capc-violeta:         #B472AD;
+  --capc-amarillo:        #EFCE44;
+  /* Degradé del isotipo, para filetes finos */
+  --capc-degrade: linear-gradient(90deg,#1D3354 0%,#5B93CE 22%,#B472AD 45%,#E8376F 62%,#EFCE44 85%,#96C66F 100%);
+  /* Tipografía */
+  --capc-font: 'Work Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --capc-sel-ease: cubic-bezier(.2,.7,.2,1);
+}
+
+html { font-family: var(--capc-font); }
+body, input, button, textarea, select { font-family: var(--capc-font); }
+
+/* ── Componentes seleccionables ──────────────────────────────
+   Tarjetas, opciones y filas que el usuario puede elegir. Al pasar
+   el cursor, tocar, enfocar con teclado o quedar seleccionadas:
+   contorno naranja, velo cálido y elevación de 4 px. Es el mismo
+   efecto que muestran las tarjetas de opción de Autogestión CAPC.
+   `!important` porque el estilo base de cada pieza está inline. */
+.capc-sel {
+  transition: transform .18s var(--capc-sel-ease), border-color .18s ease,
+              background-color .18s ease, box-shadow .18s ease;
+}
+.capc-sel:hover,
+.capc-sel:focus-visible,
+.capc-sel.is-selected,
+.capc-sel[aria-selected="true"],
+.capc-sel[aria-pressed="true"] {
+  border-color: var(--capc-naranja) !important;
+  background-color: var(--capc-naranja-velo) !important;
+  box-shadow: 0 10px 22px rgba(22,22,22,.10) !important;
+  transform: translateY(-4px);
+  outline: none;
+}
+.capc-sel:active { transform: translateY(-1px); transition-duration: .08s; }
+
+/* Variante sin borde propio: dibuja el contorno con outline (no altera el layout). */
+.capc-sel-outline:hover,
+.capc-sel-outline:focus-visible,
+.capc-sel-outline.is-selected { outline: 1px solid var(--capc-naranja) !important; outline-offset: -1px; }
+
+/* Variante plana: filas de lista e ítems de menú no se elevan. */
+.capc-sel-flat:hover,
+.capc-sel-flat:focus-visible,
+.capc-sel-flat.is-selected,
+.capc-sel-flat:active { transform: none; }
+
+/* Piezas de fondo oscuro: mantienen su fondo, sólo contorno y elevación. */
+.capc-sel-dark:hover,
+.capc-sel-dark:focus-visible,
+.capc-sel-dark.is-selected { background-color: var(--capc-negro) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .capc-sel { transition: none; }
+  .capc-sel:hover, .capc-sel:focus-visible { transform: none; }
+}
+
+/* ── Campos de formulario: foco naranja ── */
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: none;
+  border-color: var(--capc-naranja) !important;
+  box-shadow: 0 0 0 3px rgba(233,80,14,.14) !important;
+}

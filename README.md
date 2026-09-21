@@ -90,10 +90,19 @@ Luego abrí **http://localhost:5500/**.
 | `store.js` | Datos mock + estado compartido (localStorage): beneficios, eventos, "mis beneficios" |
 | `CAMBIOS.md` | Qué cambia respecto de demo2 y por qué (insumo de E5) |
 | `flow.js` | Capa de flujo/redirecciones para las pantallas "bundle" |
-| `assets/` | Logo e imágenes de eventos |
+| `assets/marca-capc.css` | Identidad visual CAPC: paleta, Work Sans y efecto de selección (fuente: recursos gráficos del Colegio) |
+| `assets/marca/` | Isologo oficial (horizontal, vertical, isotipo; color / negro / claro) extraído del PDF de marca |
+| `assets/` | Imágenes de eventos |
 | `assets/vendor/` | React, ReactDOM y Babel locales (para correr sin internet) |
 
 
+
+## Identidad visual
+
+Desde el 21/09/2026 la maqueta usa los **recursos gráficos oficiales de la Gestión 2024-26** del Colegio
+(paleta, Work Sans e isologo) y el **efecto de selección de Autogestión CAPC** en las piezas que se
+eligen: contorno naranja, velo cálido y elevación. La hoja `assets/marca-capc.css` es la fuente de
+verdad dentro del prototipo; el detalle de qué cambió respecto de demo2 está en `CAMBIOS.md`.
 
 ## Reset del estado
 

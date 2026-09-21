@@ -4,29 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mis Beneficios · Colegio de Arquitectos</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/marca-capc.css?v=20260921">
 
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260918"></script>
+  <script src="store.js?v=20260921"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height:100%; }
-    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    body { background:#F5F2F0; font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased; color:#161616; }
     input, button, textarea { font-family:inherit; }
     a { text-decoration:none; }
     ::-webkit-scrollbar { width:0; height:0; }
     @keyframes popIn { from { opacity:0; transform:scale(.97);} to { opacity:1; transform:none;} }
-    .h-dark:hover { background:#1E293B !important; }
+    .h-dark:hover { background:#2B2928 !important; }
     .h-primary { transition:all .2s; }
-    .h-primary:hover { background:#E05A36 !important; color:#fff !important; }
-    .bcard { transition:transform .2s, box-shadow .2s; }
-    .bcard:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(15,23,42,.12) !important; }
+    .h-primary:hover { background:#E9500E !important; color:#fff !important; }
 
     /* Shell: móvil = una columna de 430px; desde 768px el contenido usa el ancho disponible (máx. 1240px). */
     .dash-screen { width:100%; max-width:430px; margin:0 auto; }
@@ -38,30 +36,24 @@
        con el brillo suave (velo terracota desde los costados, borde apenas teñido). */
     .mb-home { padding:6px 0 8px; }
     .mb-home-head { text-align:center; max-width:560px; margin:0 auto 22px; }
-    .mb-kicker { font-family:'Plus Jakarta Sans',sans-serif; font-size:10.5px; font-weight:800; color:#E05A36; letter-spacing:.14em; text-transform:uppercase; }
-    .mb-home-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; color:#0F172A; letter-spacing:-.02em; margin:6px 0 0; line-height:1.1; }
-    .mb-home-sub { font-size:13px; color:#64748B; margin:8px 0 0; line-height:1.5; }
+    .mb-kicker { font-family:'Work Sans',sans-serif; font-size:10.5px; font-weight:800; color:#E9500E; letter-spacing:.14em; text-transform:uppercase; }
+    .mb-home-title { font-family:'Work Sans',sans-serif; font-size:24px; font-weight:800; color:#161616; letter-spacing:-.02em; margin:6px 0 0; line-height:1.1; }
+    .mb-home-sub { font-size:13px; color:#7A736E; margin:8px 0 0; line-height:1.5; }
     .mb-choices { display:grid; grid-template-columns:1fr; gap:14px; max-width:860px; margin:0 auto; }
-    .mb-choice { position:relative; overflow:hidden; background:#fff; border:1.5px solid #E2E8F0; border-radius:16px; padding:26px 20px 22px; text-align:center; cursor:pointer; font-family:inherit; color:#0F172A; box-shadow:0 2px 10px rgba(15,23,42,.05); transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease; -webkit-tap-highlight-color:transparent; }
-    .mb-choice::before, .mb-choice::after { content:''; position:absolute; top:0; bottom:0; width:52%; opacity:0; pointer-events:none; transition:opacity .4s ease, transform .4s ease; }
-    .mb-choice::before { left:0; background:linear-gradient(90deg, rgba(224,90,54,.13) 0%, rgba(240,117,84,.05) 45%, rgba(224,90,54,0) 100%); transform:translateX(-22%); }
-    .mb-choice::after { right:0; background:linear-gradient(270deg, rgba(224,90,54,.13) 0%, rgba(240,117,84,.05) 45%, rgba(224,90,54,0) 100%); transform:translateX(22%); }
-    .mb-choice:hover::before, .mb-choice:hover::after, .mb-choice:focus-visible::before, .mb-choice:focus-visible::after { opacity:1; transform:none; }
-    .mb-choice:hover, .mb-choice:focus-visible { outline:none; border-color:rgba(224,90,54,.5); transform:translateY(-2px); box-shadow:0 10px 26px rgba(15,23,42,.08), -10px 0 24px -16px rgba(224,90,54,.35), 10px 0 24px -16px rgba(224,90,54,.35); }
-    .mb-choice:active { transform:translateY(0); }
-    .mb-choice > * { position:relative; z-index:1; }
-    .mb-choice-icon { width:60px; height:60px; border-radius:16px; background:#FFF3F0; color:#E05A36; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; transition:background .28s, color .28s, transform .28s, box-shadow .28s; }
-    .mb-choice:hover .mb-choice-icon { background:#E05A36; color:#fff; transform:scale(1.03); box-shadow:0 6px 16px rgba(224,90,54,.22); }
-    .mb-choice-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:20px; font-weight:800; letter-spacing:-.02em; line-height:1.1; }
-    .mb-choice-desc { font-size:12.5px; color:#64748B; line-height:1.5; margin:7px auto 0; max-width:280px; }
-    .mb-choice-meta { display:inline-block; margin-top:12px; background:#F1F5F9; border-radius:9999px; padding:5px 12px; font-family:'Plus Jakarta Sans',sans-serif; font-size:11px; font-weight:700; color:#475569; transition:background .28s, color .28s; }
-    .mb-choice:hover .mb-choice-meta { background:#FFF3F0; color:#C44E2B; }
-    .mb-choice-cta { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:14px; font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:#E05A36; }
-    .mb-back { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #E2E8F0; border-radius:8px; padding:7px 12px; font-family:'Plus Jakarta Sans',sans-serif; font-size:11.5px; font-weight:700; color:#475569; cursor:pointer; transition:all .18s; }
-    .mb-back:hover { border-color:#E05A36; color:#E05A36; }
-    .h-lift { transition:transform .2s, box-shadow .2s; }
-    .h-lift:hover { transform:translateY(-2px); box-shadow:0 8px 26px rgba(15,23,42,.12) !important; }
-    .entrada:hover { background:#C44E2B !important; }
+    .mb-choice { position:relative; background:#fff; border:1.5px solid #E2DBD7; border-radius:16px; padding:26px 20px 22px; text-align:center; cursor:pointer; font-family:inherit; color:#161616; box-shadow:0 2px 10px rgba(22,22,22,.05); transition:transform .18s cubic-bezier(.2,.7,.2,1), box-shadow .18s ease, border-color .18s ease, background-color .18s ease; -webkit-tap-highlight-color:transparent; }
+    /* Selección al estilo Autogestión CAPC: contorno naranja, velo cálido y elevación (ver assets/marca-capc.css) */
+    .mb-choice:hover, .mb-choice:focus-visible { outline:none; border-color:#E9500E; background:#FEF9F6; transform:translateY(-4px); box-shadow:0 10px 22px rgba(22,22,22,.10); }
+    .mb-choice:active { transform:translateY(-1px); }
+    .mb-choice-icon { width:60px; height:60px; border-radius:16px; background:#FEF0E8; color:#E9500E; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; transition:background .28s, color .28s, transform .28s, box-shadow .28s; }
+    .mb-choice:hover .mb-choice-icon { background:#E9500E; color:#fff; transform:scale(1.03); box-shadow:0 6px 16px rgba(233,80,14,.22); }
+    .mb-choice-title { font-family:'Work Sans',sans-serif; font-size:20px; font-weight:800; letter-spacing:-.02em; line-height:1.1; }
+    .mb-choice-desc { font-size:12.5px; color:#7A736E; line-height:1.5; margin:7px auto 0; max-width:280px; }
+    .mb-choice-meta { display:inline-block; margin-top:12px; background:#F0ECEA; border-radius:9999px; padding:5px 12px; font-family:'Work Sans',sans-serif; font-size:11px; font-weight:600; color:#5b5652; transition:background .28s, color .28s; }
+    .mb-choice:hover .mb-choice-meta { background:#FEF0E8; color:#C8440B; }
+    .mb-choice-cta { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:14px; font-family:'Work Sans',sans-serif; font-size:13px; font-weight:600; color:#E9500E; }
+    .mb-back { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #E2DBD7; border-radius:8px; padding:7px 12px; font-family:'Work Sans',sans-serif; font-size:11.5px; font-weight:600; color:#5b5652; cursor:pointer; transition:all .18s; }
+    .mb-back:hover { border-color:#E9500E; color:#E9500E; }
+    .entrada:hover { background:#C8440B !important; }
     /* Entradas: lista desplazable, una columna en móvil y grilla fluida en pantallas anchas */
     .mb-tickets { display:grid; grid-template-columns:1fr; gap:14px; }
     @media (min-width:768px) {
@@ -86,8 +78,8 @@
 
   <script type="text/plain" id="app-source">
 const { useState, useEffect, useMemo } = React;
-const DISP = "'Plus Jakarta Sans',sans-serif";
-const C = { bg:'#F8FAFC', surface:'#fff', pizarra:'#0F172A', terracota:'#E05A36', terracotaL:'#FFF3F0', border:'#E2E8F0', borderCard:'#F1F5F9', muted:'#F1F5F9', t1:'#0F172A', t3:'#475569', t4:'#64748B', t5:'#94A3B8' };
+const DISP = "'Work Sans',sans-serif";
+const C = { bg:'#F5F2F0', surface:'#fff', pizarra:'#161616', terracota:'#E9500E', terracotaL:'#FEF0E8', border:'#E2DBD7', borderCard:'#F0ECEA', muted:'#F0ECEA', t1:'#161616', t3:'#5b5652', t4:'#7A736E', t5:'#9E968F' };
 const stroke = (extra={}) => ({ fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', ...extra });
 const IFlame = p => <svg width="15" height="15" viewBox="0 0 24 24" {...stroke(p)}><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>;
 const IClock = p => <svg width="15" height="15" viewBox="0 0 24 24" {...stroke(p)}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
@@ -111,24 +103,22 @@ const goBenefit = b => { window.location.href = 'qr-beneficio.html?b=' + encodeU
 /* ── Cabecera y navegación inferior compartidas por las pantallas del matriculado ── */
 function AppHeader({ title, subtitle }) {
   return (
-    <div style={{position:'sticky', top:0, zIndex:50, background:C.pizarra, backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px'}}>
-      <div style={{height:'3px', background:'linear-gradient(90deg,#E05A36,#F07554)'}}/>
+    <div style={{position:'sticky', top:0, zIndex:50, background:C.pizarra}}>
+      <div style={{height:'3px', background:'var(--capc-degrade)'}}/>
       <div className="dash-inner" style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px 12px'}}>
         <div style={{display:'flex', alignItems:'center', gap:'10px', minWidth:0}}>
-          <a href="menu-beneficios.html" style={{width:'34px', height:'34px', background:C.terracota, borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 2px 8px rgba(224,90,54,.4)'}}>
-            <img src="assets/logo-ca-blanco.png" alt="CA" style={{width:'24px', height:'auto', display:'block'}}/>
-          </a>
+          <a href="menu-beneficios.html" title="Volver al Menú Beneficios" style={{display:'block', flexShrink:0}}><img src="assets/marca/isotipo-color.png" alt="Colegio de Arquitectos de la Provincia de Córdoba" style={{height:'34px', width:'auto', display:'block', flexShrink:0}}/></a>
           <div style={{minWidth:0}}>
             <div style={{fontFamily:DISP, fontSize:'11.5px', fontWeight:800, color:'#fff', letterSpacing:'.08em', textTransform:'uppercase', lineHeight:1.2, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{title}</div>
-            <div style={{fontSize:'9.5px', color:'#94A3B8', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{subtitle}</div>
+            <div style={{fontSize:'9.5px', color:'#9E968F', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{subtitle}</div>
           </div>
         </div>
         <div style={{display:'flex', alignItems:'center', gap:'12px', flexShrink:0}}>
           <div style={{position:'relative', cursor:'pointer', padding:'4px'}}>
-            <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#64748B'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:C.terracota, borderRadius:'50%', border:'1.5px solid #0F172A'}}/>
+            <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#7A736E'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:C.terracota, borderRadius:'50%', border:'1.5px solid #161616'}}/>
           </div>
-          <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#fff', borderRadius:'7px', padding:'7px 12px', fontFamily:DISP, fontSize:'11.5px', fontWeight:700, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
+          <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#fff', borderRadius:'7px', padding:'7px 12px', fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
             <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             Salir
           </button>
@@ -145,14 +135,14 @@ function BottomNav({ active }) {
     { key:'perfil', label:'Perfil', href:'#', icon:(c)=>(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:c})}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>) },
   ];
   return (
-    <div className="dash-nav" style={{position:'fixed', bottom:0, left:0, right:0, width:'100%', background:'#fff', borderTop:'1px solid #E8EFF6', padding:'8px 16px 14px', zIndex:50, boxShadow:'0 -4px 16px rgba(15,23,42,.06)'}}>
+    <div className="dash-nav" style={{position:'fixed', bottom:0, left:0, right:0, width:'100%', background:'#fff', borderTop:'1px solid #E7E2E1', padding:'8px 16px 14px', zIndex:50, boxShadow:'0 -4px 16px rgba(22,22,22,.06)'}}>
       <div className="dash-inner" style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
         {items.map(n => {
           const on = n.key === active;
           return (
             <a key={n.key} href={n.href} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'3px', cursor:'pointer', minWidth:'64px'}}>
-              <div style={{width:'30px', height:'30px', background: on ? '#FFF3F0' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon(on ? C.terracota : C.t5)}</div>
-              <span style={{fontSize:'9.5px', fontFamily:DISP, fontWeight: on ? 700 : 500, color: on ? C.terracota : C.t5}}>{n.label}</span>
+              <div style={{width:'30px', height:'30px', background: on ? '#FEF0E8' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon(on ? C.terracota : C.t5)}</div>
+              <span style={{fontSize:'9.5px', fontFamily:DISP, fontWeight: on ? 600 : 400, color: on ? C.terracota : C.t5}}>{n.label}</span>
             </a>
           );
         })}
@@ -175,28 +165,28 @@ function BenefitCard({ b, rank, locked }) {
   const badge = discountBadge(b);
   const available = locked && cd.done;
   return (
-    <div className={locked && !available ? '' : 'bcard'} style={{background:C.surface, borderRadius:'8px', padding:'13px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(15,23,42,.07),0 1px 2px rgba(15,23,42,.04)', display:'flex', flexDirection:'column', gap:'8px', position:'relative', opacity: locked && !available ? .92 : 1}}>
+    <div className={locked && !available ? '' : 'capc-sel'} style={{background:C.surface, borderRadius:'8px', padding:'13px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', display:'flex', flexDirection:'column', gap:'8px', position:'relative', opacity: locked && !available ? .92 : 1}}>
       {rank && (
-        <div style={{position:'absolute', top:'-7px', left:'-7px', width:'24px', height:'24px', borderRadius:'50%', background:C.terracota, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:DISP, fontSize:'11px', fontWeight:800, boxShadow:'0 2px 8px rgba(224,90,54,.45)', zIndex:2}}>{rank}</div>
+        <div style={{position:'absolute', top:'-7px', left:'-7px', width:'24px', height:'24px', borderRadius:'50%', background:C.terracota, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:DISP, fontSize:'11px', fontWeight:800, boxShadow:'0 2px 8px rgba(233,80,14,.45)', zIndex:2}}>{rank}</div>
       )}
       <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'6px'}}>
         <div style={{width:'38px', height:'38px', borderRadius:'8px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontFamily:DISP, fontSize:'12px', fontWeight:800, flexShrink:0, filter: locked && !available ? 'grayscale(.45)' : 'none'}}>{b.logo}</div>
         <div style={{background:C.terracotaL, borderRadius:'4px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
           <div style={{fontFamily:DISP, fontSize:'15px', fontWeight:800, color:C.terracota, lineHeight:1.1}}>{badge.big}</div>
-          <div style={{fontSize:'8px', color:C.terracota, fontWeight:700, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
+          <div style={{fontSize:'8px', color:C.terracota, fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
         </div>
       </div>
-      <div style={{fontFamily:DISP, fontWeight:700, fontSize:'12.5px', color:C.t1, lineHeight:1.3}}>{b.nombre}</div>
+      <div style={{fontFamily:DISP, fontWeight:600, fontSize:'12.5px', color:C.t1, lineHeight:1.3}}>{b.nombre}</div>
       <div style={{fontSize:'11px', color:C.t5, lineHeight:1.3, marginTop:'-3px'}}>{b.cat}</div>
       <div style={{display:'flex', gap:'5px', flexWrap:'wrap'}}>
-        <span style={{background:C.muted, borderRadius:'3px', padding:'2px 7px', fontSize:'10px', color:C.t3, fontWeight:500}}>{b.regional}</span>
+        <span style={{background:C.muted, borderRadius:'3px', padding:'2px 7px', fontSize:'10px', color:C.t3, fontWeight:400}}>{b.regional}</span>
         {b.usos != null && <span style={{background:C.terracotaL, borderRadius:'3px', padding:'2px 7px', fontSize:'10px', color:C.terracota, fontWeight:600}}>{b.usos} {b.usos === 1 ? 'uso' : 'usos'}</span>}
       </div>
       {!locked || available ? (
-        <button onClick={()=>goBenefit(b)} className="h-primary" style={{width:'100%', padding:'8px 10px', borderRadius:'5px', border:`1.5px solid ${C.terracota}`, background:'transparent', color:C.terracota, fontFamily:DISP, fontSize:'11.5px', fontWeight:700, cursor:'pointer', transition:'all .2s', marginTop:'auto'}}>Solicitar Beneficio</button>
+        <button onClick={()=>goBenefit(b)} className="h-primary" style={{width:'100%', padding:'8px 10px', borderRadius:'5px', border:`1.5px solid ${C.terracota}`, background:'transparent', color:C.terracota, fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', marginTop:'auto'}}>Solicitar Beneficio</button>
       ) : (
         <div style={{marginTop:'auto'}}>
-          <div style={{display:'flex', alignItems:'center', gap:'5px', fontSize:'9.5px', color:C.t5, fontFamily:DISP, fontWeight:700, letterSpacing:'.06em', textTransform:'uppercase', marginBottom:'5px'}}><ILock/> Disponible en</div>
+          <div style={{display:'flex', alignItems:'center', gap:'5px', fontSize:'9.5px', color:C.t5, fontFamily:DISP, fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase', marginBottom:'5px'}}><ILock/> Disponible en</div>
           <div style={{display:'flex', gap:'4px'}}>
             {[[cd.d, 'días'], [cd.h, 'hs'], [cd.m, 'min'], [cd.s, 'seg']].map(([v, l]) => (
               <div key={l} style={{flex:1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:'5px', padding:'5px 2px', textAlign:'center'}}>
@@ -213,7 +203,7 @@ function BenefitCard({ b, rank, locked }) {
 
 const SectionHead = ({ icon, title, sub, count, accent }) => (
   <div style={{display:'flex', alignItems:'center', gap:'9px', marginBottom:'12px'}}>
-    <div style={{width:'28px', height:'28px', borderRadius:'8px', background: accent === 't' ? C.terracotaL : '#F1F5F9', color: accent === 't' ? C.terracota : C.t4, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>{icon}</div>
+    <div style={{width:'28px', height:'28px', borderRadius:'8px', background: accent === 't' ? C.terracotaL : '#F0ECEA', color: accent === 't' ? C.terracota : C.t4, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>{icon}</div>
     <div style={{flex:1, minWidth:0}}>
       <div style={{fontFamily:DISP, fontSize:'16px', fontWeight:800, color:C.t1, letterSpacing:'-.01em'}}>{title}</div>
       {sub && <div style={{fontSize:'11px', color:C.t5, marginTop:'1px'}}>{sub}</div>}
@@ -225,11 +215,11 @@ const SectionHead = ({ icon, title, sub, count, accent }) => (
 /* ── Tarjeta de entrada: misma tarjeta de evento, con "Ver entrada" ── */
 function TicketCard({ ev }) {
   return (
-    <div onClick={()=>goTicket(ev)} className="h-lift" style={{background:C.surface, borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(15,23,42,.08),0 1px 4px rgba(15,23,42,.05)', cursor:'pointer', border:`1px solid ${C.borderCard}`}}>
+    <div onClick={()=>goTicket(ev)} className="capc-sel" style={{background:C.surface, borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(22,22,22,.08),0 1px 4px rgba(22,22,22,.05)', cursor:'pointer', border:`1px solid ${C.borderCard}`}}>
       <div style={{padding:'13px 14px 10px'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'8px'}}>
-          <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:700, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
-          <span style={{display:'inline-flex', alignItems:'center', gap:'5px', background:'#F0FDF4', border:'1px solid #86EFAC', borderRadius:'9999px', padding:'2px 8px', fontFamily:DISP, fontSize:'9.5px', fontWeight:700, color:'#166534', whiteSpace:'nowrap'}}><span style={{width:'5px', height:'5px', borderRadius:'50%', background:'#10B981'}}/>Entrada válida</span>
+          <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
+          <span style={{display:'inline-flex', alignItems:'center', gap:'5px', background:'#F2F8EC', border:'1px solid #BFDEA6', borderRadius:'9999px', padding:'2px 8px', fontFamily:DISP, fontSize:'9.5px', fontWeight:600, color:'#3f6b22', whiteSpace:'nowrap'}}><span style={{width:'5px', height:'5px', borderRadius:'50%', background:'#7CB553'}}/>Entrada válida</span>
         </div>
         <div style={{fontFamily:DISP, fontWeight:800, fontSize:'15px', color:C.t1, marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em'}}>{ev.title}</div>
         <div style={{fontSize:'11px', color:C.t5, marginTop:'3px'}}>{ev.subtitle}</div>
@@ -239,12 +229,12 @@ function TicketCard({ ev }) {
         {ev.img ? (
           <div style={{width:'100%', height:'100%', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
         ) : (
-          <div style={{width:'100%', height:'100%', background:C.pizarra, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'16px 16px', padding:'0 16px'}}>
+          <div style={{width:'100%', height:'100%', background:C.pizarra, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'0 16px'}}>
             <div style={{fontFamily:DISP, fontWeight:800, fontSize:'19px', color:'#fff', textAlign:'center', lineHeight:1.2}}>{ev.title}</div>
-            <div style={{fontSize:'10.5px', color:'#94A3B8', marginTop:'7px', textAlign:'center'}}>{ev.subtitle}</div>
+            <div style={{fontSize:'10.5px', color:'#9E968F', marginTop:'7px', textAlign:'center'}}>{ev.subtitle}</div>
           </div>
         )}
-        <button className="entrada" onClick={e=>{e.stopPropagation(); goTicket(ev);}} style={{position:'absolute', bottom:'12px', left:'12px', display:'flex', alignItems:'center', gap:'7px', background:C.terracota, color:'#fff', border:'none', borderRadius:'7px', padding:'8px 15px', fontFamily:DISP, fontSize:'12.5px', fontWeight:700, cursor:'pointer', boxShadow:'0 2px 12px rgba(0,0,0,.22)', transition:'background .18s'}}>
+        <button className="entrada" onClick={e=>{e.stopPropagation(); goTicket(ev);}} style={{position:'absolute', bottom:'12px', left:'12px', display:'flex', alignItems:'center', gap:'7px', background:C.terracota, color:'#fff', border:'none', borderRadius:'7px', padding:'8px 15px', fontFamily:DISP, fontSize:'12.5px', fontWeight:600, cursor:'pointer', boxShadow:'0 2px 12px rgba(0,0,0,.22)', transition:'background .18s'}}>
           <IQR/> Ver entrada
         </button>
       </div>
@@ -328,7 +318,7 @@ function App() {
           </div>
           {tickets.length === 0 ? (
             <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
-              <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:700, color:C.t1}}>Todavía no tenés entradas</div>
+              <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Todavía no tenés entradas</div>
               <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Cuando te inscribas a un evento, la entrada aparece acá.</div>
             </div>
           ) : (
@@ -345,7 +335,7 @@ function App() {
         {/* Resumen */}
         <div style={{display:'flex', gap:'8px', marginBottom:'22px'}}>
           {[[String(totalUsos), 'Canjes realizados', C.pizarra], [String(mine.top.length), 'Beneficios usados', C.terracota], [String(mine.espera.length), 'En espera', C.t4]].map((s, i) => (
-            <div key={i} style={{flex:1, background:'#fff', borderRadius:'8px', padding:'10px 12px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(15,23,42,.05)'}}>
+            <div key={i} style={{flex:1, background:'#fff', borderRadius:'8px', padding:'10px 12px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.05)'}}>
               <div style={{fontFamily:DISP, fontSize:'18px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
               <div style={{fontSize:'10px', color:C.t5, marginTop:'3px'}}>{s[1]}</div>
             </div>
@@ -358,7 +348,7 @@ function App() {
             <SectionHead icon={<IFlame/>} title="Top más usados" sub="Ordenados por la cantidad de veces que los canjeaste" count={`${mine.top.length} beneficios`} accent="t"/>
             {mine.top.length === 0 ? (
               <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
-                <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:700, color:C.t1}}>Todavía no canjeaste beneficios</div>
+                <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Todavía no canjeaste beneficios</div>
                 <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Los que uses van a aparecer acá, ordenados por frecuencia.</div>
               </div>
             ) : (
@@ -376,7 +366,7 @@ function App() {
             <SectionHead icon={<IClock/>} title="En espera para volver a usarse" sub="Cada beneficio tiene un período mínimo entre canjes" count={`${mine.espera.length} en espera`}/>
             {mine.espera.length === 0 ? (
               <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
-                <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:700, color:C.t1}}>Nada en espera</div>
+                <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Nada en espera</div>
                 <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Todos tus beneficios están disponibles para usar.</div>
               </div>
             ) : (
@@ -406,7 +396,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
         document.body.appendChild(s);
       } catch (e) {
         document.getElementById('root').innerHTML =
-          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          '<pre style="padding:24px;color:#8F3105;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
           (e && e.message ? e.message : e) + '</pre>';
         console.error(e);
       }

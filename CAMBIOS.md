@@ -10,7 +10,9 @@
 Origen de cada cambio: **[10/09]** pedido del Colegio en la reunión del 10/09 (ALC-001 v1.1, brief
 OBJ-3) · **[ADR-0009]** eventos con doble origen · **[ADR-0005]** decisiones de alcance ·
 **[corrección]** defecto de demo2 detectado al construir · **[responsive]** pedido de que todas las
-vistas aprovechen la pantalla del dispositivo.
+vistas aprovechen la pantalla del dispositivo · **[marca]** recursos gráficos oficiales del Colegio
+(`02-producto/marca/CAPC - Gestion 2024-26 - Recursos graficos.pdf`, recibidos el 21/09/2026) y efecto de
+selección de Autogestión CAPC (video de referencia del 21/09).
 
 ## Pantallas nuevas
 
@@ -63,6 +65,36 @@ Un extra con el mismo `id` que un evento base lo **reemplaza**: editar nunca dup
   las cuatro operaciones de la grilla de permisos (PLA-001).
 - **Imagen redimensionada en el navegador** (máx. 1200 px, JPEG) para que entre en `localStorage`. Es
   simulación: en el producto va al almacenamiento propio de eventos (ADR-0009).
+
+## Identidad visual (21/09/2026) — [marca]
+
+Toda la maqueta adopta los recursos gráficos oficiales de la Gestión 2024-26. Ninguna pantalla cambia
+de contenido ni de flujo: cambia cómo se ve. La hoja `assets/marca-capc.css` es la fuente de verdad de
+la marca dentro del prototipo y documenta cada tono.
+
+| Qué cambia | Antes (demo2) | Ahora | Origen |
+|---|---|---|---|
+| **Color de acento** | Terracota `#E05A36` (y sus tonos) | Naranja CAPC `#E9500E`; oscuro `#C8440B` y claro `#F17A42` derivados para hover y acentos | PDF · paleta principal |
+| **Superficies oscuras** | Pizarra azulada `#0F172A` con textura punteada y grises fríos (slate) | Negro `#161616` plano; grises cálidos `#E7E2E1` · `#E2DBD7` · `#CCC5BE` para bordes y fondos, con neutros intermedios interpolados para texto secundario | PDF · paleta principal |
+| **Fondo de página** | `#F8FAFC` | `#F5F2F0` (derivado del gris cálido) | PDF · paleta principal |
+| **Colores de categoría y de iniciales** | Azul/violeta/ámbar/verde genéricos | Paleta secundaria (regionales): azul oscuro `#1D3354`, azul `#5B93CE`, rosa `#E8376F`, violeta `#B472AD`, más el naranja y el negro. Verde `#96C66F` y amarillo `#EFCE44` quedan para estados (éxito / aviso) porque no soportan texto blanco encima | PDF · paleta secundaria |
+| **Estados** | Verde/ámbar/rojo Tailwind | Éxito en verde regional oscurecido, aviso en amarillo regional, destructivo ("Borrar") en rosa regional `#E8376F` | PDF · paleta secundaria |
+| **Tipografía** | Inter (cuerpo) + Plus Jakarta Sans (títulos), servidas en local | **Work Sans** desde Google Fonts: regular para texto, *regular italic*, semibold (600) para subtítulos, botones y etiquetas, extra bold (800) para títulos. Los pesos 500 y 700 de demo2 pasan a 400 y 600 para quedarse en los cuatro estilos del manual. Se eliminan las `@font-face` y los `.woff2` de Inter/Jakarta | PDF · tipografía |
+| **Isologo** | Cuadrado naranja con "CA" blanco (`logo-ca-blanco.png`) | Isologo oficial extraído del PDF (vectorial, fondo transparente): isotipo a color en las cabeceras oscuras y en la barra lateral del comercio; isologo horizontal completo (versión para fondo oscuro) en el login. Todas las variantes quedan en `assets/marca/` | PDF · usos de isologo |
+| **Filete superior** | Degradé terracota | Degradé del isotipo (azul → violeta → rosa → amarillo → verde), 3–4 px | PDF · isologo |
+| **Componentes seleccionables** (tarjetas de beneficio y de evento, tarjetas de elección del panel y de Mis beneficios, entradas, opciones "Comercial / Académico" del formulario, pestañas de tipo de cuenta del login) | Elevación leve o brillo lateral terracota | Efecto de Autogestión CAPC: el contorno pasa a naranja, el fondo toma un velo cálido `#FEF9F6` y la pieza se eleva 4 px, en ~180 ms; vale para hover, toque, foco de teclado y estado seleccionado (`.capc-sel`). Reemplaza al brillo lateral del 18/09 | Video de Autogestión (21/09) |
+| **Campos de formulario** | Foco azul del navegador | Foco con contorno naranja y halo suave | Video de Autogestión (21/09) |
+
+Decisiones tomadas al aplicar la marca (a ratificar en E5):
+
+- **Tonos derivados.** El PDF trae 5 + 6 colores; hover, texto secundario y estados necesitan más. Se
+  interpolaron a partir de la paleta y están listados en `assets/marca-capc.css` con su uso.
+- **Verde y amarillo no llevan texto blanco.** Se los reserva para estados; iniciales y categorías usan
+  el resto de la secundaria. Si el Colegio quiere colorear por regional con la paleta secundaria (el PDF
+  la llama "regionales"), es un cambio de producto que se decide en E5.
+- **Work Sans por CDN.** Igual que demo2 con Inter/Jakarta en las páginas "limpias"; si hace falta que
+  todo corra sin internet se pueden empaquetar los `.woff2` en `assets/`.
+- **Radios y espaciados** no cambian: el PDF no los define.
 
 ## Pendientes que no entran acá
 

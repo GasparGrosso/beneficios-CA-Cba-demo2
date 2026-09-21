@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login · Portal de Beneficios · Colegio de Arquitectos (maqueta de demostración)</title>
-  <meta name="robots" content="noindex, nofollow">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/marca-capc.css?v=20260921">
+  <meta name="robots" content="noindex, nofollow">
 
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
@@ -17,16 +17,18 @@
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height:100%; }
-    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    body { background:#F5F2F0; font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased; color:#161616; }
     input, button, textarea { font-family:inherit; }
     a { text-decoration:none; }
-    input:focus { border-color:#E05A36 !important; }
+    input:focus { border-color:#E9500E !important; }
     ::-webkit-scrollbar { width:0; height:0; }
     @keyframes spin { to { transform:rotate(360deg); } }
     @keyframes fadeUp { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
     @keyframes popIn { from { opacity:0; transform:scale(.96);} to { opacity:1; transform:scale(1);} }
     .h-primary { transition:all .2s; }
-    .h-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
+    /* Pestañas de tipo de cuenta: la no seleccionada se tiñe de naranja al pasar el cursor (efecto de selección CAPC) */
+    .login-tab:not(.on):hover { color:#E9500E !important; background:#FEF9F6 !important; }
+    .h-primary:hover { background:#C8440B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(233,80,14,.34) !important; }
     @media (max-width:380px) {
       .login-pad { padding-left:16px !important; padding-right:16px !important; }
       .login-card-pad { padding:24px !important; }
@@ -185,26 +187,26 @@ function Login() {
   const errOf = (f) => (touched[f] && errors[f]) ? errors[f] : '';
   const fld = (f, extra={}) => ({
     width:'100%', padding:'12px 12px 12px 44px', borderRadius:'3px', fontSize:'15px',
-    fontFamily:"'Inter',sans-serif", color:'#0F172A', background:'#FAFAFA', outline:'none',
-    boxSizing:'border-box', border:`1.5px solid ${errOf(f) ? '#E05A36' : '#E2E8F0'}`, ...extra,
+    fontFamily:"'Work Sans',sans-serif", color:'#161616', background:'#F7F5F3', outline:'none',
+    boxSizing:'border-box', border:`1.5px solid ${errOf(f) ? '#E9500E' : '#E2DBD7'}`, ...extra,
   });
   const tabSt = (t) => ({
     flex:1, border:'none', borderRadius:'2px', padding: t==='personal' ? '8px 2px' : '8px 5px',
-    fontSize: t==='personal' ? '10px' : '11.5px', fontFamily:"'Plus Jakarta Sans',sans-serif",
-    fontWeight: accountType===t ? 700 : 500, background: accountType===t ? '#0F172A' : 'transparent',
-    color: accountType===t ? '#FFFFFF' : '#64748B', cursor:'pointer', transition:'all .18s', lineHeight:'1.4',
+    fontSize: t==='personal' ? '10px' : '11.5px', fontFamily:"'Work Sans',sans-serif",
+    fontWeight: accountType===t ? 600 : 400, background: accountType===t ? '#161616' : 'transparent',
+    color: accountType===t ? '#FFFFFF' : '#7A736E', cursor:'pointer', transition:'all .18s', lineHeight:'1.4',
   });
 
   const ErrMsg = ({msg}) => msg ? (
-    <p style={{margin:'5px 0 0', fontSize:'11.5px', color:'#E05A36', display:'flex', alignItems:'center', gap:'4px'}}>
+    <p style={{margin:'5px 0 0', fontSize:'11.5px', color:'#E9500E', display:'flex', alignItems:'center', gap:'4px'}}>
       <IconAlert/> {msg}
     </p>) : null;
 
   const Field = ({label, icon, type='text', value, onChange, onBlur, placeholder, fkey, extra}) => (
     <div style={{marginBottom:'15px'}}>
-      <label style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#64748B', letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px'}}>{label}</label>
+      <label style={{display:'block', fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#7A736E', letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px'}}>{label}</label>
       <div style={{position:'relative'}}>
-        <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#94A3B8', display:'flex'}}>{icon}</div>
+        <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#9E968F', display:'flex'}}>{icon}</div>
         <input type={type} value={value} onChange={onChange} onBlur={onBlur} placeholder={placeholder} style={fld(fkey, extra)} />
       </div>
       <ErrMsg msg={errOf(fkey)} />
@@ -212,54 +214,49 @@ function Login() {
   );
 
   return (
-    <div className="login-pad" style={{minHeight:'100vh', background:'#F8FAFC', display:'flex', alignItems:'center', justifyContent:'center', padding:'32px 24px', position:'relative', overflow:'hidden'}}>
+    <div className="login-pad" style={{minHeight:'100vh', background:'#F5F2F0', display:'flex', alignItems:'center', justifyContent:'center', padding:'32px 24px', position:'relative', overflow:'hidden'}}>
       <svg style={{position:'absolute', top:'-50px', right:'-50px', width:'380px', height:'380px', opacity:.03, pointerEvents:'none'}} viewBox="0 0 380 380" fill="none">
-        <rect x="20" y="20" width="340" height="340" stroke="#0F172A" strokeWidth="2"/>
-        <rect x="100" y="100" width="180" height="180" stroke="#0F172A" strokeWidth="1"/>
-        <circle cx="190" cy="190" r="155" stroke="#0F172A" strokeWidth="1"/>
+        <rect x="20" y="20" width="340" height="340" stroke="#161616" strokeWidth="2"/>
+        <rect x="100" y="100" width="180" height="180" stroke="#161616" strokeWidth="1"/>
+        <circle cx="190" cy="190" r="155" stroke="#161616" strokeWidth="1"/>
       </svg>
 
-      <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'4px', overflow:'hidden', border:'1px solid #E4EBF2', boxShadow:'0 16px 56px rgba(15,23,42,.1), 0 4px 16px rgba(15,23,42,.05)'}}>
+      <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'4px', overflow:'hidden', border:'1px solid #E7E2E1', boxShadow:'0 16px 56px rgba(22,22,22,.1), 0 4px 16px rgba(22,22,22,.05)'}}>
         {/* Aviso de maqueta. Va DENTRO de la tarjeta (primer hijo), no antepuesto al
             body: INV-1 exige que nada se inserte por encima de la cabecera. */}
-        <div style={{background:'#FEF3C7', borderBottom:'1px solid #FCD34D', padding:'11px 32px', display:'flex', gap:'10px', alignItems:'flex-start', color:'#78350F'}}>
+        <div style={{background:'#FBF3CF', borderBottom:'1px solid #EFCE44', padding:'11px 32px', display:'flex', gap:'10px', alignItems:'flex-start', color:'#5C4700'}}>
           <svg width="15" height="15" viewBox="0 0 24 24" {...stroke()} style={{flexShrink:0, marginTop:'2px'}}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div style={{fontSize:'12px', lineHeight:1.55}}>
-            <strong style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'10.5px', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'3px'}}>Maqueta de demostración</strong>
+            <strong style={{display:'block', fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'10.5px', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'3px'}}>Maqueta de demostración</strong>
             Prototipo de interfaz sin funcionalidad real. <strong>No es el portal del Colegio de Arquitectos</strong>: no ingreses credenciales reales. Los campos vienen precargados con datos de prueba ficticios.
           </div>
         </div>
-        <div style={{background:'#0F172A', padding:'36px 32px 30px', position:'relative', overflow:'hidden', backgroundImage:'radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px)', backgroundSize:'18px 18px'}}>
-          <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'linear-gradient(90deg,#E05A36 0%,#F07554 100%)'}}/>
-          <div style={{display:'flex', alignItems:'center', gap:'14px', marginBottom:'24px', position:'relative', zIndex:2}}>
-            <div style={{width:'48px', height:'48px', background:'#E05A36', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 4px 16px rgba(224,90,54,.45)'}}>
-              <img src="assets/logo-ca-blanco.png" alt="Colegio de Arquitectos" style={{width:'34px', height:'auto', display:'block'}}/>
-            </div>
-            <div>
-              <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'13.5px', color:'#FFFFFF', letterSpacing:'.1em', textTransform:'uppercase', lineHeight:1.3}}>Colegio de Arquitectos</div>
-              <div style={{fontSize:'10.5px', color:'#94A3B8', letterSpacing:'.07em', textTransform:'uppercase', marginTop:'3px'}}>Portal de Beneficios Exclusivos</div>
-            </div>
+        <div style={{background:'#161616', padding:'36px 32px 30px', position:'relative', overflow:'hidden'}}>
+          <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'var(--capc-degrade)'}}/>
+          <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start', marginBottom:'24px', position:'relative', zIndex:2}}>
+            <img src="assets/marca/isologo-horizontal-color-oscuro.png" alt="Colegio de Arquitectos de la Provincia de Córdoba" style={{height:'54px', width:'auto', display:'block'}}/>
+            <div style={{fontSize:'10.5px', color:'#9E968F', letterSpacing:'.07em', textTransform:'uppercase', marginTop:'12px'}}>Portal de Beneficios Exclusivos</div>
           </div>
-          <div style={{width:'38px', height:'3px', background:'#E05A36', marginBottom:'14px', position:'relative', zIndex:2}}/>
+          <div style={{width:'38px', height:'3px', background:'#E9500E', marginBottom:'14px', position:'relative', zIndex:2}}/>
           <div style={{position:'relative', zIndex:2}}>
-            <h1 style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:800, fontSize:'28px', color:'#FFFFFF', margin:'0 0 7px', lineHeight:1.15, letterSpacing:'-.025em'}}>el colegio junto a vos</h1>
-            <p style={{fontSize:'14px', color:'#94A3B8', margin:0, lineHeight:1.5}}>Ingresá tus credenciales para continuar.</p>
+            <h1 style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'28px', color:'#FFFFFF', margin:'0 0 7px', lineHeight:1.15, letterSpacing:'-.025em'}}>el colegio junto a vos</h1>
+            <p style={{fontSize:'14px', color:'#9E968F', margin:0, lineHeight:1.5}}>Ingresá tus credenciales para continuar.</p>
           </div>
         </div>
 
         <div className="login-card-pad" style={{padding:'32px'}}>
           <div style={{marginBottom:'22px'}}>
-            <label style={{display:'block', fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#94A3B8', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'8px'}}>Tipo de Cuenta</label>
-            <div style={{display:'flex', background:'#F1F5F9', borderRadius:'3px', padding:'3px', gap:'2px'}}>
-              <button style={tabSt('arquitecto')} onClick={() => switchType('arquitecto')}>Arquitecto</button>
-              <button style={tabSt('personal')}   onClick={() => switchType('personal')}>Personal del Colegio</button>
-              <button style={tabSt('afiliado')}   onClick={() => switchType('afiliado')}>Afiliado</button>
+            <label style={{display:'block', fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#9E968F', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'8px'}}>Tipo de Cuenta</label>
+            <div style={{display:'flex', background:'#F0ECEA', borderRadius:'3px', padding:'3px', gap:'2px'}}>
+              <button className={'login-tab' + (accountType==='arquitecto' ? ' on' : '')} style={tabSt('arquitecto')} onClick={() => switchType('arquitecto')}>Arquitecto</button>
+              <button className={'login-tab' + (accountType==='personal' ? ' on' : '')} style={tabSt('personal')} onClick={() => switchType('personal')}>Personal del Colegio</button>
+              <button className={'login-tab' + (accountType==='afiliado' ? ' on' : '')} style={tabSt('afiliado')} onClick={() => switchType('afiliado')}>Afiliado</button>
             </div>
           </div>
 
-          <div style={{marginBottom:'22px', padding:'10px 12px', background:'#F8FAFC', border:'1px dashed #CBD5E1', borderRadius:'3px'}}>
-            <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'9.5px', fontWeight:700, color:'#475569', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'5px'}}>Credenciales de prueba · ficticias</div>
-            <div style={{fontSize:'11.5px', color:'#475569', lineHeight:1.6, fontFamily:'ui-monospace, monospace', wordBreak:'break-word'}}>{demoHint}</div>
+          <div style={{marginBottom:'22px', padding:'10px 12px', background:'#F5F2F0', border:'1px dashed #CCC5BE', borderRadius:'3px'}}>
+            <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'9.5px', fontWeight:600, color:'#5b5652', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'5px'}}>Credenciales de prueba · ficticias</div>
+            <div style={{fontSize:'11.5px', color:'#5b5652', lineHeight:1.6, fontFamily:'ui-monospace, monospace', wordBreak:'break-word'}}>{demoHint}</div>
           </div>
 
           {usaCamposArq && (
@@ -279,13 +276,13 @@ function Login() {
 
           <div style={{marginBottom:'24px'}}>
             <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'6px'}}>
-              <label style={{fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'10px', fontWeight:700, color:'#64748B', letterSpacing:'.1em', textTransform:'uppercase'}}>Contraseña</label>
-              <a href="#" style={{fontSize:'12px', color:'#94A3B8'}}>¿Olvidaste tu contraseña?</a>
+              <label style={{fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#7A736E', letterSpacing:'.1em', textTransform:'uppercase'}}>Contraseña</label>
+              <a href="#" style={{fontSize:'12px', color:'#9E968F'}}>¿Olvidaste tu contraseña?</a>
             </div>
             <div style={{position:'relative'}}>
-              <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#94A3B8', display:'flex'}}><IconLock/></div>
+              <div style={{position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'#9E968F', display:'flex'}}><IconLock/></div>
               <input type={showPwd ? 'text' : 'password'} value={password} onChange={e=>setPassword(e.target.value)} onBlur={()=>setTouched(p=>({...p,password:true}))} placeholder="Tu contraseña" style={fld('password',{padding:'12px 44px 12px 44px'})}/>
-              <button onClick={()=>setShowPwd(v=>!v)} style={{position:'absolute', right:'12px', top:'50%', transform:'translateY(-50%)', background:'transparent', border:'none', padding:'4px', display:'flex', alignItems:'center', color:'#94A3B8', cursor:'pointer'}}>
+              <button onClick={()=>setShowPwd(v=>!v)} style={{position:'absolute', right:'12px', top:'50%', transform:'translateY(-50%)', background:'transparent', border:'none', padding:'4px', display:'flex', alignItems:'center', color:'#9E968F', cursor:'pointer'}}>
                 {showPwd ? <IconEyeOff/> : <IconEye/>}
               </button>
             </div>
@@ -294,9 +291,9 @@ function Login() {
 
           <button onClick={submit} className={loading ? '' : 'h-primary'} style={{
             width:'100%', minHeight:'50px', padding:'13px 24px',
-            background: loading ? '#94A3B8' : '#E05A36',
+            background: loading ? '#9E968F' : '#E9500E',
             color:'#FFFFFF', border:'none', borderRadius:'3px', fontSize:'15px',
-            fontFamily:"'Plus Jakarta Sans',sans-serif", fontWeight:700,
+            fontFamily:"'Work Sans',sans-serif", fontWeight:600,
             cursor: loading ? 'default' : 'pointer', letterSpacing:'.05em',
             transition:'all .2s', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px',
             pointerEvents: loading ? 'none' : 'auto',
@@ -305,8 +302,8 @@ function Login() {
             {loading ? 'Verificando...' : 'Ingresar →'}
           </button>
 
-          <div style={{marginTop:'24px', paddingTop:'18px', borderTop:'1px solid #F1F5F9', textAlign:'center'}}>
-            <p style={{fontSize:'13px', color:'#94A3B8', margin:0, lineHeight:1.6}}>¿Necesitás ayuda? <a href="#" style={{color:'#475569', fontWeight:500}}>Contactar soporte</a></p>
+          <div style={{marginTop:'24px', paddingTop:'18px', borderTop:'1px solid #F0ECEA', textAlign:'center'}}>
+            <p style={{fontSize:'13px', color:'#9E968F', margin:0, lineHeight:1.6}}>¿Necesitás ayuda? <a href="#" style={{color:'#5b5652', fontWeight:400}}>Contactar soporte</a></p>
           </div>
         </div>
       </div>
@@ -327,7 +324,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<Login />);
         document.body.appendChild(s);
       } catch (e) {
         document.getElementById('root').innerHTML =
-          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          '<pre style="padding:24px;color:#8F3105;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
           (e && e.message ? e.message : e) + '</pre>';
         console.error(e);
       }

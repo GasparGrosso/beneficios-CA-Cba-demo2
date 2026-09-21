@@ -282,6 +282,11 @@ conflicto y proponer la alternativa dentro del dominio.
 - **Bugs a corregir (paso 1):** `../errores prototipo de interfaz/ERRORES-DETECTADOS.md`
 - **Casos de prueba (paso 2):** `../errores prototipo de interfaz/CASOS-DE-PRUEBA.md`
 - **Qué cambia respecto de demo2 y por qué:** `CAMBIOS.md`
+- **Identidad visual (paleta, Work Sans, isologo, efecto de selección `.capc-sel`):** `assets/marca-capc.css`,
+  derivada de `02-producto/marca/CAPC - Gestion 2024-26 - Recursos graficos.pdf` de la bóveda. Todo color o
+  fuente nuevos salen de ahí; no reintroducir el terracota ni los grises slate de demo2, ni Inter / Plus Jakarta
+  Sans. Los tokens y variables que todavía se llaman `terracota` (`--color-terracota`, `C.terracota`) contienen
+  el naranja CAPC `#E9500E`: se conservó el nombre para no tocar cientos de referencias.
 - **Cómo correr y flujo de navegación:** `README.md`
 - **Decisiones de arquitectura del MVP objetivo (contexto, no aplicar al prototipo):**
   proyecto separado **«Arquitectura MVP»** → `Arquitectura_MVP_Beneficios_CA-Cba.docx`

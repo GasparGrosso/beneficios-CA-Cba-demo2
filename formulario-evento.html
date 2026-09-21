@@ -4,33 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registrar Evento · Colegio de Arquitectos</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/marca-capc.css?v=20260921">
 
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260918"></script>
+  <script src="store.js?v=20260921"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { height:100%; }
-    body { background:#F8FAFC; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; color:#0F172A; }
+    body { background:#F5F2F0; font-family:'Work Sans',sans-serif; -webkit-font-smoothing:antialiased; color:#161616; }
     input, button, textarea, select { font-family:inherit; }
-    input:focus, textarea:focus { border-color:#E05A36 !important; background:#fff !important; outline:none; }
+    input:focus, textarea:focus { border-color:#E9500E !important; background:#fff !important; outline:none; }
     a { text-decoration:none; }
     @keyframes popIn { from { opacity:0; transform:scale(.97);} to { opacity:1; transform:none;} }
     @keyframes spin { to { transform:rotate(360deg); } }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
-    .drop:hover { border-color:#E05A36 !important; background:#FFF3F0 !important; }
+    .drop:hover { border-color:#E9500E !important; background:#FEF0E8 !important; }
     .btn-primary { transition:all .18s; }
-    .btn-primary:hover { background:#C44E2B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(224,90,54,.34) !important; }
-    .btn-ghost:hover { background:#F1F5F9 !important; }
+    .btn-primary:hover { background:#C8440B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(233,80,14,.34) !important; }
+    .btn-ghost:hover { background:#F0ECEA !important; }
     .h-back:hover { background:rgba(255,255,255,.12) !important; color:#fff !important; }
     .chip { transition:all .18s; }
-    .chip:hover { border-color:#E05A36 !important; color:#E05A36 !important; }
+    .chip:hover { border-color:#E9500E !important; color:#E9500E !important; }
     .chip.on:hover { color:#fff !important; }
 
     /* Layout: formulario + vista previa. Una columna por debajo de 1000px. */
@@ -57,8 +57,8 @@
 
   <script type="text/plain" id="app-source">
 const { useState, useRef, useEffect } = React;
-const DISP = "'Plus Jakarta Sans',sans-serif";
-const C = { bg:'#F8FAFC', surface:'#fff', pizarra:'#0F172A', terracota:'#E05A36', success:'#10B981', successBg:'#F0FDF4', successText:'#166534', border:'#E2E8F0', borderCard:'#F1F5F9', t1:'#0F172A', t3:'#475569', t4:'#64748B', t5:'#94A3B8', info:'#3B82F6', infoBg:'#EFF6FF' };
+const DISP = "'Work Sans',sans-serif";
+const C = { bg:'#F5F2F0', surface:'#fff', pizarra:'#161616', terracota:'#E9500E', success:'#7CB553', successBg:'#F2F8EC', successText:'#3f6b22', border:'#E2DBD7', borderCard:'#F0ECEA', t1:'#161616', t3:'#5b5652', t4:'#7A736E', t5:'#9E968F', info:'#5B93CE', infoBg:'#EEF4FA' };
 const sv = (e={}) => ({ fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round', ...e });
 const ITag    = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>;
 const ICal    = p => <svg width="16" height="16" viewBox="0 0 24 24" {...sv(p)}><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
@@ -123,15 +123,15 @@ function readImage(file) {
 }
 
 const Label = ({ children, req, hint }) => (
-  <label style={{ display:'flex', alignItems:'baseline', gap:'6px', flexWrap:'wrap', fontFamily:DISP, fontSize:'10px', fontWeight:700, color:C.t4, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px' }}>
+  <label style={{ display:'flex', alignItems:'baseline', gap:'6px', flexWrap:'wrap', fontFamily:DISP, fontSize:'10px', fontWeight:600, color:C.t4, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'6px' }}>
     <span>{children}{req && <span style={{ color:C.terracota, marginLeft:'3px' }}>*</span>}</span>
-    {hint && <span style={{ fontWeight:500, letterSpacing:0, textTransform:'none', color:C.t5, fontSize:'10.5px' }}>{hint}</span>}
+    {hint && <span style={{ fontWeight:400, letterSpacing:0, textTransform:'none', color:C.t5, fontSize:'10.5px' }}>{hint}</span>}
   </label>
 );
 const Err = ({ msg }) => msg ? (
   <p style={{ margin:'5px 0 0', fontSize:'11.5px', color:C.terracota, display:'flex', alignItems:'center', gap:'4px' }}><IAlert/>{msg}</p>
 ) : null;
-const fieldSt = err => ({ width:'100%', padding:'12px 12px 12px 42px', borderRadius:'6px', fontSize:'14px', color:C.t1, background:'#FAFAFA', border:`1.5px solid ${err ? C.terracota : C.border}`, transition:'border-color .18s,background .18s' });
+const fieldSt = err => ({ width:'100%', padding:'12px 12px 12px 42px', borderRadius:'6px', fontSize:'14px', color:C.t1, background:'#F7F5F3', border:`1.5px solid ${err ? C.terracota : C.border}`, transition:'border-color .18s,background .18s' });
 const iconSt = { position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:C.t5, display:'flex' };
 
 function Field({ label, req, hint, icon, error, children }) {
@@ -152,9 +152,9 @@ function EventPreview({ f }) {
     descripcion: f.descripcion, inicio: f.inicio, fin: f.fin, img: f.imagen ? f.imagen.src : null,
   });
   return (
-    <div style={{ width:'100%', maxWidth:'300px', margin:'0 auto', background:'#fff', borderRadius:'10px', overflow:'hidden', boxShadow:'0 8px 30px rgba(15,23,42,.14)' }}>
+    <div style={{ width:'100%', maxWidth:'300px', margin:'0 auto', background:'#fff', borderRadius:'10px', overflow:'hidden', boxShadow:'0 8px 30px rgba(22,22,22,.14)' }}>
       <div style={{ padding:'13px 14px 10px' }}>
-        <span style={{ display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:700, letterSpacing:'.07em', textTransform:'uppercase' }}>{ev.tag}</span>
+        <span style={{ display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase' }}>{ev.tag}</span>
         <div style={{ fontFamily:DISP, fontWeight:800, fontSize:'15px', color:C.t1, marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em' }}>{ev.title}</div>
         <div style={{ fontSize:'11px', color:C.t5, marginTop:'3px' }}>{ev.subtitle}</div>
         <div style={{ fontSize:'10.5px', color:C.t4, marginTop:'3px', display:'flex', alignItems:'center', gap:'4px' }}><ICal width="10" height="10"/> {ev.date}</div>
@@ -163,12 +163,12 @@ function EventPreview({ f }) {
         {ev.img ? (
           <div style={{ width:'100%', height:'210px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center' }}/>
         ) : (
-          <div style={{ width:'100%', height:'210px', background:C.pizarra, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'16px 16px', padding:'0 16px' }}>
+          <div style={{ width:'100%', height:'210px', background:C.pizarra, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'0 16px' }}>
             <div style={{ fontFamily:DISP, fontWeight:800, fontSize:'20px', color:'#fff', textAlign:'center', lineHeight:1.2 }}>{ev.title}</div>
-            <div style={{ fontSize:'11px', color:'#94A3B8', marginTop:'8px', textAlign:'center' }}>{ev.subtitle}</div>
+            <div style={{ fontSize:'11px', color:'#9E968F', marginTop:'8px', textAlign:'center' }}>{ev.subtitle}</div>
           </div>
         )}
-        <div style={{ position:'absolute', bottom:'12px', left:'12px', background:C.terracota, color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:DISP, fontWeight:700, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px' }}>
+        <div style={{ position:'absolute', bottom:'12px', left:'12px', background:C.terracota, color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:DISP, fontWeight:600, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px' }}>
           <IQR/> Obtener entrada
         </div>
       </div>
@@ -232,25 +232,25 @@ function App() {
     }, 700);
   }
 
-  const chipSt = on => ({ padding:'9px 16px', borderRadius:'9999px', border:`1.5px solid ${on ? C.terracota : C.border}`, background: on ? C.terracota : '#fff', color: on ? '#fff' : C.t3, fontFamily:DISP, fontSize:'12.5px', fontWeight:700, cursor:'pointer' });
+  const chipSt = on => ({ padding:'9px 16px', borderRadius:'9999px', border:`1.5px solid ${on ? C.terracota : C.border}`, background: on ? C.terracota : '#fff', color: on ? '#fff' : C.t3, fontFamily:DISP, fontSize:'12.5px', fontWeight:600, cursor:'pointer' });
 
   return (
     <div style={{ minHeight:'100vh' }}>
       {/* Header */}
       <header style={{ background:C.pizarra, position:'relative', overflow:'hidden' }}>
-        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px', pointerEvents:'none' }}/>
-        <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'linear-gradient(90deg,#E05A36,#F07554)' }}/>
+        <div style={{ position:'absolute', inset:0, pointerEvents:'none' }}/>
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'var(--capc-degrade)' }}/>
         <div className="fe-wrap fe-header" style={{ position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', alignItems:'center', gap:'14px', minWidth:0 }}>
             <button onClick={navBack} className="h-back" title="Volver a la agenda" style={{ width:'38px', height:'38px', borderRadius:'9px', border:'1px solid rgba(255,255,255,.14)', background:'rgba(255,255,255,.06)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,.7)', transition:'all .16s', flexShrink:0 }}><IBack/></button>
             <div style={{ minWidth:0 }}>
-              <div style={{ fontFamily:DISP, fontSize:'10px', fontWeight:700, color:'rgba(255,255,255,.4)', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'5px' }}>Panel de Gestión · Eventos</div>
+              <div style={{ fontFamily:DISP, fontSize:'10px', fontWeight:600, color:'rgba(255,255,255,.4)', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'5px' }}>Panel de Gestión · Eventos</div>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', flexWrap:'wrap' }}>
                 <h1 style={{ fontFamily:DISP, fontWeight:800, fontSize:'21px', color:'#fff', letterSpacing:'-.02em', lineHeight:1.1 }}>{isEdit ? 'Editar evento' : 'Registrar nuevo evento'}</h1>
                 {isEdit && (
-                  <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', background:'rgba(224,90,54,.16)', border:'1px solid rgba(224,90,54,.35)', borderRadius:'9999px', padding:'3px 11px' }}>
-                    <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#F07554', animation:'pulse 2s ease-in-out infinite' }}/>
-                    <span style={{ fontFamily:DISP, fontSize:'10.5px', fontWeight:700, color:'#F5A98F', letterSpacing:'.04em' }}>MODO EDICIÓN</span>
+                  <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', background:'rgba(233,80,14,.16)', border:'1px solid rgba(233,80,14,.35)', borderRadius:'9999px', padding:'3px 11px' }}>
+                    <span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#F17A42', animation:'pulse 2s ease-in-out infinite' }}/>
+                    <span style={{ fontFamily:DISP, fontSize:'10.5px', fontWeight:600, color:'#F7B08B', letterSpacing:'.04em' }}>MODO EDICIÓN</span>
                   </span>
                 )}
               </div>
@@ -268,12 +268,12 @@ function App() {
 
       <main className="fe-wrap fe-main">
         {/* Formulario */}
-        <div className="fe-card" style={{ background:C.surface, borderRadius:'14px', border:'1px solid #E8EFF6', boxShadow:'0 4px 24px rgba(15,23,42,.06)', padding:'28px', display:'flex', flexDirection:'column', gap:'20px' }}>
+        <div className="fe-card" style={{ background:C.surface, borderRadius:'14px', border:'1px solid #E7E2E1', boxShadow:'0 4px 24px rgba(22,22,22,.06)', padding:'28px', display:'flex', flexDirection:'column', gap:'20px' }}>
 
           {fromApi && (
-            <div style={{ background:C.infoBg, border:'1px solid #BFDBFE', borderRadius:'10px', padding:'12px 14px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
-              <span style={{ color:'#1D4ED8', display:'flex', marginTop:'1px' }}><IInfo/></span>
-              <div style={{ fontSize:'12.5px', color:'#1E3A8A', lineHeight:1.5 }}>
+            <div style={{ background:C.infoBg, border:'1px solid #BDD4EC', borderRadius:'10px', padding:'12px 14px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
+              <span style={{ color:'#1D3354', display:'flex', marginTop:'1px' }}><IInfo/></span>
+              <div style={{ fontSize:'12.5px', color:'#1D3354', lineHeight:1.5 }}>
                 <strong>Este evento llegó por la API de Autogestión.</strong> Ante conflicto manda el origen API: lo que la API provee se actualiza en cada sincronización; lo que la API no trae (imagen, descripción ampliada, URLs) se completa desde acá.
               </div>
             </div>
@@ -343,16 +343,16 @@ function App() {
             {!f.imagen ? (
               <div className="drop" onClick={() => fileRef.current.click()}
                 onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); pickFile(e.dataTransfer.files[0]); }}
-                style={{ border:`1.5px dashed ${err.imagen ? C.terracota : C.border}`, borderRadius:'10px', padding:'28px', textAlign:'center', cursor:'pointer', background:'#FAFAFA', transition:'all .18s' }}>
+                style={{ border:`1.5px dashed ${err.imagen ? C.terracota : C.border}`, borderRadius:'10px', padding:'28px', textAlign:'center', cursor:'pointer', background:'#F7F5F3', transition:'all .18s' }}>
                 <div style={{ color:C.t5, display:'flex', justifyContent:'center', marginBottom:'10px' }}><IImg/></div>
-                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:700, color:C.t1 }}>Arrastrá una imagen o hacé clic para subirla</div>
+                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:600, color:C.t1 }}>Arrastrá una imagen o hacé clic para subirla</div>
                 <div style={{ fontSize:'11.5px', color:C.t5, marginTop:'4px' }}>JPG o PNG · Recomendado 1200×800 px</div>
               </div>
             ) : (
-              <div style={{ display:'flex', gap:'14px', alignItems:'center', border:`1px solid ${C.borderCard}`, borderRadius:'10px', padding:'12px', background:'#FAFAFA', animation:'popIn .3s ease' }}>
+              <div style={{ display:'flex', gap:'14px', alignItems:'center', border:`1px solid ${C.borderCard}`, borderRadius:'10px', padding:'12px', background:'#F7F5F3', animation:'popIn .3s ease' }}>
                 <img src={f.imagen.src} alt="" style={{ width:'120px', height:'76px', objectFit:'cover', borderRadius:'7px', flexShrink:0 }}/>
                 <div style={{ flex:1, minWidth:0 }}>
-                  <div style={{ fontFamily:DISP, fontSize:'13px', fontWeight:700, color:C.t1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{f.imagen.name}</div>
+                  <div style={{ fontFamily:DISP, fontSize:'13px', fontWeight:600, color:C.t1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{f.imagen.name}</div>
                   <div style={{ fontSize:'11.5px', color:C.t4, marginTop:'3px' }}>{f.imagen.size ? f.imagen.size + ' · ' : ''}Cargada</div>
                 </div>
                 <button type="button" onClick={() => set('imagen', null)} title="Quitar imagen" style={{ background:'#fff', border:`1.5px solid ${C.border}`, borderRadius:'7px', padding:'8px', display:'flex', color:C.t4, cursor:'pointer' }}><IX/></button>
@@ -362,11 +362,11 @@ function App() {
           </div>
 
           {saved && (
-            <div style={{ background:C.successBg, border:'1.5px solid #86EFAC', borderRadius:'10px', padding:'14px 16px', display:'flex', alignItems:'center', gap:'10px', animation:'popIn .35s ease' }}>
-              <span style={{ color:'#16A34A', display:'flex' }}><ICheck/></span>
+            <div style={{ background:C.successBg, border:'1.5px solid #BFDEA6', borderRadius:'10px', padding:'14px 16px', display:'flex', alignItems:'center', gap:'10px', animation:'popIn .35s ease' }}>
+              <span style={{ color:'#5E9A38', display:'flex' }}><ICheck/></span>
               <div>
-                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:700, color:C.successText }}>{isEdit ? 'Cambios guardados' : 'Evento registrado correctamente'}</div>
-                <div style={{ fontSize:'12px', color:'#15803D', marginTop:'2px' }}>Ya está visible en la agenda del panel y en el calendario de la app de matriculados. Volviendo a la agenda…</div>
+                <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:600, color:C.successText }}>{isEdit ? 'Cambios guardados' : 'Evento registrado correctamente'}</div>
+                <div style={{ fontSize:'12px', color:'#4E7D2F', marginTop:'2px' }}>Ya está visible en la agenda del panel y en el calendario de la app de matriculados. Volviendo a la agenda…</div>
               </div>
             </div>
           )}
@@ -374,12 +374,12 @@ function App() {
           {/* Acciones */}
           <div className="fe-actions" style={{ borderTop:`1px solid ${C.borderCard}`, paddingTop:'20px', marginTop:'2px' }}>
             {isEdit ? (
-              <button type="button" className="btn-ghost" onClick={navBack} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor:'pointer' }}>Cancelar</button>
+              <button type="button" className="btn-ghost" onClick={navBack} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Cancelar</button>
             ) : (
-              <button type="button" className="btn-ghost" onClick={() => { setF(EMPTY); setErr({}); setSaved(false); }} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor:'pointer' }}>Limpiar</button>
+              <button type="button" className="btn-ghost" onClick={() => { setF(EMPTY); setErr({}); setSaved(false); }} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Limpiar</button>
             )}
             <button type="button" className="btn-primary" onClick={submit} disabled={saving}
-              style={{ padding:'12px 28px', borderRadius:'8px', border:'none', background: saving ? '#94A3B8' : C.terracota, color:'#fff', fontFamily:DISP, fontSize:'14px', fontWeight:700, cursor: saving ? 'default' : 'pointer', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 6px 18px rgba(224,90,54,.3)' }}>
+              style={{ padding:'12px 28px', borderRadius:'8px', border:'none', background: saving ? '#9E968F' : C.terracota, color:'#fff', fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor: saving ? 'default' : 'pointer', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 6px 18px rgba(233,80,14,.3)' }}>
               {saving && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{ animation:'spin .75s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>}
               {saving ? 'Guardando...' : (isEdit ? 'Guardar cambios' : 'Registrar evento')}
             </button>
@@ -388,13 +388,13 @@ function App() {
 
         {/* Vista previa */}
         <aside className="fe-preview">
-          <div style={{ background:C.pizarra, borderRadius:'14px', padding:'22px 20px 26px', backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)', backgroundSize:'18px 18px' }}>
+          <div style={{ background:C.pizarra, borderRadius:'14px', padding:'22px 20px 26px' }}>
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'10px', marginBottom:'16px', flexWrap:'wrap' }}>
               <div>
                 <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:800, color:'#fff' }}>Vista previa de la tarjeta</div>
-                <div style={{ fontSize:'11px', color:'#94A3B8', marginTop:'2px' }}>Así la ve el matriculado en "Próximos Eventos" y en el calendario</div>
+                <div style={{ fontSize:'11px', color:'#9E968F', marginTop:'2px' }}>Así la ve el matriculado en "Próximos Eventos" y en el calendario</div>
               </div>
-              <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', fontFamily:DISP, fontSize:'9.5px', fontWeight:700, color:'#10B981', letterSpacing:'.08em', textTransform:'uppercase' }}><span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#10B981', animation:'pulse 2s ease-in-out infinite' }}/> Actualización en vivo</span>
+              <span style={{ display:'inline-flex', alignItems:'center', gap:'5px', fontFamily:DISP, fontSize:'9.5px', fontWeight:600, color:'#7CB553', letterSpacing:'.08em', textTransform:'uppercase' }}><span style={{ width:'6px', height:'6px', borderRadius:'50%', background:'#7CB553', animation:'pulse 2s ease-in-out infinite' }}/> Actualización en vivo</span>
             </div>
             <EventPreview f={f}/>
           </div>
@@ -416,7 +416,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
         document.body.appendChild(s);
       } catch (e) {
         document.getElementById('root').innerHTML =
-          '<pre style="padding:24px;color:#9A2800;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
+          '<pre style="padding:24px;color:#8F3105;font:13px ui-monospace,monospace;white-space:pre-wrap">Error al compilar la app:\n' +
           (e && e.message ? e.message : e) + '</pre>';
         console.error(e);
       }
