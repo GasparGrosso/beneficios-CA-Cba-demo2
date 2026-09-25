@@ -64,6 +64,7 @@
   var K_DELETED = 'cac_deleted_benefits';   // ids dados de baja (base o extra)
   var K_EVENTS  = 'cac_extra_events';       // eventos cargados/editados a mano (ADR-0009)
   var K_EDIT_EV = 'cac_edit_event';         // evento en edición (precarga del formulario)
+  var K_DEL_EV  = 'cac_deleted_events';     // ids de eventos manuales dados de baja
 
   function read(key, fallback) {
     try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -350,16 +351,24 @@
     return null;
   }
   /* ---------- Eventos (ADR-0009): base (API) + carga manual (localStorage) ---------- */
+  function getDeletedEvents() {
+    var arr = read(K_DEL_EV, []);
+    return Array.isArray(arr) ? arr.map(String) : [];
+  }
   function getExtraEvents() {
     var arr = read(K_EVENTS, []);
-    return Array.isArray(arr) ? arr.map(normalizeEvent) : [];
+    var del = getDeletedEvents();
+    return Array.isArray(arr)
+      ? arr.map(normalizeEvent).filter(function (e) { return del.indexOf(String(e.id)) < 0; })
+      : [];
   }
   // Un extra con el mismo id que un evento base lo REEMPLAZA (edición en su lugar).
   // Orden: por fecha de inicio ascendente; sin fecha, al final.
   function allEvents() {
     var extras = getExtraEvents(), over = {};
     extras.forEach(function (e) { over[String(e.id)] = true; });
-    var base = EVENTS.filter(function (e) { return !over[String(e.id)]; });
+    var del = getDeletedEvents();
+    var base = EVENTS.filter(function (e) { var id = String(e.id); return !over[id] && del.indexOf(id) < 0; });
     return base.concat(extras).sort(function (a, b) {
       var da = parseLocal(a.inicio), db = parseLocal(b.inicio);
       if (!da && !db) return 0; if (!da) return 1; if (!db) return -1;
@@ -387,10 +396,23 @@
   function findEventById(id) {
     if (!id) return null;
     var sid = String(id);
+    if (getDeletedEvents().indexOf(sid) >= 0) return null;
     var extras = getExtraEvents();            // la edición manual tiene prioridad
     for (var i = 0; i < extras.length; i++) if (String(extras[i].id) === sid) return extras[i];
     for (var j = 0; j < EVENTS.length; j++) if (String(EVENTS[j].id) === sid) return EVENTS[j];
     return null;
+  }
+  // Baja de un evento. Solo los de carga manual: los de Autogestión son de
+  // solo lectura en el Portal (ADR-0011).
+  function removeEvent(id) {
+    var ev = findEventById(id);
+    if (!ev || ev.origen !== 'manual') return false;
+    var sid = String(id);
+    var arr = read(K_EVENTS, []); if (!Array.isArray(arr)) arr = [];
+    write(K_EVENTS, arr.filter(function (e) { return String(e.id) !== sid; }));
+    var del = getDeletedEvents();
+    if (del.indexOf(sid) < 0) { del.push(sid); write(K_DEL_EV, del); }
+    return true;
   }
   function getEditEvent()  { return read(K_EDIT_EV, null); }
   function setEditEvent(e) { return write(K_EDIT_EV, e || null); }
@@ -446,7 +468,7 @@
     getEdit: getEdit, setEdit: setEdit, clearEdit: clearEdit,
     // eventos (ADR-0009)
     allEvents: allEvents, upcomingEvents: upcomingEvents, findEventById: findEventById,
-    addOrUpdateEvent: addOrUpdateEvent, normalizeEvent: normalizeEvent,
+    addOrUpdateEvent: addOrUpdateEvent, normalizeEvent: normalizeEvent, removeEvent: removeEvent,
     getEditEvent: getEditEvent, setEditEvent: setEditEvent, clearEditEvent: clearEditEvent,
     eventDateLabel: eventDateLabel, parseLocal: parseLocal, categoriaColor: categoriaColor,
     // mis beneficios (matriculado)

@@ -96,6 +96,16 @@ Decisiones tomadas al aplicar la marca (a ratificar en E5):
   todo corra sin internet se pueden empaquetar los `.woff2` en `assets/`.
 - **Radios y espaciados** no cambian: el PDF no los define.
 
+## Correcciones (25/09/2026)
+
+- **Isotipo recortado.** `assets/marca/isotipo-{color,negro,claro}.png` habían salido del PDF sin la
+  pata de la "A": en las cabeceras de todas las vistas posteriores al login se veía solo la "C". Se
+  regeneraron recortando el símbolo del isologo horizontal correspondiente, que está completo.
+- **Borrar eventos desde el panel.** La vista *Gestión de Eventos* solo permitía editar. Se agrega
+  "Borrar" (con confirmación) **solo en los eventos de carga manual**: los de Autogestión son de solo
+  lectura en el Portal ([ADR-0011]). La baja se guarda en `cac_deleted_events` y oculta el evento en
+  toda la agenda (panel, menú, calendario). `store.js` expone `removeEvent(id)`.
+
 ## Pendientes que no entran acá
 
 - **Pantalla de ingreso**: bloqueada hasta la reunión técnica (ADR-0006 §5, SP1-50).

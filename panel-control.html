@@ -74,6 +74,7 @@
 .pc-event-hero{position:relative;height:210px;overflow:hidden;margin-top:auto;}
 .pc-event-img{width:100%;height:210px;background-size:cover;background-position:center;}
 .pc-event-hero-dark{width:100%;height:210px;background:var(--color-pizarra);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.pc-event-delete{position:absolute;bottom:12px;right:12px;background:#fff;color:#E8376F;border:1.5px solid #E8376F;border-radius:7px;padding:7px 12px;font-size:13px;font-family:var(--font-display);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,.22);display:flex;align-items:center;gap:6px;cursor:pointer;transition:all 160ms;}
 .pc-event-edit{position:absolute;bottom:12px;left:12px;background:var(--color-terracota);color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:13px;font-family:var(--font-display);font-weight:600;box-shadow:0 2px 12px rgba(0,0,0,.22);display:flex;align-items:center;gap:6px;cursor:pointer;transition:all 160ms;}
 
 @media (max-width:960px){
@@ -1018,6 +1019,12 @@ p, span, td, li, input, button, textarea, select {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                   Editar evento
                 </button>
+                <sc-if value="{{ ev.isManual }}" hint-placeholder-val="{{ false }}">
+                  <button onclick="{{ ev.onDelete }}" class="pc-event-delete" style-hover="background:#E8376F;color:#fff;" title="Borrar evento">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    Borrar
+                  </button>
+                </sc-if>
               </div>
             </div>
           </sc-for>
@@ -1104,6 +1111,11 @@ class Component extends DCLogic {
     if (ev) window.CAC.setEditEvent(ev);
     window.location.href = 'formulario-evento.html?mode=edit&from=panel';
   }
+  deleteEvent(id, title) {
+    if (!window.confirm('¿Borrar el evento "' + (title || '') + '"? Se quitará de la agenda.')) return;
+    window.CAC.removeEvent(id);
+    window.location.reload();
+  }
   deleteBenefit(id, name) {
     if (!window.confirm('¿Borrar el beneficio "' + (name || '') + '"? Se quitará de todo el sistema.')) return;
     window.CAC.removeBenefit(id);
@@ -1162,7 +1174,9 @@ class Component extends DCLogic {
       noImg: !ev.img,
       origenLabel: ev.origen === 'manual' ? 'Carga manual' : 'Autogestión',
       origenClass: ev.origen === 'manual' ? 'pc-origen-manual' : 'pc-origen-api',
+      isManual: ev.origen === 'manual',
       onEdit: () => self.editEvent(ev.id),
+      onDelete: () => self.deleteEvent(ev.id, ev.title),
     }));
 
     const headerTitle = view === 'beneficios' ? 'Gestión de Beneficios'
