@@ -12,7 +12,7 @@
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260921"></script>
+  <script src="store.js?v=20260925"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -79,15 +79,15 @@ function QRValidacion({ benefit }) {
       <div style={{maxWidth:'400px', margin:'0 auto', padding:'20px 16px 40px'}}>
         {isReady && (
           <div>
-            <div style={{background:'#fff', borderRadius:'10px', padding:'13px 16px', marginBottom:'16px', boxShadow:'0 2px 10px rgba(22,22,22,.07)', border:'1px solid #F0ECEA', display:'flex', alignItems:'center', gap:'12px'}}>
-              <div style={{width:'44px', height:'44px', background:b.color, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+            <div style={{background:'#fff', borderRadius:'16px', padding:'13px 16px', marginBottom:'16px', boxShadow:'0 2px 10px rgba(22,22,22,.07)', border:'1px solid #F0ECEA', display:'flex', alignItems:'center', gap:'12px'}}>
+              <div style={{width:'44px', height:'44px', background:b.color, borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
                 <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'13px', fontWeight:800, color:'#fff'}}>{b.logo}</span>
               </div>
               <div style={{flex:1, minWidth:0}}>
                 <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'13.5px', fontWeight:600, color:'#161616', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{b.nombre}</div>
                 <div style={{fontSize:'11.5px', color:'#7A736E', marginTop:'2px'}}>{b.regional}</div>
               </div>
-              <div style={{background:'#FEF0E8', borderRadius:'6px', padding:'5px 10px', flexShrink:0, textAlign:'center'}}>
+              <div style={{background:'#FEF0E8', borderRadius:'10px', padding:'5px 10px', flexShrink:0, textAlign:'center'}}>
                 <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'18px', fontWeight:800, color:'#E9500E', lineHeight:1.1}}>{descTxt}</div>
                 <div style={{fontSize:'8px', color:'#E9500E', fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase'}}>OFF</div>
               </div>
@@ -108,15 +108,15 @@ function QRValidacion({ benefit }) {
                 )}
               </div>
 
-              <div style={{position:'relative', display:'inline-block', padding:'10px', background:'#F7F5F3', borderRadius:'12px', border:'1.5px solid #E7E2E1'}}>
+              <div style={{position:'relative', display:'inline-block', padding:'10px', background:'#F7F5F3', borderRadius:'16px', border:'1.5px solid #E7E2E1'}}>
                 <div style={{filter: transitioning ? 'blur(5px)' : 'none', transition:'filter .45s ease'}}>
                   <QRSvg/>
                 </div>
                 {['tl','tr','bl','br'].map(c => <Bracket key={c} c={c}/>)}
-                {!transitioning && <div style={{position:'absolute', left:'10px', right:'10px', top:'6%', height:'2px', background:'linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent)', boxShadow:'0 0 10px rgba(233,80,14,.9)', borderRadius:'1px', animation:'laserScan 2s ease-in-out infinite', pointerEvents:'none'}}/>}
+                {!transitioning && <div style={{position:'absolute', left:'10px', right:'10px', top:'6%', height:'2px', background:'linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent)', boxShadow:'0 0 10px rgba(233,80,14,.9)', borderRadius:'8px', animation:'laserScan 2s ease-in-out infinite', pointerEvents:'none'}}/>}
                 {transitioning && (
-                  <div style={{position:'absolute', inset:0, background:'rgba(248,250,252,.75)', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', backdropFilter:'blur(2px)'}}>
-                    <div style={{background:'#fff', borderRadius:'10px', padding:'10px 20px', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 4px 16px rgba(0,0,0,.1)'}}>
+                  <div style={{position:'absolute', inset:0, background:'rgba(248,250,252,.75)', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', backdropFilter:'blur(2px)'}}>
+                    <div style={{background:'#fff', borderRadius:'16px', padding:'10px 20px', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 4px 16px rgba(0,0,0,.1)'}}>
                       <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({stroke:'#E9500E', strokeWidth:2.5})} style={{animation:'spin .7s linear infinite'}}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
                       <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'13px', fontWeight:600, color:'#161616'}}>Verificando código QR...</span>
                     </div>
@@ -135,11 +135,11 @@ function QRValidacion({ benefit }) {
 
             <div style={{marginTop:'20px', display:'flex', flexDirection:'column', gap:'10px'}}>
               <div style={{textAlign:'center', fontSize:'10px', color:'#9E968F', textTransform:'uppercase', letterSpacing:'.1em', fontFamily:"'Work Sans',sans-serif", fontWeight:600, marginBottom:'2px'}}>Controles de simulación</div>
-              <button onClick={simulateSuccess} className={transitioning ? '' : 'h-primary'} style={{width:'100%', padding:'14px', background: transitioning ? '#9E968F' : '#E9500E', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor: transitioning ? 'default' : 'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', pointerEvents: transitioning ? 'none' : 'auto'}}>
+              <button onClick={simulateSuccess} className={transitioning ? '' : 'h-primary'} style={{width:'100%', padding:'14px', background: transitioning ? '#9E968F' : '#E9500E', color:'#fff', border:'none', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor: transitioning ? 'default' : 'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', pointerEvents: transitioning ? 'none' : 'auto'}}>
                 <svg width="17" height="17" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="20 6 9 17 4 12"/></svg>
                 Simular Escaneo Exitoso
               </button>
-              <button onClick={simulateError} className="h-outline" style={{width:'100%', padding:'14px', background:'#fff', color:'#7A736E', border:'1.5px solid #E2DBD7', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px'}}>
+              <button onClick={simulateError} className="h-outline" style={{width:'100%', padding:'14px', background:'#fff', color:'#7A736E', border:'1.5px solid #E2DBD7', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px'}}>
                 <svg width="17" height="17" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="17"/></svg>
                 Simular QR Ya Usado / Inválido
               </button>
@@ -167,9 +167,9 @@ function QRValidacion({ benefit }) {
               </div>
 
               <div style={{padding:'20px', display:'flex', flexDirection:'column', gap:'12px'}}>
-                <div style={{background:'#F5F2F0', borderRadius:'10px', padding:'14px 16px', border:'1px solid #E7E2E1'}}>
+                <div style={{background:'#F5F2F0', borderRadius:'16px', padding:'14px 16px', border:'1px solid #E7E2E1'}}>
                   <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'12px'}}>
-                    <div style={{width:'42px', height:'42px', background:b.color, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+                    <div style={{width:'42px', height:'42px', background:b.color, borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
                       <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'13px', fontWeight:800, color:'#fff'}}>{b.logo}</span>
                     </div>
                     <div>
@@ -189,7 +189,7 @@ function QRValidacion({ benefit }) {
                   </div>
                 </div>
 
-                <div style={{background:'#FEF6F0', border:'1.5px solid #FBD3BC', borderRadius:'10px', padding:'14px 16px'}}>
+                <div style={{background:'#FEF6F0', border:'1.5px solid #FBD3BC', borderRadius:'16px', padding:'14px 16px'}}>
                   <div style={{display:'flex', alignItems:'center', gap:'7px', marginBottom:'10px'}}>
                     <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#E9500E', strokeWidth:2.5})}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'11.5px', fontWeight:600, color:'#E9500E', textTransform:'uppercase', letterSpacing:'.05em'}}>Período de carencia activo</span>
@@ -197,7 +197,7 @@ function QRValidacion({ benefit }) {
                   <div style={{fontSize:'12px', color:'#7A736E', marginBottom:'10px'}}>Podrás reutilizar este beneficio en:</div>
                   <div style={{display:'flex', gap:'8px', justifyContent:'center'}}>
                     {[['30','días'],['00','horas'],['00','min']].map((u,i)=>(
-                      <div key={i} style={{textAlign:'center', background:'#fff', borderRadius:'6px', padding:'8px 12px', border:'1px solid #FBD3BC', flex:1}}>
+                      <div key={i} style={{textAlign:'center', background:'#fff', borderRadius:'10px', padding:'8px 12px', border:'1px solid #FBD3BC', flex:1}}>
                         <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'24px', fontWeight:800, color:'#161616', lineHeight:1.1}}>{u[0]}</div>
                         <div style={{fontSize:'9px', color:'#9E968F', marginTop:'2px', textTransform:'uppercase', letterSpacing:'.06em'}}>{u[1]}</div>
                       </div>
@@ -228,9 +228,9 @@ function QRValidacion({ benefit }) {
               </div>
 
               <div style={{padding:'20px', display:'flex', flexDirection:'column', gap:'12px'}}>
-                <div style={{background:'#FEF6F0', border:'1.5px solid #FBD3BC', borderRadius:'10px', padding:'14px 16px'}}>
+                <div style={{background:'#FEF6F0', border:'1.5px solid #FBD3BC', borderRadius:'16px', padding:'14px 16px'}}>
                   <div style={{display:'flex', alignItems:'center', gap:'10px', marginBottom:'10px'}}>
-                    <div style={{width:'40px', height:'40px', background:b.color, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:.55}}>
+                    <div style={{width:'40px', height:'40px', background:b.color, borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, opacity:.55}}>
                       <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'12px', fontWeight:800, color:'#fff'}}>{b.logo}</span>
                     </div>
                     <div>
@@ -240,12 +240,12 @@ function QRValidacion({ benefit }) {
                       </div>
                     </div>
                   </div>
-                  <div style={{background:'#fff', borderRadius:'6px', padding:'10px 12px', border:'1px solid #F2D4C3', fontSize:'12.5px', color:'#7A736E', lineHeight:1.5}}>
+                  <div style={{background:'#fff', borderRadius:'10px', padding:'10px 12px', border:'1px solid #F2D4C3', fontSize:'12.5px', color:'#7A736E', lineHeight:1.5}}>
                     Este cupón fue canjeado el <strong style={{color:'#161616'}}>14 de junio · 10:18 hs</strong> y se encuentra en período de carencia obligatorio.
                   </div>
                 </div>
 
-                <div style={{background:'#F2F8EC', borderRadius:'6px', padding:'10px 12px', display:'flex', alignItems:'flex-start', gap:'8px', border:'1px solid #BFDEA6'}}>
+                <div style={{background:'#F2F8EC', borderRadius:'10px', padding:'10px 12px', display:'flex', alignItems:'flex-start', gap:'8px', border:'1px solid #BFDEA6'}}>
                   <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#5E9A38', strokeWidth:2.5})} style={{flexShrink:0, marginTop:'1px'}}><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 15 14"/></svg>
                   <span style={{fontSize:'12px', color:'#3f6b22', lineHeight:1.4}}>Mientras esperás, podés usar otros beneficios disponibles en el Menú.</span>
                 </div>
@@ -262,7 +262,7 @@ function QRValidacion({ benefit }) {
     </div>
   );
 }
-const backBtnSt = { width:'100%', padding:'14px', background:'#161616', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.04em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' };
+const backBtnSt = { width:'100%', padding:'14px', background:'#161616', color:'#fff', border:'none', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.04em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' };
 const QrMeta = ({label, value}) => (
   <div style={{textAlign:'center'}}>
     <div style={{fontSize:'9.5px', color:'#9E968F', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:'2px'}}>{label}</div>
@@ -272,10 +272,10 @@ const QrMeta = ({label, value}) => (
 const Bracket = ({c}) => {
   const base = { position:'absolute', width:'22px', height:'22px', pointerEvents:'none' };
   const map = {
-    tl:{ top:'5px', left:'5px', borderTop:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'3px 0 0 0' },
-    tr:{ top:'5px', right:'5px', borderTop:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 3px 0 0' },
-    bl:{ bottom:'5px', left:'5px', borderBottom:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'0 0 0 3px' },
-    br:{ bottom:'5px', right:'5px', borderBottom:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 0 3px 0' },
+    tl:{ top:'5px', left:'5px', borderTop:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'8px 0 0 0' },
+    tr:{ top:'5px', right:'5px', borderTop:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 8px 0 0' },
+    bl:{ bottom:'5px', left:'5px', borderBottom:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'0 0 0 8px' },
+    br:{ bottom:'5px', right:'5px', borderBottom:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 0 8px 0' },
   };
   return <div style={{...base, ...map[c]}}/>;
 };

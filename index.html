@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login · Portal de Beneficios · Colegio de Arquitectos (maqueta de demostración)</title>
+  <title>Login · Portal de Beneficios · Colegio de Arquitectos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
@@ -186,12 +186,12 @@ function Login() {
 
   const errOf = (f) => (touched[f] && errors[f]) ? errors[f] : '';
   const fld = (f, extra={}) => ({
-    width:'100%', padding:'12px 12px 12px 44px', borderRadius:'3px', fontSize:'15px',
+    width:'100%', padding:'12px 12px 12px 44px', borderRadius:'12px', fontSize:'15px',
     fontFamily:"'Work Sans',sans-serif", color:'#161616', background:'#F7F5F3', outline:'none',
     boxSizing:'border-box', border:`1.5px solid ${errOf(f) ? '#E9500E' : '#E2DBD7'}`, ...extra,
   });
   const tabSt = (t) => ({
-    flex:1, border:'none', borderRadius:'2px', padding: t==='personal' ? '8px 2px' : '8px 5px',
+    flex:1, border:'none', borderRadius:'10px', padding: t==='personal' ? '8px 2px' : '8px 5px',
     fontSize: t==='personal' ? '10px' : '11.5px', fontFamily:"'Work Sans',sans-serif",
     fontWeight: accountType===t ? 600 : 400, background: accountType===t ? '#161616' : 'transparent',
     color: accountType===t ? '#FFFFFF' : '#7A736E', cursor:'pointer', transition:'all .18s', lineHeight:'1.4',
@@ -221,23 +221,14 @@ function Login() {
         <circle cx="190" cy="190" r="155" stroke="#161616" strokeWidth="1"/>
       </svg>
 
-      <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'4px', overflow:'hidden', border:'1px solid #E7E2E1', boxShadow:'0 16px 56px rgba(22,22,22,.1), 0 4px 16px rgba(22,22,22,.05)'}}>
-        {/* Aviso de maqueta. Va DENTRO de la tarjeta (primer hijo), no antepuesto al
-            body: INV-1 exige que nada se inserte por encima de la cabecera. */}
-        <div style={{background:'#FBF3CF', borderBottom:'1px solid #EFCE44', padding:'11px 32px', display:'flex', gap:'10px', alignItems:'flex-start', color:'#5C4700'}}>
-          <svg width="15" height="15" viewBox="0 0 24 24" {...stroke()} style={{flexShrink:0, marginTop:'2px'}}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <div style={{fontSize:'12px', lineHeight:1.55}}>
-            <strong style={{display:'block', fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'10.5px', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'3px'}}>Maqueta de demostración</strong>
-            Prototipo de interfaz sin funcionalidad real. <strong>No es el portal del Colegio de Arquitectos</strong>: no ingreses credenciales reales. Los campos vienen precargados con datos de prueba ficticios.
-          </div>
-        </div>
+      <div style={{width:'100%', maxWidth:'448px', background:'#FFFFFF', borderRadius:'24px', overflow:'hidden', border:'1px solid #E7E2E1', boxShadow:'0 16px 56px rgba(22,22,22,.1), 0 4px 16px rgba(22,22,22,.05)'}}>
         <div style={{background:'#161616', padding:'36px 32px 30px', position:'relative', overflow:'hidden'}}>
           <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'var(--capc-degrade)'}}/>
           <div style={{display:'flex', flexDirection:'column', alignItems:'flex-start', marginBottom:'24px', position:'relative', zIndex:2}}>
             <img src="assets/marca/isologo-horizontal-color-oscuro.png" alt="Colegio de Arquitectos de la Provincia de Córdoba" style={{height:'54px', width:'auto', display:'block'}}/>
             <div style={{fontSize:'10.5px', color:'#9E968F', letterSpacing:'.07em', textTransform:'uppercase', marginTop:'12px'}}>Portal de Beneficios Exclusivos</div>
           </div>
-          <div style={{width:'38px', height:'3px', background:'#E9500E', marginBottom:'14px', position:'relative', zIndex:2}}/>
+          <div style={{width:'38px', height:'3px', borderRadius:'9999px', background:'#E9500E', marginBottom:'14px', position:'relative', zIndex:2}}/>
           <div style={{position:'relative', zIndex:2}}>
             <h1 style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'28px', color:'#FFFFFF', margin:'0 0 7px', lineHeight:1.15, letterSpacing:'-.025em'}}>el colegio junto a vos</h1>
             <p style={{fontSize:'14px', color:'#9E968F', margin:0, lineHeight:1.5}}>Ingresá tus credenciales para continuar.</p>
@@ -247,14 +238,14 @@ function Login() {
         <div className="login-card-pad" style={{padding:'32px'}}>
           <div style={{marginBottom:'22px'}}>
             <label style={{display:'block', fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#9E968F', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'8px'}}>Tipo de Cuenta</label>
-            <div style={{display:'flex', background:'#F0ECEA', borderRadius:'3px', padding:'3px', gap:'2px'}}>
+            <div style={{display:'flex', background:'#F0ECEA', borderRadius:'14px', padding:'4px', gap:'2px'}}>
               <button className={'login-tab' + (accountType==='arquitecto' ? ' on' : '')} style={tabSt('arquitecto')} onClick={() => switchType('arquitecto')}>Arquitecto</button>
               <button className={'login-tab' + (accountType==='personal' ? ' on' : '')} style={tabSt('personal')} onClick={() => switchType('personal')}>Personal del Colegio</button>
               <button className={'login-tab' + (accountType==='afiliado' ? ' on' : '')} style={tabSt('afiliado')} onClick={() => switchType('afiliado')}>Afiliado</button>
             </div>
           </div>
 
-          <div style={{marginBottom:'22px', padding:'10px 12px', background:'#F5F2F0', border:'1px dashed #CCC5BE', borderRadius:'3px'}}>
+          <div style={{marginBottom:'22px', padding:'10px 12px', background:'#F5F2F0', border:'1px dashed #CCC5BE', borderRadius:'14px'}}>
             <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'9.5px', fontWeight:600, color:'#5b5652', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:'5px'}}>Credenciales de prueba · ficticias</div>
             <div style={{fontSize:'11.5px', color:'#5b5652', lineHeight:1.6, fontFamily:'ui-monospace, monospace', wordBreak:'break-word'}}>{demoHint}</div>
           </div>
@@ -292,7 +283,7 @@ function Login() {
           <button onClick={submit} className={loading ? '' : 'h-primary'} style={{
             width:'100%', minHeight:'50px', padding:'13px 24px',
             background: loading ? '#9E968F' : '#E9500E',
-            color:'#FFFFFF', border:'none', borderRadius:'3px', fontSize:'15px',
+            color:'#FFFFFF', border:'none', borderRadius:'14px', fontSize:'15px',
             fontFamily:"'Work Sans',sans-serif", fontWeight:600,
             cursor: loading ? 'default' : 'pointer', letterSpacing:'.05em',
             transition:'all .2s', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px',

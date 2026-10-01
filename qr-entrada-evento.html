@@ -12,7 +12,7 @@
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260921"></script>
+  <script src="store.js?v=20260925"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -77,7 +77,7 @@ function QREntradaEvento({ ev }) {
         {isReady && (
           <div>
             {/* Mini-card del evento */}
-            <div style={{background:'#fff', borderRadius:'12px', marginBottom:'16px', boxShadow:'0 2px 10px rgba(22,22,22,.07)', border:'1px solid #F0ECEA', overflow:'hidden'}}>
+            <div style={{background:'#fff', borderRadius:'16px', marginBottom:'16px', boxShadow:'0 2px 10px rgba(22,22,22,.07)', border:'1px solid #F0ECEA', overflow:'hidden'}}>
               <div style={{position:'relative', height:'120px', overflow:'hidden'}}>
                 {ev.img ? (
                   <div style={{width:'100%', height:'120px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
@@ -86,7 +86,7 @@ function QREntradaEvento({ ev }) {
                     <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'18px', color:'#fff'}}>Evento CAC</div>
                   </div>
                 )}
-                <span style={{position:'absolute', top:'10px', left:'10px', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'3px 9px', fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
+                <span style={{position:'absolute', top:'10px', left:'10px', background:ev.tagBg, color:'#fff', borderRadius:'8px', padding:'3px 9px', fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
               </div>
               <div style={{padding:'12px 16px'}}>
                 <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'15px', fontWeight:800, color:'#161616', lineHeight:1.25}}>{ev.title}</div>
@@ -114,12 +114,12 @@ function QREntradaEvento({ ev }) {
                 )}
               </div>
 
-              <div style={{position:'relative', display:'inline-block', padding:'10px', background:'#F7F5F3', borderRadius:'12px', border:'1.5px solid #E7E2E1'}}>
+              <div style={{position:'relative', display:'inline-block', padding:'10px', background:'#F7F5F3', borderRadius:'16px', border:'1.5px solid #E7E2E1'}}>
                 <div style={{filter: transitioning ? 'blur(5px)' : 'none', transition:'filter .45s ease'}}>
                   <QRSvg/>
                 </div>
                 {['tl','tr','bl','br'].map(c => <Bracket key={c} c={c}/>)}
-                {!transitioning && <div style={{position:'absolute', left:'10px', right:'10px', top:'6%', height:'2px', background:'linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent)', boxShadow:'0 0 10px rgba(233,80,14,.9)', borderRadius:'1px', animation:'laserScan 2s ease-in-out infinite', pointerEvents:'none'}}/>}
+                {!transitioning && <div style={{position:'absolute', left:'10px', right:'10px', top:'6%', height:'2px', background:'linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent)', boxShadow:'0 0 10px rgba(233,80,14,.9)', borderRadius:'8px', animation:'laserScan 2s ease-in-out infinite', pointerEvents:'none'}}/>}
               </div>
 
               <div style={{display:'flex', justifyContent:'center', gap:'14px', marginTop:'16px'}}>
@@ -133,11 +133,11 @@ function QREntradaEvento({ ev }) {
 
             <div style={{marginTop:'20px', display:'flex', flexDirection:'column', gap:'10px'}}>
               <div style={{textAlign:'center', fontSize:'10px', color:'#9E968F', textTransform:'uppercase', letterSpacing:'.1em', fontFamily:"'Work Sans',sans-serif", fontWeight:600, marginBottom:'2px'}}>Controles de simulación</div>
-              <button onClick={emitir} className={transitioning ? '' : 'h-primary'} style={{width:'100%', padding:'14px', background: transitioning ? '#9E968F' : '#E9500E', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor: transitioning ? 'default' : 'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', pointerEvents: transitioning ? 'none' : 'auto'}}>
+              <button onClick={emitir} className={transitioning ? '' : 'h-primary'} style={{width:'100%', padding:'14px', background: transitioning ? '#9E968F' : '#E9500E', color:'#fff', border:'none', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor: transitioning ? 'default' : 'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', pointerEvents: transitioning ? 'none' : 'auto'}}>
                 <svg width="17" height="17" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="20 6 9 17 4 12"/></svg>
                 Confirmar Entrada al Evento
               </button>
-              <button onClick={goBack} className="h-outline" style={{width:'100%', padding:'14px', background:'#fff', color:'#7A736E', border:'1.5px solid #E2DBD7', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px'}}>
+              <button onClick={goBack} className="h-outline" style={{width:'100%', padding:'14px', background:'#fff', color:'#7A736E', border:'1.5px solid #E2DBD7', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.03em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px'}}>
                 <svg width="16" height="16" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
                 Volver al Menú
               </button>
@@ -161,9 +161,9 @@ function QREntradaEvento({ ev }) {
               </div>
 
               <div style={{padding:'20px', display:'flex', flexDirection:'column', gap:'12px'}}>
-                <div style={{background:'#F5F2F0', borderRadius:'10px', padding:'14px 16px', border:'1px solid #E7E2E1'}}>
+                <div style={{background:'#F5F2F0', borderRadius:'16px', padding:'14px 16px', border:'1px solid #E7E2E1'}}>
                   <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                    <div style={{width:'44px', height:'44px', background:ev.tagBg, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
+                    <div style={{width:'44px', height:'44px', background:ev.tagBg, borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>
                       <svg width="22" height="22" viewBox="0 0 24 24" {...stroke({stroke:'#fff', strokeWidth:2.2})}><path d="M4 4h16v6a2 2 0 0 0 0 4v6H4v-6a2 2 0 0 0 0-4z"/><line x1="12" y1="4" x2="12" y2="20" strokeDasharray="2 3"/></svg>
                     </div>
                     <div>
@@ -173,7 +173,7 @@ function QREntradaEvento({ ev }) {
                   </div>
                 </div>
 
-                <div style={{background:'#F2F8EC', borderRadius:'6px', padding:'10px 12px', display:'flex', alignItems:'flex-start', gap:'8px', border:'1px solid #BFDEA6'}}>
+                <div style={{background:'#F2F8EC', borderRadius:'10px', padding:'10px 12px', display:'flex', alignItems:'flex-start', gap:'8px', border:'1px solid #BFDEA6'}}>
                   <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#5E9A38', strokeWidth:2.5})} style={{flexShrink:0, marginTop:'1px'}}><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 15 14"/></svg>
                   <span style={{fontSize:'12px', color:'#3f6b22', lineHeight:1.4}}>Recibirás un recordatorio 24 hs antes del evento. La entrada es personal e intransferible.</span>
                 </div>
@@ -190,7 +190,7 @@ function QREntradaEvento({ ev }) {
     </div>
   );
 }
-const backBtnSt = { width:'100%', padding:'14px', background:'#161616', color:'#fff', border:'none', borderRadius:'8px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.04em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' };
+const backBtnSt = { width:'100%', padding:'14px', background:'#161616', color:'#fff', border:'none', borderRadius:'12px', fontSize:'14px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', letterSpacing:'.04em', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' };
 const QrMeta = ({label, value}) => (
   <div style={{textAlign:'center'}}>
     <div style={{fontSize:'9.5px', color:'#9E968F', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:'2px'}}>{label}</div>
@@ -200,10 +200,10 @@ const QrMeta = ({label, value}) => (
 const Bracket = ({c}) => {
   const base = { position:'absolute', width:'22px', height:'22px', pointerEvents:'none' };
   const map = {
-    tl:{ top:'5px', left:'5px', borderTop:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'3px 0 0 0' },
-    tr:{ top:'5px', right:'5px', borderTop:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 3px 0 0' },
-    bl:{ bottom:'5px', left:'5px', borderBottom:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'0 0 0 3px' },
-    br:{ bottom:'5px', right:'5px', borderBottom:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 0 3px 0' },
+    tl:{ top:'5px', left:'5px', borderTop:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'8px 0 0 0' },
+    tr:{ top:'5px', right:'5px', borderTop:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 8px 0 0' },
+    bl:{ bottom:'5px', left:'5px', borderBottom:'3px solid #E9500E', borderLeft:'3px solid #E9500E', borderRadius:'0 0 0 8px' },
+    br:{ bottom:'5px', right:'5px', borderBottom:'3px solid #E9500E', borderRight:'3px solid #E9500E', borderRadius:'0 0 8px 0' },
   };
   return <div style={{...base, ...map[c]}}/>;
 };

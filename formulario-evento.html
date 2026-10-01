@@ -12,7 +12,7 @@
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260921"></script>
+  <script src="store.js?v=20260925"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -74,7 +74,7 @@ const IX      = p => <svg width="14" height="14" viewBox="0 0 24 24" {...sv({str
 const IBack   = p => <svg width="17" height="17" viewBox="0 0 24 24" {...sv({strokeWidth:2.2,...p})}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>;
 const IQR     = p => <svg width="14" height="14" viewBox="0 0 24 24" {...sv({strokeWidth:2.5,...p})}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>;
 
-const CATEGORIAS = CAC.CATEGORIAS_EVENTO.map(c => c.nombre);
+const nombresCategorias = () => CAC.CATEGORIAS_EVENTO.map(c => c.nombre);
 const MODE = CAC.qp('mode') === 'edit' ? 'edit' : 'new';
 const EDITING = MODE === 'edit' ? CAC.getEditEvent() : null;
 const RETURN_URL = 'panel-control.html?vista=eventos';
@@ -86,10 +86,20 @@ function sesionRegional() {
   catch (e) { return 'Provincial'; }
 }
 
-const EMPTY = { nombre:'', categoria:'', lugar:'', inicio:'', fin:'', descripcion:'', urlInscripcion:'', urlEntrada:'', imagen:null };
+/* Alcance del evento (RN-08 · minuta 10/09): regional o provincial. Si es
+   regional, se elige cuál; por defecto, la de la sesión. */
+const REGIONALES = CAC.CITIES.filter(r => r !== 'Todas' && r !== 'Provincial');
+function alcanceDe(reg) {
+  return reg && reg !== 'Provincial'
+    ? { alcance:'regional', regional: reg }
+    : { alcance:'provincial', regional: REGIONALES.indexOf(sesionRegional()) >= 0 ? sesionRegional() : (REGIONALES[0] || '') };
+}
+
+const EMPTY = { nombre:'', categoria:'', lugar:'', inicio:'', fin:'', descripcion:'', urlInscripcion:'', urlEntrada:'', imagen:null, ...alcanceDe(sesionRegional()) };
 function fromEvent(ev) {
   if (!ev) return EMPTY;
   return {
+    ...alcanceDe(ev.regional),
     nombre: ev.title || '', categoria: ev.categoria || '', lugar: ev.subtitle || '',
     inicio: ev.inicio || '', fin: ev.fin || '', descripcion: ev.descripcion || '',
     urlInscripcion: ev.urlInscripcion || '', urlEntrada: ev.urlEntrada || '',
@@ -131,7 +141,7 @@ const Label = ({ children, req, hint }) => (
 const Err = ({ msg }) => msg ? (
   <p style={{ margin:'5px 0 0', fontSize:'11.5px', color:C.terracota, display:'flex', alignItems:'center', gap:'4px' }}><IAlert/>{msg}</p>
 ) : null;
-const fieldSt = err => ({ width:'100%', padding:'12px 12px 12px 42px', borderRadius:'6px', fontSize:'14px', color:C.t1, background:'#F7F5F3', border:`1.5px solid ${err ? C.terracota : C.border}`, transition:'border-color .18s,background .18s' });
+const fieldSt = err => ({ width:'100%', padding:'12px 12px 12px 42px', borderRadius:'10px', fontSize:'14px', color:C.t1, background:'#F7F5F3', border:`1.5px solid ${err ? C.terracota : C.border}`, transition:'border-color .18s,background .18s' });
 const iconSt = { position:'absolute', left:'13px', top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:C.t5, display:'flex' };
 
 function Field({ label, req, hint, icon, error, children }) {
@@ -152,9 +162,9 @@ function EventPreview({ f }) {
     descripcion: f.descripcion, inicio: f.inicio, fin: f.fin, img: f.imagen ? f.imagen.src : null,
   });
   return (
-    <div style={{ width:'100%', maxWidth:'300px', margin:'0 auto', background:'#fff', borderRadius:'10px', overflow:'hidden', boxShadow:'0 8px 30px rgba(22,22,22,.14)' }}>
+    <div style={{ width:'100%', maxWidth:'300px', margin:'0 auto', background:'#fff', borderRadius:'16px', overflow:'hidden', boxShadow:'0 8px 30px rgba(22,22,22,.14)' }}>
       <div style={{ padding:'13px 14px 10px' }}>
-        <span style={{ display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase' }}>{ev.tag}</span>
+        <span style={{ display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'8px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase' }}>{ev.tag}</span>
         <div style={{ fontFamily:DISP, fontWeight:800, fontSize:'15px', color:C.t1, marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em' }}>{ev.title}</div>
         <div style={{ fontSize:'11px', color:C.t5, marginTop:'3px' }}>{ev.subtitle}</div>
         <div style={{ fontSize:'10.5px', color:C.t4, marginTop:'3px', display:'flex', alignItems:'center', gap:'4px' }}><ICal width="10" height="10"/> {ev.date}</div>
@@ -168,7 +178,7 @@ function EventPreview({ f }) {
             <div style={{ fontSize:'11px', color:'#9E968F', marginTop:'8px', textAlign:'center' }}>{ev.subtitle}</div>
           </div>
         )}
-        <div style={{ position:'absolute', bottom:'12px', left:'12px', background:C.terracota, color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:DISP, fontWeight:600, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px' }}>
+        <div style={{ position:'absolute', bottom:'12px', left:'12px', background:C.terracota, color:'#fff', borderRadius:'10px', padding:'8px 18px', fontSize:'13px', fontFamily:DISP, fontWeight:600, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px' }}>
           <IQR/> Obtener entrada
         </div>
       </div>
@@ -181,10 +191,21 @@ function App() {
   const [err, setErr] = useState({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [categorias, setCategorias] = useState(nombresCategorias());
+  const [nuevaCat, setNuevaCat] = useState(null);   // null = cerrado; string = texto en edición
   const fileRef = useRef(null);
   const isEdit = MODE === 'edit' && !!EDITING;
   const fromApi = isEdit && EDITING.origen === 'api';
   const set = (k, v) => { setF(p => ({ ...p, [k]: v })); setErr(p => ({ ...p, [k]: '' })); setSaved(false); };
+
+  // Alta de categoría desde el formulario (18/09: el Colegio pidió categorías administrables).
+  function agregarCategoria() {
+    const c = CAC.addCategoriaEvento(nuevaCat || '');
+    if (!c) { setErr(p => ({ ...p, categoria: 'Escribí el nombre de la categoría' })); return; }
+    setCategorias(nombresCategorias());
+    set('categoria', c.nombre);
+    setNuevaCat(null);
+  }
 
   function pickFile(file) {
     if (!file) return;
@@ -195,6 +216,7 @@ function App() {
     const e = {};
     if (!f.nombre.trim()) e.nombre = 'El nombre del evento es requerido';
     if (!f.categoria) e.categoria = 'Seleccioná una categoría';
+    if (f.alcance === 'regional' && !f.regional) e.regional = 'Elegí la regional';
     if (!f.inicio) e.inicio = 'Indicá la fecha y hora de inicio';
     if (!f.fin) e.fin = 'Indicá la fecha y hora de fin';
     if (f.inicio && f.fin && new Date(f.fin) <= new Date(f.inicio)) e.fin = 'La fecha de fin debe ser posterior al inicio';
@@ -214,7 +236,7 @@ function App() {
       urlInscripcion: f.urlInscripcion.trim(), urlEntrada: f.urlEntrada.trim(),
       img: f.imagen ? f.imagen.src : null,
       origen: isEdit ? EDITING.origen : 'manual',
-      regional: isEdit ? EDITING.regional : sesionRegional(),
+      regional: f.alcance === 'provincial' ? 'Provincial' : f.regional,
     };
   }
 
@@ -242,7 +264,7 @@ function App() {
         <div style={{ position:'absolute', top:0, left:0, right:0, height:'3px', background:'var(--capc-degrade)' }}/>
         <div className="fe-wrap fe-header" style={{ position:'relative', zIndex:1 }}>
           <div style={{ display:'flex', alignItems:'center', gap:'14px', minWidth:0 }}>
-            <button onClick={navBack} className="h-back" title="Volver a la agenda" style={{ width:'38px', height:'38px', borderRadius:'9px', border:'1px solid rgba(255,255,255,.14)', background:'rgba(255,255,255,.06)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,.7)', transition:'all .16s', flexShrink:0 }}><IBack/></button>
+            <button onClick={navBack} className="h-back" title="Volver a la agenda" style={{ width:'38px', height:'38px', borderRadius:'12px', border:'1px solid rgba(255,255,255,.14)', background:'rgba(255,255,255,.06)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,.7)', transition:'all .16s', flexShrink:0 }}><IBack/></button>
             <div style={{ minWidth:0 }}>
               <div style={{ fontFamily:DISP, fontSize:'10px', fontWeight:600, color:'rgba(255,255,255,.4)', letterSpacing:'.12em', textTransform:'uppercase', marginBottom:'5px' }}>Panel de Gestión · Eventos</div>
               <div style={{ display:'flex', alignItems:'center', gap:'10px', flexWrap:'wrap' }}>
@@ -271,7 +293,7 @@ function App() {
         <div className="fe-card" style={{ background:C.surface, borderRadius:'14px', border:'1px solid #E7E2E1', boxShadow:'0 4px 24px rgba(22,22,22,.06)', padding:'28px', display:'flex', flexDirection:'column', gap:'20px' }}>
 
           {fromApi && (
-            <div style={{ background:C.infoBg, border:'1px solid #BDD4EC', borderRadius:'10px', padding:'12px 14px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
+            <div style={{ background:C.infoBg, border:'1px solid #BDD4EC', borderRadius:'16px', padding:'12px 14px', display:'flex', gap:'10px', alignItems:'flex-start' }}>
               <span style={{ color:'#1D3354', display:'flex', marginTop:'1px' }}><IInfo/></span>
               <div style={{ fontSize:'12.5px', color:'#1D3354', lineHeight:1.5 }}>
                 <strong>Este evento llegó por la API de Autogestión.</strong> Ante conflicto manda el origen API: lo que la API provee se actualiza en cada sincronización; lo que la API no trae (imagen, descripción ampliada, URLs) se completa desde acá.
@@ -288,10 +310,37 @@ function App() {
           <div data-err={err.categoria ? '1' : '0'}>
             <Field label="Categoría" req error={err.categoria}>
               <div style={{ display:'flex', gap:'8px', flexWrap:'wrap' }}>
-                {CATEGORIAS.map(c => {
+                {categorias.map(c => {
                   const on = f.categoria === c;
                   return <button key={c} type="button" className={'chip' + (on ? ' on' : '')} onClick={() => set('categoria', c)} style={chipSt(on)}>{c}</button>;
                 })}
+                {nuevaCat === null ? (
+                  <button type="button" className="chip" onClick={() => setNuevaCat('')} style={{ ...chipSt(false), borderStyle:'dashed' }}>+ Agregar categoría</button>
+                ) : (
+                  <div style={{ display:'flex', gap:'6px', alignItems:'center' }}>
+                    <input autoFocus value={nuevaCat} onChange={e => setNuevaCat(e.target.value)} maxLength={30}
+                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); agregarCategoria(); } if (e.key === 'Escape') setNuevaCat(null); }}
+                      placeholder="Nueva categoría" style={{ ...fieldSt(false), width:'180px', padding:'8px 12px' }}/>
+                    <button type="button" onClick={agregarCategoria} style={chipSt(true)}>Agregar</button>
+                    <button type="button" className="chip" onClick={() => setNuevaCat(null)} style={chipSt(false)}>Cancelar</button>
+                  </div>
+                )}
+              </div>
+            </Field>
+          </div>
+
+          <div data-err={err.regional ? '1' : '0'}>
+            <Field label="Alcance" req hint="define qué matriculados lo ven y qué gestor puede editarlo" error={err.regional}>
+              <div style={{ display:'flex', gap:'8px', flexWrap:'wrap', alignItems:'center' }}>
+                {[['regional', 'Regional'], ['provincial', 'Provincial']].map(([k, lbl]) => {
+                  const on = f.alcance === k;
+                  return <button key={k} type="button" className={'chip' + (on ? ' on' : '')} onClick={() => set('alcance', k)} style={chipSt(on)}>{lbl}</button>;
+                })}
+                {f.alcance === 'regional' && (
+                  <select value={f.regional} onChange={e => set('regional', e.target.value)} style={{ ...fieldSt(err.regional), width:'auto', minWidth:'170px', paddingLeft:'14px', cursor:'pointer' }}>
+                    {REGIONALES.map(r => <option key={r} value={r}>{r}</option>)}
+                  </select>
+                )}
               </div>
             </Field>
           </div>
@@ -343,26 +392,26 @@ function App() {
             {!f.imagen ? (
               <div className="drop" onClick={() => fileRef.current.click()}
                 onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); pickFile(e.dataTransfer.files[0]); }}
-                style={{ border:`1.5px dashed ${err.imagen ? C.terracota : C.border}`, borderRadius:'10px', padding:'28px', textAlign:'center', cursor:'pointer', background:'#F7F5F3', transition:'all .18s' }}>
+                style={{ border:`1.5px dashed ${err.imagen ? C.terracota : C.border}`, borderRadius:'16px', padding:'28px', textAlign:'center', cursor:'pointer', background:'#F7F5F3', transition:'all .18s' }}>
                 <div style={{ color:C.t5, display:'flex', justifyContent:'center', marginBottom:'10px' }}><IImg/></div>
                 <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:600, color:C.t1 }}>Arrastrá una imagen o hacé clic para subirla</div>
                 <div style={{ fontSize:'11.5px', color:C.t5, marginTop:'4px' }}>JPG o PNG · Recomendado 1200×800 px</div>
               </div>
             ) : (
-              <div style={{ display:'flex', gap:'14px', alignItems:'center', border:`1px solid ${C.borderCard}`, borderRadius:'10px', padding:'12px', background:'#F7F5F3', animation:'popIn .3s ease' }}>
-                <img src={f.imagen.src} alt="" style={{ width:'120px', height:'76px', objectFit:'cover', borderRadius:'7px', flexShrink:0 }}/>
+              <div style={{ display:'flex', gap:'14px', alignItems:'center', border:`1px solid ${C.borderCard}`, borderRadius:'16px', padding:'12px', background:'#F7F5F3', animation:'popIn .3s ease' }}>
+                <img src={f.imagen.src} alt="" style={{ width:'120px', height:'76px', objectFit:'cover', borderRadius:'10px', flexShrink:0 }}/>
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ fontFamily:DISP, fontSize:'13px', fontWeight:600, color:C.t1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{f.imagen.name}</div>
                   <div style={{ fontSize:'11.5px', color:C.t4, marginTop:'3px' }}>{f.imagen.size ? f.imagen.size + ' · ' : ''}Cargada</div>
                 </div>
-                <button type="button" onClick={() => set('imagen', null)} title="Quitar imagen" style={{ background:'#fff', border:`1.5px solid ${C.border}`, borderRadius:'7px', padding:'8px', display:'flex', color:C.t4, cursor:'pointer' }}><IX/></button>
+                <button type="button" onClick={() => set('imagen', null)} title="Quitar imagen" style={{ background:'#fff', border:`1.5px solid ${C.border}`, borderRadius:'10px', padding:'8px', display:'flex', color:C.t4, cursor:'pointer' }}><IX/></button>
               </div>
             )}
             <Err msg={err.imagen}/>
           </div>
 
           {saved && (
-            <div style={{ background:C.successBg, border:'1.5px solid #BFDEA6', borderRadius:'10px', padding:'14px 16px', display:'flex', alignItems:'center', gap:'10px', animation:'popIn .35s ease' }}>
+            <div style={{ background:C.successBg, border:'1.5px solid #BFDEA6', borderRadius:'16px', padding:'14px 16px', display:'flex', alignItems:'center', gap:'10px', animation:'popIn .35s ease' }}>
               <span style={{ color:'#5E9A38', display:'flex' }}><ICheck/></span>
               <div>
                 <div style={{ fontFamily:DISP, fontSize:'13.5px', fontWeight:600, color:C.successText }}>{isEdit ? 'Cambios guardados' : 'Evento registrado correctamente'}</div>
@@ -374,12 +423,12 @@ function App() {
           {/* Acciones */}
           <div className="fe-actions" style={{ borderTop:`1px solid ${C.borderCard}`, paddingTop:'20px', marginTop:'2px' }}>
             {isEdit ? (
-              <button type="button" className="btn-ghost" onClick={navBack} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Cancelar</button>
+              <button type="button" className="btn-ghost" onClick={navBack} style={{ padding:'12px 22px', borderRadius:'12px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Cancelar</button>
             ) : (
-              <button type="button" className="btn-ghost" onClick={() => { setF(EMPTY); setErr({}); setSaved(false); }} style={{ padding:'12px 22px', borderRadius:'8px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Limpiar</button>
+              <button type="button" className="btn-ghost" onClick={() => { setF(EMPTY); setErr({}); setSaved(false); }} style={{ padding:'12px 22px', borderRadius:'12px', border:`1.5px solid ${C.border}`, background:'#fff', color:C.t3, fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor:'pointer' }}>Limpiar</button>
             )}
             <button type="button" className="btn-primary" onClick={submit} disabled={saving}
-              style={{ padding:'12px 28px', borderRadius:'8px', border:'none', background: saving ? '#9E968F' : C.terracota, color:'#fff', fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor: saving ? 'default' : 'pointer', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 6px 18px rgba(233,80,14,.3)' }}>
+              style={{ padding:'12px 28px', borderRadius:'12px', border:'none', background: saving ? '#9E968F' : C.terracota, color:'#fff', fontFamily:DISP, fontSize:'14px', fontWeight:600, cursor: saving ? 'default' : 'pointer', display:'flex', alignItems:'center', gap:'9px', boxShadow:'0 6px 18px rgba(233,80,14,.3)' }}>
               {saving && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{ animation:'spin .75s linear infinite' }}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>}
               {saving ? 'Guardando...' : (isEdit ? 'Guardar cambios' : 'Registrar evento')}
             </button>

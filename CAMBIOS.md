@@ -105,6 +105,48 @@ Decisiones tomadas al aplicar la marca (a ratificar en E5):
   "Borrar" (con confirmación) **solo en los eventos de carga manual**: los de Autogestión son de solo
   lectura en el Portal ([ADR-0011]). La baja se guarda en `cac_deleted_events` y oculta el evento en
   toda la agenda (panel, menú, calendario). `store.js` expone `removeEvent(id)`.
+- **Alcance en los formularios de alta.** `formulario-beneficio.html` y `formulario-evento.html` suman
+  el campo **Alcance: Regional / Provincial** (RN-08, acordado 10/09; para eventos, tabla de permisos de
+  la minuta MIN-P01 del 10/09). Si es regional se elige cuál; por defecto, la regional de la sesión, y
+  provincial si el gestor es provincial. El valor se guarda en `regional` (`Regional N` | `Provincial`),
+  el mismo campo que ya usaban el catálogo y el RBAC. Antes el beneficio nuevo quedaba fijo en
+  `Regional 5` y el evento tomaba siempre la regional de la sesión. **No** se restringe qué alcance
+  puede elegir cada gestor (el provincial no edita lo regional): eso queda para el RBAC del panel. La
+  jurisdicción de los eventos de origen API sigue abierta (Q-034).
+- **Agregar categoría de evento.** `formulario-evento.html` suma el chip "+ Agregar categoría": se
+  escribe el nombre, queda seleccionada y aparece en toda la agenda con un color de la paleta. Origen:
+  RN-07, ampliada el 18/09 (el Colegio pidió dar de alta categorías desde el panel). Se guardan en
+  `cac_categorias_evento`; `store.js` expone `addCategoriaEvento(nombre)`.
+- **Categoría del beneficio y alta de categorías.** `formulario-beneficio.html` suma el campo
+  **Categoría** después del tipo, con la lista del tipo elegido y "+ Agregar categoría" (queda
+  seleccionada). Origen: RN-07, ampliada el 18/09. Comercial: los rubros del catálogo (antes el alta
+  quedaba fija en "Comercio Adherido"); Académico: las cuatro de siempre, que antes estaban en el
+  select "Subtipo Académico" de abajo. Se guardan en `cac_categorias_beneficio`; `store.js` expone
+  `categoriasBeneficio(tipo)` y `addCategoriaBeneficio(tipo, nombre)`. **Los tipos siguen siendo dos**
+  (Comercial y Académico): la opción de agregar tipos que se probó el mismo día se quitó (Q-044,
+  descartada).
+- `store.js?v=` pasa a `20260925` en todas las páginas para que el navegador no use el store anterior.
+
+## Rediseño del inicio y redondeo general (01/10/2026)
+
+Pedido del usuario el 01/10, sobre una imagen de referencia (variante "izquierda").
+
+- **Inicio del arquitecto (`menu-beneficios.html`).** La franja oscura con los datos del matriculado
+  (saludo, matrícula, regional, estado y los tres indicadores) queda **plegada** y se despliega al
+  tocar el ícono de perfil de la cabecera; Escape la cierra. "Perfil" sale de la barra inferior en
+  todas las pantallas que la tienen (inicio, calendario, Mis beneficios): el perfil vive solo arriba. "Salir"
+  pasa a "Cerrar sesión" dentro de ese panel. La cabecera queda con el isotipo, notificaciones y
+  perfil en botones circulares, y bordes inferiores redondeados.
+- **Tarjetas de "Próximos eventos".** Imagen a sangre con la categoría (píldora) arriba a la izquierda,
+  ficha de fecha (día y mes) arriba a la derecha, título y lugar sobre un degradé oscuro, y el botón
+  "Obtener entrada" a todo el ancho debajo. Estado "Habilitado" en verde de marca sobre fondo oscuro
+  (sin texto blanco sobre verde).
+- **Radios.** Se sube la escala en todas las pantallas para que ninguna pieza quede en ángulo recto:
+  0–4 px → 8 px, 5–7 → 10, 8–9 → 12, 10–12 → 16 (incluye los tokens `--radius-*` de las páginas de
+  panel). Las tarjetas principales usan 20–24 px. Colores y tipografía no cambian (`marca-capc.css`).
+- **Login (`index.html`).** Se quita el aviso amarillo "Maqueta de demostración". Se conserva el
+  recuadro "Credenciales de prueba · ficticias" para poder reingresar si se borran los campos. El título de la
+  pestaña deja de decir "(maqueta de demostración)".
 
 ## Pendientes que no entran acá
 

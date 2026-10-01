@@ -189,12 +189,12 @@ p, span, td, li, input, button, textarea, select {
 
   /* ── Border radii ── */
   --radius-none:    0px;
-  --radius-xs:      2px;    /* Badges, accent bar, logo marks */
-  --radius-sm:      3px;    /* Form inputs, primary buttons */
-  --radius-md:      6px;    /* Filter dropdown, filter chips */
-  --radius-lg:      8px;    /* Benefit cards, nav icons, avatars */
-  --radius-xl:      10px;   /* Event cards */
-  --radius-2xl:     12px;   /* QR container, large modals */
+  --radius-xs:      8px;    /* Badges, accent bar, logo marks */
+  --radius-sm:      8px;    /* Form inputs, primary buttons */
+  --radius-md:      10px;    /* Filter dropdown, filter chips */
+  --radius-lg:      12px;    /* Benefit cards, nav icons, avatars */
+  --radius-xl:      16px;   /* Event cards */
+  --radius-2xl:     16px;   /* QR container, large modals */
   --radius-full:    9999px; /* Pills, tags de estado */
 }
 </style>
@@ -483,12 +483,12 @@ p, span, td, li, input, button, textarea, select {
 
   /* ── Border radii ── */
   --radius-none:    0px;
-  --radius-xs:      2px;    /* Badges, accent bar, logo marks */
-  --radius-sm:      3px;    /* Form inputs, primary buttons */
-  --radius-md:      6px;    /* Filter dropdown, filter chips */
-  --radius-lg:      8px;    /* Benefit cards, nav icons, avatars */
-  --radius-xl:      10px;   /* Event cards */
-  --radius-2xl:     12px;   /* QR container, large modals */
+  --radius-xs:      8px;    /* Badges, accent bar, logo marks */
+  --radius-sm:      8px;    /* Form inputs, primary buttons */
+  --radius-md:      10px;    /* Filter dropdown, filter chips */
+  --radius-lg:      12px;    /* Benefit cards, nav icons, avatars */
+  --radius-xl:      16px;   /* Event cards */
+  --radius-2xl:     16px;   /* QR container, large modals */
   --radius-full:    9999px; /* Pills, tags de estado */
 }
 
@@ -616,7 +616,7 @@ p, span, td, li, input, button, textarea, select {
     input:focus, textarea:focus, select:focus { outline: none; border-color: #E9500E !important; box-shadow: 0 0 0 3px rgba(233,80,14,.12); }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #E2DBD7; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #E2DBD7; border-radius: 8px; }
   </style>
 </helmet>
 
@@ -628,7 +628,7 @@ p, span, td, li, input, button, textarea, select {
     <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--capc-degrade);"></div>
     <div style="max-width:1240px;margin:0 auto;padding:20px 32px;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:14px;">
-        <button onclick="{{ navBack }}" style="width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;" style-hover="background:rgba(255,255,255,.12);color:#fff;">
+        <button onclick="{{ navBack }}" style="width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;" style-hover="background:rgba(255,255,255,.12);color:#fff;">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         </button>
         <div>
@@ -657,7 +657,7 @@ p, span, td, li, input, button, textarea, select {
     <!-- ══ COLUMNA 1: FORMULARIO ══ -->
     <div style="background:#fff;border:1px solid var(--color-border-card);border-radius:14px;box-shadow:0 2px 14px rgba(22,22,22,.05);overflow:hidden;">
       <div style="padding:20px 26px;border-bottom:1px solid var(--color-border-card);display:flex;align-items:center;gap:9px;">
-        <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
+        <div style="width:30px;height:30px;border-radius:12px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
         </div>
         <div style="font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;">Datos del Beneficio</div>
@@ -671,7 +671,7 @@ p, span, td, li, input, button, textarea, select {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
             Nombre del Beneficio / Comercio
           </label>
-          <input value="{{ name }}" oninput="{{ onName }}" placeholder="Ej: Corralón Materiales Sur" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:14px;color:var(--color-pizarra);background:#fff;transition:all 160ms;">
+          <input value="{{ name }}" oninput="{{ onName }}" placeholder="Ej: Corralón Materiales Sur" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:12px;font-size:14px;color:var(--color-pizarra);background:#fff;transition:all 160ms;">
           <sc-if value="{{ fromAfiliado }}" hint-placeholder-val="{{ true }}">
             <div style="margin-top:6px;font-size:11px;color:var(--color-text-muted);">Vinculado a tu cuenta de comercio</div>
           </sc-if>
@@ -683,7 +683,7 @@ p, span, td, li, input, button, textarea, select {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
             Descripción del Beneficio
           </label>
-          <textarea value="{{ description }}" oninput="{{ onDescription }}" rows="3" placeholder="Detallá las condiciones del beneficio…" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:13.5px;color:var(--color-pizarra);background:#fff;resize:vertical;line-height:1.5;transition:all 160ms;"></textarea>
+          <textarea value="{{ description }}" oninput="{{ onDescription }}" rows="3" placeholder="Detallá las condiciones del beneficio…" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:12px;font-size:13.5px;color:var(--color-pizarra);background:#fff;resize:vertical;line-height:1.5;transition:all 160ms;"></textarea>
         </div>
 
         <!-- 3. Tipo de beneficio -->
@@ -693,8 +693,8 @@ p, span, td, li, input, button, textarea, select {
             Tipo de Beneficio
           </label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <button onclick="{{ setTypeComercial }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;border:{{ comercialBorder }};background:{{ comercialBg }};">
-              <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ comercialIconBg }};color:{{ comercialIconColor }};">
+            <button onclick="{{ setTypeComercial }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:12px;cursor:pointer;text-align:left;border:{{ comercialBorder }};background:{{ comercialBg }};">
+              <div style="width:32px;height:32px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ comercialIconBg }};color:{{ comercialIconColor }};">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
               </div>
               <div style="line-height:1.25;">
@@ -702,8 +702,8 @@ p, span, td, li, input, button, textarea, select {
                 <div style="font-size:10px;color:var(--color-text-muted);">Descuento</div>
               </div>
             </button>
-            <button onclick="{{ setTypeAcademico }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:9px;cursor:pointer;text-align:left;border:{{ academicoBorder }};background:{{ academicoBg }};">
-              <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ academicoIconBg }};color:{{ academicoIconColor }};">
+            <button onclick="{{ setTypeAcademico }}" class="capc-sel" style="display:flex;align-items:center;gap:9px;padding:13px 14px;border-radius:12px;cursor:pointer;text-align:left;border:{{ academicoBorder }};background:{{ academicoBg }};">
+              <div style="width:32px;height:32px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:{{ academicoIconBg }};color:{{ academicoIconColor }};">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
               </div>
               <div style="line-height:1.25;">
@@ -714,12 +714,65 @@ p, span, td, li, input, button, textarea, select {
           </div>
         </div>
 
+        <!-- 3a. Categoría (RN-07): lista por tipo + alta de categorías nuevas -->
+        <div>
+          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Categoría
+          </label>
+          <div style="display:flex;gap:8px;">
+            <select value="{{ categoriaActual }}" onchange="{{ onCategoria }}" style="flex:1;min-width:0;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:12px;font-size:14px;color:var(--color-pizarra);background:#fff;cursor:pointer;">
+              <sc-if value="{{ sinCategoria }}" hint-placeholder-val="{{ true }}">
+                <option value="" label="Seleccioná una categoría"></option>
+              </sc-if>
+              <sc-for list="{{ categoriaOpts }}" as="o" hint-placeholder-count="4">
+                <option value="{{ o.nombre }}" label="{{ o.nombre }}"></option>
+              </sc-for>
+            </select>
+            <button onclick="{{ abrirNuevaCat }}" class="capc-sel" style="flex-shrink:0;padding:0 14px;border-radius:12px;cursor:pointer;border:1.5px dashed var(--color-border);background:#fff;font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--color-text-secondary);">+ Agregar categoría</button>
+          </div>
+          <sc-if value="{{ agregandoCat }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;margin-top:10px;animation:popIn 250ms ease-out;">
+              <input value="{{ nuevaCat }}" oninput="{{ onNuevaCat }}" onkeydown="{{ onNuevaCatKey }}" maxlength="40" placeholder="Nombre de la categoría nueva" style="flex:1;padding:10px 13px;border:1.5px solid var(--color-border);border-radius:12px;font-size:13.5px;color:var(--color-pizarra);background:#fff;">
+              <button onclick="{{ agregarCategoria }}" style="padding:10px 16px;background:var(--color-terracota);border:none;border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:600;color:#fff;">Agregar</button>
+              <button onclick="{{ cerrarNuevaCat }}" style="padding:10px 14px;background:#fff;border:1.5px solid var(--color-border);border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--color-text-secondary);">Cancelar</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- 3b. Alcance (RN-08): regional o provincial -->
+        <div>
+          <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            Alcance
+          </label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <button onclick="{{ setAlcanceRegional }}" class="capc-sel" style="padding:12px 14px;border-radius:12px;cursor:pointer;text-align:left;border:{{ alcRegBorder }};background:{{ alcRegBg }};line-height:1.25;">
+              <div style="font-family:var(--font-display);font-size:12.5px;font-weight:600;color:{{ alcRegTextColor }};">Regional</div>
+              <div style="font-size:10px;color:var(--color-text-muted);">Solo matriculados de una regional</div>
+            </button>
+            <button onclick="{{ setAlcanceProvincial }}" class="capc-sel" style="padding:12px 14px;border-radius:12px;cursor:pointer;text-align:left;border:{{ alcProvBorder }};background:{{ alcProvBg }};line-height:1.25;">
+              <div style="font-family:var(--font-display);font-size:12.5px;font-weight:600;color:{{ alcProvTextColor }};">Provincial</div>
+              <div style="font-size:10px;color:var(--color-text-muted);">Toda la provincia de Córdoba</div>
+            </button>
+          </div>
+          <sc-if value="{{ isRegional }}" hint-placeholder-val="{{ true }}">
+            <select value="{{ regional }}" onchange="{{ onRegional }}" style="margin-top:10px;width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:12px;font-size:14px;color:var(--color-pizarra);background:#fff;cursor:pointer;">
+              <option value="Regional 1">Regional 1</option>
+              <option value="Regional 2">Regional 2</option>
+              <option value="Regional 3">Regional 3</option>
+              <option value="Regional 4">Regional 4</option>
+              <option value="Regional 5">Regional 5</option>
+            </select>
+          </sc-if>
+        </div>
+
         <!-- 4a. CAMPOS CONDICIONALES — COMERCIAL -->
         <sc-if value="{{ isComercial }}" hint-placeholder-val="{{ true }}">
-          <div style="padding:18px;background:var(--color-bg);border:1px solid var(--color-border-card);border-radius:11px;animation:fadeUp 280ms ease-out;">
+          <div style="padding:18px;background:var(--color-bg);border:1px solid var(--color-border-card);border-radius:16px;animation:fadeUp 280ms ease-out;">
             <div style="font-family:var(--font-display);font-size:10.5px;font-weight:600;color:var(--color-text-secondary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:11px;">Modalidad del descuento</div>
             <!-- tabs -->
-            <div style="display:flex;gap:0;border:1px solid var(--color-border);border-radius:8px;overflow:hidden;background:#fff;margin-bottom:16px;">
+            <div style="display:flex;gap:0;border:1px solid var(--color-border);border-radius:12px;overflow:hidden;background:#fff;margin-bottom:16px;">
               <button onclick="{{ setModePct }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ modePctBg }};color:{{ modePctColor }};">% OFF</button>
               <button onclick="{{ setMode2x1 }}" style="flex:1;padding:9px 0;border:none;border-left:1px solid var(--color-border);border-right:1px solid var(--color-border);cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ mode2x1Bg }};color:{{ mode2x1Color }};">2x1</button>
               <button onclick="{{ setModeNxM }}" style="flex:1;padding:9px 0;border:none;cursor:pointer;font-family:var(--font-display);font-size:11.5px;font-weight:600;letter-spacing:0.02em;transition:all 150ms;background:{{ modeNxMBg }};color:{{ modeNxMColor }};">NxM</button>
@@ -733,15 +786,15 @@ p, span, td, li, input, button, textarea, select {
                   Porcentaje de descuento
                 </label>
                 <div style="display:flex;align-items:center;gap:0;max-width:180px;">
-                  <input value="{{ pct }}" oninput="{{ onPct }}" type="number" min="1" max="99" style="flex:1;padding:11px 14px;border:1.5px solid var(--color-border);border-right:none;border-radius:8px 0 0 8px;font-size:15px;font-weight:600;color:var(--color-pizarra);text-align:center;">
-                  <div style="padding:11px 16px;background:var(--color-pizarra);color:#fff;font-family:var(--font-display);font-size:14px;font-weight:600;border-radius:0 8px 8px 0;">% OFF</div>
+                  <input value="{{ pct }}" oninput="{{ onPct }}" type="number" min="1" max="99" style="flex:1;padding:11px 14px;border:1.5px solid var(--color-border);border-right:none;border-radius:12px 0 0 12px;font-size:15px;font-weight:600;color:var(--color-pizarra);text-align:center;">
+                  <div style="padding:11px 16px;background:var(--color-pizarra);color:#fff;font-family:var(--font-display);font-size:14px;font-weight:600;border-radius:0 12px 12px 0;">% OFF</div>
                 </div>
               </div>
             </sc-if>
 
             <!-- 2x1 fijo -->
             <sc-if value="{{ show2x1 }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--color-surface-hover);border:1px solid #FBDDCB;border-radius:9px;animation:popIn 250ms ease-out;">
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--color-surface-hover);border:1px solid #FBDDCB;border-radius:12px;animation:popIn 250ms ease-out;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
                 <div style="line-height:1.3;">
                   <div style="font-family:var(--font-display);font-size:13px;font-weight:600;color:var(--color-terracota-dark);">Promoción 2x1 activada</div>
@@ -756,15 +809,15 @@ p, span, td, li, input, button, textarea, select {
                 <label style="display:block;font-size:11px;font-weight:600;color:var(--color-text-secondary);margin-bottom:7px;">Definí la promoción NxM</label>
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div style="text-align:center;">
-                    <input value="{{ nVal }}" oninput="{{ onN }}" type="number" min="1" style="width:72px;padding:11px 0;border:1.5px solid var(--color-border);border-radius:8px;font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--color-pizarra);text-align:center;">
+                    <input value="{{ nVal }}" oninput="{{ onN }}" type="number" min="1" style="width:72px;padding:11px 0;border:1.5px solid var(--color-border);border-radius:12px;font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--color-pizarra);text-align:center;">
                     <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;letter-spacing:0.08em;margin-top:4px;">LLEVÁS (N)</div>
                   </div>
                   <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--color-terracota);padding-top:8px;">×</div>
                   <div style="text-align:center;">
-                    <input value="{{ mVal }}" oninput="{{ onM }}" type="number" min="1" style="width:72px;padding:11px 0;border:1.5px solid var(--color-border);border-radius:8px;font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--color-pizarra);text-align:center;">
+                    <input value="{{ mVal }}" oninput="{{ onM }}" type="number" min="1" style="width:72px;padding:11px 0;border:1.5px solid var(--color-border);border-radius:12px;font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--color-pizarra);text-align:center;">
                     <div style="font-size:9.5px;color:var(--color-text-placeholder);font-weight:600;letter-spacing:0.08em;margin-top:4px;">PAGÁS (M)</div>
                   </div>
-                  <div style="margin-left:auto;text-align:center;padding:8px 16px;background:var(--color-pizarra);border-radius:9px;">
+                  <div style="margin-left:auto;text-align:center;padding:8px 16px;background:var(--color-pizarra);border-radius:12px;">
                     <div style="font-size:9px;color:#9E968F;font-weight:600;letter-spacing:0.06em;">RESULTADO</div>
                     <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:#fff;">{{ nxmLabel }}</div>
                   </div>
@@ -776,36 +829,24 @@ p, span, td, li, input, button, textarea, select {
 
         <!-- 4b. CAMPOS CONDICIONALES — ACADÉMICO -->
         <sc-if value="{{ isAcademico }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:18px;background:var(--color-bg);border:1px solid var(--color-border-card);border-radius:11px;animation:fadeUp 280ms ease-out;display:flex;flex-direction:column;gap:16px;">
-            <div>
-              <label style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--color-text-secondary);margin-bottom:7px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-                Subtipo Académico
-              </label>
-              <select value="{{ academicSubtype }}" onchange="{{ onAcademicSubtype }}" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:14px;color:var(--color-pizarra);background:#fff;cursor:pointer;">
-                <option value="Convenio Universitario">Convenio Universitario</option>
-                <option value="Workshop">Workshop</option>
-                <option value="Beca">Beca</option>
-                <option value="Curso Corto">Curso Corto</option>
-              </select>
-            </div>
+          <div style="padding:18px;background:var(--color-bg);border:1px solid var(--color-border-card);border-radius:16px;animation:fadeUp 280ms ease-out;display:flex;flex-direction:column;gap:16px;">
             <div>
               <label style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--color-text-secondary);margin-bottom:7px;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracota)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
                 Entidad Educativa / Institución Otorgante
               </label>
-              <input value="{{ institution }}" oninput="{{ onInstitution }}" placeholder="Ej: Universidad Nacional de Córdoba" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:8px;font-size:14px;color:var(--color-pizarra);background:#fff;">
+              <input value="{{ institution }}" oninput="{{ onInstitution }}" placeholder="Ej: Universidad Nacional de Córdoba" style="width:100%;padding:11px 14px;border:1.5px solid var(--color-border);border-radius:12px;font-size:14px;color:var(--color-pizarra);background:#fff;">
             </div>
           </div>
         </sc-if>
 
         <!-- 5. Botones -->
         <div style="display:flex;gap:12px;padding-top:6px;border-top:1px solid var(--color-border-card);margin-top:2px;padding-top:20px;">
-          <button onclick="{{ onSave }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;background:var(--color-terracota);border:none;border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:#fff;letter-spacing:0.02em;transition:all 170ms;box-shadow:0 8px 22px rgba(233,80,14,.32);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
+          <button onclick="{{ onSave }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;background:var(--color-terracota);border:none;border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:#fff;letter-spacing:0.02em;transition:all 170ms;box-shadow:0 8px 22px rgba(233,80,14,.32);" style-hover="background:var(--color-terracota-dark);transform:translateY(-1px);" style-active="transform:translateY(0);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
             {{ saveLabel }}
           </button>
-          <button onclick="{{ onCancel }}" style="padding:12px 24px;background:#fff;border:1.5px solid var(--color-border);border-radius:8px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--color-text-secondary);transition:all 170ms;" style-hover="border-color:var(--color-pizarra);color:var(--color-pizarra);">Cancelar</button>
+          <button onclick="{{ onCancel }}" style="padding:12px 24px;background:#fff;border:1.5px solid var(--color-border);border-radius:12px;cursor:pointer;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--color-text-secondary);transition:all 170ms;" style-hover="border-color:var(--color-pizarra);color:var(--color-pizarra);">Cancelar</button>
         </div>
       </div>
     </div>
@@ -813,7 +854,7 @@ p, span, td, li, input, button, textarea, select {
     <!-- ══ COLUMNA 2: LIVE BLUEPRINT ══ -->
     <div style="position:sticky;top:24px;">
       <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
-        <div style="width:30px;height:30px;border-radius:8px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
+        <div style="width:30px;height:30px;border-radius:12px;background:var(--color-surface-hover);display:flex;align-items:center;justify-content:center;color:var(--color-terracota);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </div>
         <div>
@@ -828,11 +869,11 @@ p, span, td, li, input, button, textarea, select {
         <div style="position:absolute;top:14px;right:16px;font-family:var(--font-display);font-size:9px;font-weight:600;color:rgba(255,255,255,.22);letter-spacing:0.14em;">VISTA ARQUITECTO</div>
 
         <!-- La tarjeta -->
-        <div style="max-width:340px;margin:14px auto 0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);">
+        <div style="max-width:340px;margin:14px auto 0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);">
           <!-- header tarjeta -->
           <div style="height:96px;background:var(--color-pizarra);position:relative;overflow:hidden;display:flex;align-items:center;padding:0 18px;">
             <div style="position:absolute;inset:0;background:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:16px 16px;"></div>
-            <div style="width:52px;height:52px;border-radius:11px;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:19px;font-weight:800;color:#fff;position:relative;z-index:1;flex-shrink:0;">{{ previewInitials }}</div>
+            <div style="width:52px;height:52px;border-radius:16px;background:var(--color-terracota);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:19px;font-weight:800;color:#fff;position:relative;z-index:1;flex-shrink:0;">{{ previewInitials }}</div>
             <!-- Badge dinámico -->
             <div style="position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:9999px;background:{{ badgeBg }};box-shadow:0 4px 12px {{ badgeShadow }};">
               <span style="font-family:var(--font-display);font-size:13px;font-weight:800;color:{{ badgeTextColor }};letter-spacing:0.02em;">{{ badgeText }}</span>
@@ -840,7 +881,7 @@ p, span, td, li, input, button, textarea, select {
           </div>
           <!-- cuerpo tarjeta -->
           <div style="padding:18px;">
-            <div style="display:inline-flex;align-items:center;gap:5px;background:{{ catTagBg }};border-radius:4px;padding:3px 9px;margin-bottom:11px;">
+            <div style="display:inline-flex;align-items:center;gap:5px;background:{{ catTagBg }};border-radius:8px;padding:3px 9px;margin-bottom:11px;">
               <span style="font-family:var(--font-display);font-size:9px;font-weight:600;color:{{ catTagColor }};letter-spacing:0.09em;">{{ catTag }}</span>
             </div>
             <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--color-pizarra);letter-spacing:-0.01em;line-height:1.2;">{{ previewName }}</div>
@@ -848,14 +889,14 @@ p, span, td, li, input, button, textarea, select {
 
             <!-- meta académica opcional -->
             <sc-if value="{{ isAcademico }}" hint-placeholder-val="{{ false }}">
-              <div style="display:flex;align-items:center;gap:7px;margin-top:12px;padding:10px 12px;background:var(--color-bg);border-radius:8px;">
+              <div style="display:flex;align-items:center;gap:7px;margin-top:12px;padding:10px 12px;background:var(--color-bg);border-radius:12px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
                 <span style="font-size:11.5px;color:var(--color-text-secondary);font-weight:400;">{{ previewInstitution }}</span>
               </div>
             </sc-if>
 
             <!-- CTA simulado -->
-            <button style="width:100%;margin-top:14px;padding:11px 0;background:var(--color-terracota);border:none;border-radius:8px;font-family:var(--font-display);font-size:13px;font-weight:600;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(233,80,14,.28);">Solicitar Beneficio</button>
+            <button style="width:100%;margin-top:14px;padding:11px 0;background:var(--color-terracota);border:none;border-radius:12px;font-family:var(--font-display);font-size:13px;font-weight:600;color:#fff;cursor:pointer;box-shadow:0 6px 16px rgba(233,80,14,.28);">Solicitar Beneficio</button>
           </div>
         </div>
 
@@ -875,12 +916,16 @@ class Component extends DCLogic {
     name: '',
     description: '',
     type: 'comercial',        // 'comercial' | 'academico'
+    categoria: '',            // rubro del beneficio comercial (el académico usa academicSubtype)
+    nuevaCat: null,           // null = cerrado; string = nombre de la categoría en edición (RN-07)
     mode: 'pct',              // 'pct' | '2x1' | 'nxm'
     pct: 20,
     nVal: 3,
     mVal: 2,
     academicSubtype: 'Convenio Universitario',
     institution: '',
+    alcance: 'regional',      // 'regional' | 'provincial' (RN-08)
+    regional: 'Regional 5',   // regional elegida cuando el alcance es regional
   };
 
   // Precarga desde la fuente de verdad (BUG-004): edita el beneficio clickeado,
@@ -888,17 +933,25 @@ class Component extends DCLogic {
   componentDidMount() {
     var CAC = window.CAC; if (!CAC) return;
     this._fromAfiliado = CAC.qp('from') === 'afiliado';
+    // Alcance por defecto: la regional de la sesión; provincial si el gestor es provincial.
+    try {
+      var ses = JSON.parse(localStorage.getItem('cac_session') || 'null');
+      if (ses && ses.regional === 'Provincial') this.setState({ alcance: 'provincial' });
+      else if (ses && ses.regional) this.setState({ regional: ses.regional });
+    } catch (err) {}
     if (CAC.qp('mode') === 'edit') {
       var e = CAC.getEdit();
       if (e) {
         this._editId = e.id;
         this._editCat = e.cat;
-        this._editRegional = e.regional;
+        if (e.regional === 'Provincial') this.setState({ alcance: 'provincial' });
+        else if (e.regional) this.setState({ alcance: 'regional', regional: e.regional });
         this._editDesc = (typeof e.desc === 'number') ? e.desc : null;
         this._editCooldown = e.cooldown || '';
         var acad = e.tipo === 'academico';
         var st = {
           type: acad ? 'academico' : 'comercial',
+          categoria: (!acad && e.cat && e.cat !== 'Comercio Adherido') ? e.cat : '',
           name: e.nombre || '',
           description: e.descripcion || '',
         };
@@ -911,8 +964,7 @@ class Component extends DCLogic {
           if (typeof e.desc === 'number') st.pct = e.desc;
         }
         if (acad) {
-          var subs = ['Convenio Universitario', 'Workshop', 'Beca', 'Curso Corto'];
-          st.academicSubtype = subs.indexOf(e.cat) >= 0 ? e.cat : 'Convenio Universitario';
+          st.academicSubtype = e.cat || 'Convenio Universitario';
           st.institution = e.nombre || '';
         }
         this.setState(st);
@@ -945,7 +997,7 @@ class Component extends DCLogic {
     }
     var nombre = acad ? (s.institution || s.name || 'Nueva Instituci\u00f3n Acad\u00e9mica')
                       : (s.name || 'Nuevo Comercio Adherido');
-    var cat = acad ? s.academicSubtype : (this._editCat || 'Comercio Adherido');
+    var cat = acad ? s.academicSubtype : (s.categoria || 'Comercio Adherido');
     return {
       id: this._editId || undefined,
       tipo: acad ? 'academico' : 'comercial',
@@ -954,7 +1006,7 @@ class Component extends DCLogic {
       descLabel: descLabel,
       cat: cat,
       descripcion: s.description || '',
-      regional: this._editRegional || 'Regional 5',
+      regional: s.alcance === 'provincial' ? 'Provincial' : (s.regional || 'Regional 5'),
       cooldown: this._editCooldown || '',
     };
   }
@@ -969,10 +1021,23 @@ class Component extends DCLogic {
     this.navBack();
   }
 
+  // Alta de categoría desde el formulario (RN-07, ampliada el 18/09). Queda seleccionada.
+  agregarCategoria() {
+    var s = this.state;
+    var nombre = window.CAC.addCategoriaBeneficio(s.type, s.nuevaCat || '');
+    if (!nombre) return;
+    if (s.type === 'academico') this.setState({ academicSubtype: nombre, nuevaCat: null });
+    else this.setState({ categoria: nombre, nuevaCat: null });
+  }
+
   renderVals() {
     const s = this.state;
     const isComercial = s.type === 'comercial';
     const isAcademico = s.type === 'academico';
+    const categoriaActual = isAcademico ? s.academicSubtype : s.categoria;
+    const catLista = (window.CAC ? window.CAC.categoriasBeneficio(s.type) : []);
+    if (categoriaActual && catLista.indexOf(categoriaActual) < 0) catLista.unshift(categoriaActual);
+    const categoriaOpts = catLista.map(n => ({ nombre: n }));
 
     const typeSel = (active) => ({
       border: active ? '1.5px solid #E9500E' : '1.5px solid #E7E2E1',
@@ -983,6 +1048,9 @@ class Component extends DCLogic {
     });
     const c = typeSel(isComercial);
     const a = typeSel(isAcademico);
+    const isRegional = s.alcance === 'regional';
+    const ar = typeSel(isRegional);
+    const ap = typeSel(!isRegional);
 
     const modeTab = (m) => ({
       bg: s.mode === m ? '#161616' : 'transparent',
@@ -1010,7 +1078,7 @@ class Component extends DCLogic {
       badgeText = s.academicSubtype.split(' ')[0].toUpperCase();
     }
 
-    const catTag = isComercial ? 'DESCUENTO COMERCIAL' : 'ACAD\u00c9MICO';
+    const catTag = isComercial ? (s.categoria ? s.categoria.toUpperCase() : 'DESCUENTO COMERCIAL') : 'ACAD\u00c9MICO';
     const catTagBg = isComercial ? 'var(--color-surface-hover)' : '#EEF4FA';
     const catTagColor = isComercial ? 'var(--color-terracota-dark)' : '#1D3354';
 
@@ -1035,6 +1103,20 @@ class Component extends DCLogic {
       institution: s.institution,
 
       comercialBorder: c.border, comercialBg: c.bg, comercialIconBg: c.iconBg, comercialIconColor: c.iconColor, comercialTextColor: c.textColor,
+      isRegional, regional: s.regional,
+      alcRegBorder: ar.border, alcRegBg: ar.bg, alcRegTextColor: ar.textColor,
+      alcProvBorder: ap.border, alcProvBg: ap.bg, alcProvTextColor: ap.textColor,
+      setAlcanceRegional:   () => this.setState({ alcance: 'regional' }),
+      setAlcanceProvincial: () => this.setState({ alcance: 'provincial' }),
+      onRegional: (e) => this.setState({ regional: e.target.value }),
+      categoriaActual, categoriaOpts, sinCategoria: isComercial && !s.categoria,
+      onCategoria: (e) => this.setState(isAcademico ? { academicSubtype: e.target.value } : { categoria: e.target.value }),
+      agregandoCat: s.nuevaCat !== null, nuevaCat: s.nuevaCat || '',
+      abrirNuevaCat:  () => this.setState({ nuevaCat: '' }),
+      cerrarNuevaCat: () => this.setState({ nuevaCat: null }),
+      onNuevaCat: (e) => this.setState({ nuevaCat: e.target.value }),
+      onNuevaCatKey: (e) => { if (e.key === 'Enter') { e.preventDefault(); this.agregarCategoria(); } if (e.key === 'Escape') this.setState({ nuevaCat: null }); },
+      agregarCategoria: () => this.agregarCategoria(),
       academicoBorder: a.border, academicoBg: a.bg, academicoIconBg: a.iconBg, academicoIconColor: a.iconColor, academicoTextColor: a.textColor,
 
       modePctBg: mp.bg, modePctColor: mp.color,
@@ -1059,7 +1141,6 @@ class Component extends DCLogic {
       onPct: (e) => this.setState({ pct: e.target.value.replace(/[^0-9]/g, '') }),
       onN:   (e) => this.setState({ nVal: e.target.value.replace(/[^0-9]/g, '') }),
       onM:   (e) => this.setState({ mVal: e.target.value.replace(/[^0-9]/g, '') }),
-      onAcademicSubtype: (e) => this.setState({ academicSubtype: e.target.value }),
       onInstitution: (e) => this.setState({ institution: e.target.value }),
 
       onSave:   () => this.onSave(),
@@ -1071,4 +1152,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js?v=20260921"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260925"></script><script src="flow.js"></script></body></html>

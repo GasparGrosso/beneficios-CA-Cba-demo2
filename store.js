@@ -65,6 +65,8 @@
   var K_EVENTS  = 'cac_extra_events';       // eventos cargados/editados a mano (ADR-0009)
   var K_EDIT_EV = 'cac_edit_event';         // evento en edición (precarga del formulario)
   var K_DEL_EV  = 'cac_deleted_events';     // ids de eventos manuales dados de baja
+  var K_CAT_BEN = 'cac_categorias_beneficio'; // categorías de beneficio dadas de alta desde el formulario
+  var K_CAT_EV  = 'cac_categorias_evento';  // categorías de evento dadas de alta desde el formulario
 
   function read(key, fallback) {
     try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -73,6 +75,57 @@
   function write(key, val) {
     try { localStorage.setItem(key, JSON.stringify(val)); return true; }
     catch (e) { return false; }
+  }
+
+  /* ---------- Categorías administrables (RN-07, ampliada el 18/09) ----------
+     El Colegio pidió dar de alta categorías nuevas desde el panel, para beneficios
+     y para eventos. Las de base quedan fijas; las nuevas se guardan en localStorage.
+     Los tipos de beneficio siguen siendo dos: comercial y académico. */
+  var CATEGORIAS_BENEFICIO = {
+    comercial: COMERCIALES.map(function (b) { return b.cat; })
+      .filter(function (c, i, a) { return c && a.indexOf(c) === i; }),
+    academico: ['Convenio Universitario', 'Workshop', 'Beca', 'Curso Corto'],
+  };
+  var COLORES_CATEGORIA = ['#E9500E', '#5B93CE', '#1D3354', '#B472AD', '#E8376F', '#161616'];
+
+  function slugOf(nombre) {
+    return String(nombre).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'tipo';
+  }
+  function mismoNombre(a, b) { return slugOf(a) === slugOf(b); }
+
+  var categoriasNuevasBen = read(K_CAT_BEN, []) || [];
+  categoriasNuevasBen.forEach(function (c) {
+    var lista = c && CATEGORIAS_BENEFICIO[c.tipo];
+    if (lista && c.nombre && !lista.some(function (x) { return mismoNombre(x, c.nombre); })) lista.push(c.nombre);
+  });
+  (read(K_CAT_EV, []) || []).forEach(function (c) {
+    if (c && c.nombre && !CATEGORIAS_EVENTO.some(function (x) { return mismoNombre(x.nombre, c.nombre); })) CATEGORIAS_EVENTO.push(c);
+  });
+
+  function categoriasBeneficio(tipo) {
+    return (CATEGORIAS_BENEFICIO[tipo === 'academico' ? 'academico' : 'comercial']).slice();
+  }
+  // Devuelve el nombre de la categoría creada, o el de la existente si ya había una igual.
+  function addCategoriaBeneficio(tipo, nombre) {
+    tipo = tipo === 'academico' ? 'academico' : 'comercial';
+    nombre = String(nombre || '').trim();
+    if (!nombre) return null;
+    var lista = CATEGORIAS_BENEFICIO[tipo];
+    for (var i = 0; i < lista.length; i++) if (mismoNombre(lista[i], nombre)) return lista[i];
+    lista.push(nombre);
+    categoriasNuevasBen.push({ tipo: tipo, nombre: nombre });
+    write(K_CAT_BEN, categoriasNuevasBen);
+    return nombre;
+  }
+  function addCategoriaEvento(nombre) {
+    nombre = String(nombre || '').trim();
+    if (!nombre) return null;
+    for (var i = 0; i < CATEGORIAS_EVENTO.length; i++) if (mismoNombre(CATEGORIAS_EVENTO[i].nombre, nombre)) return CATEGORIAS_EVENTO[i];
+    var c = { nombre: nombre, color: COLORES_CATEGORIA[CATEGORIAS_EVENTO.length % COLORES_CATEGORIA.length], nueva: true };
+    CATEGORIAS_EVENTO.push(c);
+    write(K_CAT_EV, CATEGORIAS_EVENTO.filter(function (x) { return x.nueva; }));
+    return c;
   }
 
   /* ---------- Helpers de mock ---------- */
@@ -333,7 +386,9 @@
     var del = getDeleted();
     var extras = getExtra(tipo);
     var over = {};
-    extras.forEach(function (b) { over[String(b.id)] = true; });
+    // Todos los extras, no solo los de este tipo: si una edición cambió el tipo,
+    // el ítem base no debe seguir apareciendo en la pestaña anterior.
+    getExtra().forEach(function (b) { over[String(b.id)] = true; });
     var base = baseFor(tipo).filter(function (b) {
       var id = String(b.id);
       return del.indexOf(id) < 0 && !over[id];
@@ -462,6 +517,8 @@
   window.CAC = {
     EVENTS: EVENTS, COMERCIALES: COMERCIALES, ACADEMICOS: ACADEMICOS, CITIES: CITIES,
     CATEGORIAS_EVENTO: CATEGORIAS_EVENTO, MESES_LARGO: MESES_LARGO,
+    categoriasBeneficio: categoriasBeneficio, addCategoriaBeneficio: addCategoriaBeneficio,
+    addCategoriaEvento: addCategoriaEvento,
     getExtra: getExtra, allBenefits: allBenefits, addOrUpdateExtra: addOrUpdateExtra,
     removeBenefit: removeBenefit, isDeleted: isDeleted, getDeleted: getDeleted,
     findBenefitById: findBenefitById,

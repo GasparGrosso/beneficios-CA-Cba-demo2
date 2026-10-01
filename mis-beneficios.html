@@ -12,7 +12,7 @@
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260921"></script>
+  <script src="store.js?v=20260925"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -51,7 +51,7 @@
     .mb-choice-meta { display:inline-block; margin-top:12px; background:#F0ECEA; border-radius:9999px; padding:5px 12px; font-family:'Work Sans',sans-serif; font-size:11px; font-weight:600; color:#5b5652; transition:background .28s, color .28s; }
     .mb-choice:hover .mb-choice-meta { background:#FEF0E8; color:#C8440B; }
     .mb-choice-cta { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:14px; font-family:'Work Sans',sans-serif; font-size:13px; font-weight:600; color:#E9500E; }
-    .mb-back { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #E2DBD7; border-radius:8px; padding:7px 12px; font-family:'Work Sans',sans-serif; font-size:11.5px; font-weight:600; color:#5b5652; cursor:pointer; transition:all .18s; }
+    .mb-back { display:inline-flex; align-items:center; gap:6px; background:#fff; border:1px solid #E2DBD7; border-radius:12px; padding:7px 12px; font-family:'Work Sans',sans-serif; font-size:11.5px; font-weight:600; color:#5b5652; cursor:pointer; transition:all .18s; }
     .mb-back:hover { border-color:#E9500E; color:#E9500E; }
     .entrada:hover { background:#C8440B !important; }
     /* Entradas: lista desplazable, una columna en móvil y grilla fluida en pantallas anchas */
@@ -118,7 +118,7 @@ function AppHeader({ title, subtitle }) {
             <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#7A736E'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
             <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:C.terracota, borderRadius:'50%', border:'1.5px solid #161616'}}/>
           </div>
-          <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#fff', borderRadius:'7px', padding:'7px 12px', fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
+          <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#fff', borderRadius:'10px', padding:'7px 12px', fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
             <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             Salir
           </button>
@@ -132,7 +132,6 @@ function BottomNav({ active }) {
     { key:'inicio', label:'Inicio', href:'menu-beneficios.html', icon:(c)=>(<svg width="17" height="17" viewBox="0 0 24 24" {...stroke({stroke:c, strokeWidth:2.3})}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>) },
     { key:'eventos', label:'Eventos', href:'calendario-eventos.html', icon:(c)=>(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:c})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>) },
     { key:'mis', label:'Mis Beneficios', href:'mis-beneficios.html', icon:(c)=>(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:c})}><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>) },
-    { key:'perfil', label:'Perfil', href:'#', icon:(c)=>(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:c})}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>) },
   ];
   return (
     <div className="dash-nav" style={{position:'fixed', bottom:0, left:0, right:0, width:'100%', background:'#fff', borderTop:'1px solid #E7E2E1', padding:'8px 16px 14px', zIndex:50, boxShadow:'0 -4px 16px rgba(22,22,22,.06)'}}>
@@ -141,7 +140,7 @@ function BottomNav({ active }) {
           const on = n.key === active;
           return (
             <a key={n.key} href={n.href} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'3px', cursor:'pointer', minWidth:'64px'}}>
-              <div style={{width:'30px', height:'30px', background: on ? '#FEF0E8' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon(on ? C.terracota : C.t5)}</div>
+              <div style={{width:'30px', height:'30px', background: on ? '#FEF0E8' : 'transparent', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon(on ? C.terracota : C.t5)}</div>
               <span style={{fontSize:'9.5px', fontFamily:DISP, fontWeight: on ? 600 : 400, color: on ? C.terracota : C.t5}}>{n.label}</span>
             </a>
           );
@@ -165,13 +164,13 @@ function BenefitCard({ b, rank, locked }) {
   const badge = discountBadge(b);
   const available = locked && cd.done;
   return (
-    <div className={locked && !available ? '' : 'capc-sel'} style={{background:C.surface, borderRadius:'8px', padding:'13px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', display:'flex', flexDirection:'column', gap:'8px', position:'relative', opacity: locked && !available ? .92 : 1}}>
+    <div className={locked && !available ? '' : 'capc-sel'} style={{background:C.surface, borderRadius:'12px', padding:'13px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', display:'flex', flexDirection:'column', gap:'8px', position:'relative', opacity: locked && !available ? .92 : 1}}>
       {rank && (
         <div style={{position:'absolute', top:'-7px', left:'-7px', width:'24px', height:'24px', borderRadius:'50%', background:C.terracota, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:DISP, fontSize:'11px', fontWeight:800, boxShadow:'0 2px 8px rgba(233,80,14,.45)', zIndex:2}}>{rank}</div>
       )}
       <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'6px'}}>
-        <div style={{width:'38px', height:'38px', borderRadius:'8px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontFamily:DISP, fontSize:'12px', fontWeight:800, flexShrink:0, filter: locked && !available ? 'grayscale(.45)' : 'none'}}>{b.logo}</div>
-        <div style={{background:C.terracotaL, borderRadius:'4px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
+        <div style={{width:'38px', height:'38px', borderRadius:'12px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontFamily:DISP, fontSize:'12px', fontWeight:800, flexShrink:0, filter: locked && !available ? 'grayscale(.45)' : 'none'}}>{b.logo}</div>
+        <div style={{background:C.terracotaL, borderRadius:'8px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
           <div style={{fontFamily:DISP, fontSize:'15px', fontWeight:800, color:C.terracota, lineHeight:1.1}}>{badge.big}</div>
           <div style={{fontSize:'8px', color:C.terracota, fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
         </div>
@@ -179,17 +178,17 @@ function BenefitCard({ b, rank, locked }) {
       <div style={{fontFamily:DISP, fontWeight:600, fontSize:'12.5px', color:C.t1, lineHeight:1.3}}>{b.nombre}</div>
       <div style={{fontSize:'11px', color:C.t5, lineHeight:1.3, marginTop:'-3px'}}>{b.cat}</div>
       <div style={{display:'flex', gap:'5px', flexWrap:'wrap'}}>
-        <span style={{background:C.muted, borderRadius:'3px', padding:'2px 7px', fontSize:'10px', color:C.t3, fontWeight:400}}>{b.regional}</span>
-        {b.usos != null && <span style={{background:C.terracotaL, borderRadius:'3px', padding:'2px 7px', fontSize:'10px', color:C.terracota, fontWeight:600}}>{b.usos} {b.usos === 1 ? 'uso' : 'usos'}</span>}
+        <span style={{background:C.muted, borderRadius:'8px', padding:'2px 7px', fontSize:'10px', color:C.t3, fontWeight:400}}>{b.regional}</span>
+        {b.usos != null && <span style={{background:C.terracotaL, borderRadius:'8px', padding:'2px 7px', fontSize:'10px', color:C.terracota, fontWeight:600}}>{b.usos} {b.usos === 1 ? 'uso' : 'usos'}</span>}
       </div>
       {!locked || available ? (
-        <button onClick={()=>goBenefit(b)} className="h-primary" style={{width:'100%', padding:'8px 10px', borderRadius:'5px', border:`1.5px solid ${C.terracota}`, background:'transparent', color:C.terracota, fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', marginTop:'auto'}}>Solicitar Beneficio</button>
+        <button onClick={()=>goBenefit(b)} className="h-primary" style={{width:'100%', padding:'8px 10px', borderRadius:'10px', border:`1.5px solid ${C.terracota}`, background:'transparent', color:C.terracota, fontFamily:DISP, fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'all .2s', marginTop:'auto'}}>Solicitar Beneficio</button>
       ) : (
         <div style={{marginTop:'auto'}}>
           <div style={{display:'flex', alignItems:'center', gap:'5px', fontSize:'9.5px', color:C.t5, fontFamily:DISP, fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase', marginBottom:'5px'}}><ILock/> Disponible en</div>
           <div style={{display:'flex', gap:'4px'}}>
             {[[cd.d, 'días'], [cd.h, 'hs'], [cd.m, 'min'], [cd.s, 'seg']].map(([v, l]) => (
-              <div key={l} style={{flex:1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:'5px', padding:'5px 2px', textAlign:'center'}}>
+              <div key={l} style={{flex:1, background:C.bg, border:`1px solid ${C.border}`, borderRadius:'10px', padding:'5px 2px', textAlign:'center'}}>
                 <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:800, color:C.pizarra, lineHeight:1, fontVariantNumeric:'tabular-nums'}}>{String(v).padStart(2, '0')}</div>
                 <div style={{fontSize:'8px', color:C.t5, marginTop:'2px', letterSpacing:'.04em'}}>{l}</div>
               </div>
@@ -203,7 +202,7 @@ function BenefitCard({ b, rank, locked }) {
 
 const SectionHead = ({ icon, title, sub, count, accent }) => (
   <div style={{display:'flex', alignItems:'center', gap:'9px', marginBottom:'12px'}}>
-    <div style={{width:'28px', height:'28px', borderRadius:'8px', background: accent === 't' ? C.terracotaL : '#F0ECEA', color: accent === 't' ? C.terracota : C.t4, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>{icon}</div>
+    <div style={{width:'28px', height:'28px', borderRadius:'12px', background: accent === 't' ? C.terracotaL : '#F0ECEA', color: accent === 't' ? C.terracota : C.t4, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0}}>{icon}</div>
     <div style={{flex:1, minWidth:0}}>
       <div style={{fontFamily:DISP, fontSize:'16px', fontWeight:800, color:C.t1, letterSpacing:'-.01em'}}>{title}</div>
       {sub && <div style={{fontSize:'11px', color:C.t5, marginTop:'1px'}}>{sub}</div>}
@@ -215,10 +214,10 @@ const SectionHead = ({ icon, title, sub, count, accent }) => (
 /* ── Tarjeta de entrada: misma tarjeta de evento, con "Ver entrada" ── */
 function TicketCard({ ev }) {
   return (
-    <div onClick={()=>goTicket(ev)} className="capc-sel" style={{background:C.surface, borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(22,22,22,.08),0 1px 4px rgba(22,22,22,.05)', cursor:'pointer', border:`1px solid ${C.borderCard}`}}>
+    <div onClick={()=>goTicket(ev)} className="capc-sel" style={{background:C.surface, borderRadius:'16px', overflow:'hidden', boxShadow:'0 4px 20px rgba(22,22,22,.08),0 1px 4px rgba(22,22,22,.05)', cursor:'pointer', border:`1px solid ${C.borderCard}`}}>
       <div style={{padding:'13px 14px 10px'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'8px'}}>
-          <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
+          <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'8px', padding:'2px 8px', fontSize:'9.5px', fontFamily:DISP, fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
           <span style={{display:'inline-flex', alignItems:'center', gap:'5px', background:'#F2F8EC', border:'1px solid #BFDEA6', borderRadius:'9999px', padding:'2px 8px', fontFamily:DISP, fontSize:'9.5px', fontWeight:600, color:'#3f6b22', whiteSpace:'nowrap'}}><span style={{width:'5px', height:'5px', borderRadius:'50%', background:'#7CB553'}}/>Entrada válida</span>
         </div>
         <div style={{fontFamily:DISP, fontWeight:800, fontSize:'15px', color:C.t1, marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em'}}>{ev.title}</div>
@@ -234,7 +233,7 @@ function TicketCard({ ev }) {
             <div style={{fontSize:'10.5px', color:'#9E968F', marginTop:'7px', textAlign:'center'}}>{ev.subtitle}</div>
           </div>
         )}
-        <button className="entrada" onClick={e=>{e.stopPropagation(); goTicket(ev);}} style={{position:'absolute', bottom:'12px', left:'12px', display:'flex', alignItems:'center', gap:'7px', background:C.terracota, color:'#fff', border:'none', borderRadius:'7px', padding:'8px 15px', fontFamily:DISP, fontSize:'12.5px', fontWeight:600, cursor:'pointer', boxShadow:'0 2px 12px rgba(0,0,0,.22)', transition:'background .18s'}}>
+        <button className="entrada" onClick={e=>{e.stopPropagation(); goTicket(ev);}} style={{position:'absolute', bottom:'12px', left:'12px', display:'flex', alignItems:'center', gap:'7px', background:C.terracota, color:'#fff', border:'none', borderRadius:'10px', padding:'8px 15px', fontFamily:DISP, fontSize:'12.5px', fontWeight:600, cursor:'pointer', boxShadow:'0 2px 12px rgba(0,0,0,.22)', transition:'background .18s'}}>
           <IQR/> Ver entrada
         </button>
       </div>
@@ -317,7 +316,7 @@ function App() {
             <span style={{fontSize:'11.5px', color:C.t5, whiteSpace:'nowrap'}}>{tickets.length} {tickets.length === 1 ? 'entrada' : 'entradas'}</span>
           </div>
           {tickets.length === 0 ? (
-            <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
+            <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'16px', border:`1px solid ${C.borderCard}`}}>
               <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Todavía no tenés entradas</div>
               <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Cuando te inscribas a un evento, la entrada aparece acá.</div>
             </div>
@@ -335,7 +334,7 @@ function App() {
         {/* Resumen */}
         <div style={{display:'flex', gap:'8px', marginBottom:'22px'}}>
           {[[String(totalUsos), 'Canjes realizados', C.pizarra], [String(mine.top.length), 'Beneficios usados', C.terracota], [String(mine.espera.length), 'En espera', C.t4]].map((s, i) => (
-            <div key={i} style={{flex:1, background:'#fff', borderRadius:'8px', padding:'10px 12px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.05)'}}>
+            <div key={i} style={{flex:1, background:'#fff', borderRadius:'12px', padding:'10px 12px', border:`1px solid ${C.borderCard}`, boxShadow:'0 2px 10px rgba(22,22,22,.05)'}}>
               <div style={{fontFamily:DISP, fontSize:'18px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
               <div style={{fontSize:'10px', color:C.t5, marginTop:'3px'}}>{s[1]}</div>
             </div>
@@ -347,7 +346,7 @@ function App() {
           <section>
             <SectionHead icon={<IFlame/>} title="Top más usados" sub="Ordenados por la cantidad de veces que los canjeaste" count={`${mine.top.length} beneficios`} accent="t"/>
             {mine.top.length === 0 ? (
-              <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
+              <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'16px', border:`1px solid ${C.borderCard}`}}>
                 <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Todavía no canjeaste beneficios</div>
                 <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Los que uses van a aparecer acá, ordenados por frecuencia.</div>
               </div>
@@ -365,7 +364,7 @@ function App() {
           <section>
             <SectionHead icon={<IClock/>} title="En espera para volver a usarse" sub="Cada beneficio tiene un período mínimo entre canjes" count={`${mine.espera.length} en espera`}/>
             {mine.espera.length === 0 ? (
-              <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'12px', border:`1px solid ${C.borderCard}`}}>
+              <div style={{padding:'32px 20px', textAlign:'center', background:'#fff', borderRadius:'16px', border:`1px solid ${C.borderCard}`}}>
                 <div style={{fontFamily:DISP, fontSize:'14px', fontWeight:600, color:C.t1}}>Nada en espera</div>
                 <div style={{fontSize:'12.5px', color:C.t5, marginTop:'4px'}}>Todos tus beneficios están disponibles para usar.</div>
               </div>

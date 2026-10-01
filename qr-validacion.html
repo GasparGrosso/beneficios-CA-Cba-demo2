@@ -35,7 +35,7 @@
       <div style="font-size:9.5px; color:#9E968F; letter-spacing:0.06em; text-transform:uppercase; margin-top:1px;">Colegio de Arquitectos · CAC</div>
     </div>
     </div>
-    <button onclick="{{ exitToMenu }}" style="width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;flex-shrink:0;" style-hover="background:rgba(255,255,255,.12);color:#fff;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
+    <button onclick="{{ exitToMenu }}" style="width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);transition:all 160ms;flex-shrink:0;" style-hover="background:rgba(255,255,255,.12);color:#fff;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
   </div>
 
   <!-- CONTENT -->
@@ -46,15 +46,15 @@
       <div>
 
         <!-- Benefit mini-card -->
-        <div style="background:#fff; border-radius:10px; padding:13px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(22,22,22,0.07); border:1px solid #F0ECEA; display:flex; align-items:center; gap:12px;">
-          <div style="width:44px; height:44px; background:#5B93CE; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <div style="background:#fff; border-radius:16px; padding:13px 16px; margin-bottom:16px; box-shadow:0 2px 10px rgba(22,22,22,0.07); border:1px solid #F0ECEA; display:flex; align-items:center; gap:12px;">
+          <div style="width:44px; height:44px; background:#5B93CE; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
             <span style="font-family:'Work Sans',sans-serif; font-size:13px; font-weight:800; color:#fff;">EP</span>
           </div>
           <div style="flex:1; min-width:0;">
             <div style="font-family:'Work Sans',sans-serif; font-size:13.5px; font-weight:600; color:#161616; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">El Plano · Librería Técnica</div>
             <div style="font-size:11.5px; color:#7A736E; margin-top:2px;">Papelería &amp; Técnica · Córdoba</div>
           </div>
-          <div style="background:#FEF0E8; border-radius:6px; padding:5px 10px; flex-shrink:0; text-align:center;">
+          <div style="background:#FEF0E8; border-radius:10px; padding:5px 10px; flex-shrink:0; text-align:center;">
             <div style="font-family:'Work Sans',sans-serif; font-size:18px; font-weight:800; color:#E9500E; line-height:1.1;">20%</div>
             <div style="font-size:8px; color:#E9500E; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;">OFF</div>
           </div>
@@ -78,7 +78,7 @@
           </div>
 
           <!-- QR container -->
-          <div style="position:relative; display:inline-block; padding:10px; background:#F7F5F3; border-radius:12px; border:1.5px solid #E7E2E1;">
+          <div style="position:relative; display:inline-block; padding:10px; background:#F7F5F3; border-radius:16px; border:1.5px solid #E7E2E1;">
 
             <!-- QR SVG (blurred during scan) -->
             <div style="{{ qrBlurSt }}">
@@ -141,20 +141,20 @@
             </div>
 
             <!-- Corner brackets (always sharp) -->
-            <div style="position:absolute; top:5px; left:5px; width:22px; height:22px; border-top:3px solid #E9500E; border-left:3px solid #E9500E; border-radius:3px 0 0 0; pointer-events:none;"></div>
-            <div style="position:absolute; top:5px; right:5px; width:22px; height:22px; border-top:3px solid #E9500E; border-right:3px solid #E9500E; border-radius:0 3px 0 0; pointer-events:none;"></div>
-            <div style="position:absolute; bottom:5px; left:5px; width:22px; height:22px; border-bottom:3px solid #E9500E; border-left:3px solid #E9500E; border-radius:0 0 0 3px; pointer-events:none;"></div>
-            <div style="position:absolute; bottom:5px; right:5px; width:22px; height:22px; border-bottom:3px solid #E9500E; border-right:3px solid #E9500E; border-radius:0 0 3px 0; pointer-events:none;"></div>
+            <div style="position:absolute; top:5px; left:5px; width:22px; height:22px; border-top:3px solid #E9500E; border-left:3px solid #E9500E; border-radius:8px 0 0 0; pointer-events:none;"></div>
+            <div style="position:absolute; top:5px; right:5px; width:22px; height:22px; border-top:3px solid #E9500E; border-right:3px solid #E9500E; border-radius:0 8px 0 0; pointer-events:none;"></div>
+            <div style="position:absolute; bottom:5px; left:5px; width:22px; height:22px; border-bottom:3px solid #E9500E; border-left:3px solid #E9500E; border-radius:0 0 0 8px; pointer-events:none;"></div>
+            <div style="position:absolute; bottom:5px; right:5px; width:22px; height:22px; border-bottom:3px solid #E9500E; border-right:3px solid #E9500E; border-radius:0 0 8px 0; pointer-events:none;"></div>
 
             <!-- Laser line -->
             <sc-if value="{{ notTransitioning }}" hint-placeholder-val="{{ true }}">
-              <div style="position:absolute; left:10px; right:10px; top:4%; height:2px; background:linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent); box-shadow:0 0 10px rgba(233,80,14,0.9); border-radius:1px; animation:laserScan 2s ease-in-out infinite; pointer-events:none;"></div>
+              <div style="position:absolute; left:10px; right:10px; top:4%; height:2px; background:linear-gradient(90deg,transparent,#E9500E 25%,#E9500E 75%,transparent); box-shadow:0 0 10px rgba(233,80,14,0.9); border-radius:8px; animation:laserScan 2s ease-in-out infinite; pointer-events:none;"></div>
             </sc-if>
 
             <!-- Scan transition overlay -->
             <sc-if value="{{ isTransitioning }}" hint-placeholder-val="{{ false }}">
-              <div style="position:absolute; inset:0; background:rgba(248,250,252,0.75); border-radius:10px; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(2px);">
-                <div style="background:#fff; border-radius:10px; padding:10px 20px; display:flex; align-items:center; gap:9px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+              <div style="position:absolute; inset:0; background:rgba(248,250,252,0.75); border-radius:16px; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(2px);">
+                <div style="background:#fff; border-radius:16px; padding:10px 20px; display:flex; align-items:center; gap:9px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E9500E" stroke-width="2.5" stroke-linecap="round" style="animation:spin 0.7s linear infinite;">
                     <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
                   </svg>
@@ -233,9 +233,9 @@
           <div style="padding:20px; display:flex; flex-direction:column; gap:12px;">
 
             <!-- Benefit detail -->
-            <div style="background:#F5F2F0; border-radius:10px; padding:14px 16px; border:1px solid #E7E2E1;">
+            <div style="background:#F5F2F0; border-radius:16px; padding:14px 16px; border:1px solid #E7E2E1;">
               <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                <div style="width:42px; height:42px; background:#5B93CE; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <div style="width:42px; height:42px; background:#5B93CE; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                   <span style="font-family:'Work Sans',sans-serif; font-size:13px; font-weight:800; color:#fff;">EP</span>
                 </div>
                 <div>
@@ -257,18 +257,18 @@
 
             <!-- TX metadata -->
             <div style="display:flex; gap:8px;">
-              <div style="flex:1; background:#F5F2F0; border-radius:6px; padding:8px 10px; border:1px solid #E7E2E1;">
+              <div style="flex:1; background:#F5F2F0; border-radius:10px; padding:8px 10px; border:1px solid #E7E2E1;">
                 <div style="font-size:9.5px; color:#9E968F; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:3px;">Timestamp</div>
                 <div style="font-family:'Work Sans',sans-serif; font-size:11.5px; font-weight:600; color:#161616;">18 jun · 14:32 hs</div>
               </div>
-              <div style="flex:1; background:#F5F2F0; border-radius:6px; padding:8px 10px; border:1px solid #E7E2E1;">
+              <div style="flex:1; background:#F5F2F0; border-radius:10px; padding:8px 10px; border:1px solid #E7E2E1;">
                 <div style="font-size:9.5px; color:#9E968F; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:3px;">Código TX</div>
                 <div style="font-family:'Work Sans',sans-serif; font-size:11.5px; font-weight:600; color:#161616; letter-spacing:0.05em;">CAC-7A4E-06</div>
               </div>
             </div>
 
             <!-- Cooldown -->
-            <div style="background:#FEF6F0; border:1.5px solid #FBD3BC; border-radius:10px; padding:14px 16px;">
+            <div style="background:#FEF6F0; border:1.5px solid #FBD3BC; border-radius:16px; padding:14px 16px;">
               <div style="display:flex; align-items:center; gap:7px; margin-bottom:10px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E9500E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
@@ -278,15 +278,15 @@
               </div>
               <div style="font-size:12px; color:#7A736E; font-family:'Work Sans',sans-serif; margin-bottom:10px;">Podrás reutilizar este beneficio en:</div>
               <div style="display:flex; gap:8px; justify-content:center;">
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:24px; font-weight:800; color:#161616; line-height:1.1;">30</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">días</div>
                 </div>
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:24px; font-weight:800; color:#161616; line-height:1.1;">00</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">horas</div>
                 </div>
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 12px; border:1px solid #FBD3BC; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:24px; font-weight:800; color:#161616; line-height:1.1;">00</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">min</div>
                 </div>
@@ -294,7 +294,7 @@
             </div>
 
             <!-- Back -->
-            <button onclick="{{ goBack }}" style="width:100%; padding:14px; background:#161616; color:#fff; border:none; border-radius:8px; font-size:14px; font-family:'Work Sans',sans-serif; font-weight:600; cursor:pointer; transition:all 0.2s; letter-spacing:0.04em; display:flex; align-items:center; justify-content:center; gap:8px;" style-hover="background:#2B2928;">
+            <button onclick="{{ goBack }}" style="width:100%; padding:14px; background:#161616; color:#fff; border:none; border-radius:12px; font-size:14px; font-family:'Work Sans',sans-serif; font-weight:600; cursor:pointer; transition:all 0.2s; letter-spacing:0.04em; display:flex; align-items:center; justify-content:center; gap:8px;" style-hover="background:#2B2928;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
@@ -329,9 +329,9 @@
           <div style="padding:20px; display:flex; flex-direction:column; gap:12px;">
 
             <!-- Used benefit info -->
-            <div style="background:#FEF6F0; border:1.5px solid #FBD3BC; border-radius:10px; padding:14px 16px;">
+            <div style="background:#FEF6F0; border:1.5px solid #FBD3BC; border-radius:16px; padding:14px 16px;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                <div style="width:40px; height:40px; background:#5B93CE; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:0.55;">
+                <div style="width:40px; height:40px; background:#5B93CE; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:0.55;">
                   <span style="font-family:'Work Sans',sans-serif; font-size:12px; font-weight:800; color:#fff;">EP</span>
                 </div>
                 <div>
@@ -346,30 +346,30 @@
                   </div>
                 </div>
               </div>
-              <div style="background:#fff; border-radius:6px; padding:10px 12px; border:1px solid #F2D4C3; font-size:12.5px; color:#7A736E; font-family:'Work Sans',sans-serif; line-height:1.5;">
+              <div style="background:#fff; border-radius:10px; padding:10px 12px; border:1px solid #F2D4C3; font-size:12.5px; color:#7A736E; font-family:'Work Sans',sans-serif; line-height:1.5;">
                 Este cupón fue canjeado el <strong style="color:#161616;">14 de junio · 10:18 hs</strong> y se encuentra en período de carencia obligatorio.
               </div>
             </div>
 
             <!-- Cooldown countdown -->
-            <div style="background:#F5F2F0; border-radius:10px; padding:14px 16px; border:1px solid #E7E2E1;">
+            <div style="background:#F5F2F0; border-radius:16px; padding:14px 16px; border:1px solid #E7E2E1;">
               <div style="font-size:10.5px; color:#7A736E; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; font-family:'Work Sans',sans-serif; font-weight:600;">Se reactivará en:</div>
               <div style="display:flex; gap:8px; justify-content:center; margin-bottom:12px;">
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 10px; border:1.5px solid #E9500E; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 10px; border:1.5px solid #E9500E; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:26px; font-weight:800; color:#E9500E; line-height:1;">4</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">días</div>
                 </div>
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 10px; border:1.5px solid #E2DBD7; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 10px; border:1.5px solid #E2DBD7; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:26px; font-weight:800; color:#161616; line-height:1;">2</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">horas</div>
                 </div>
-                <div style="text-align:center; background:#fff; border-radius:6px; padding:8px 10px; border:1.5px solid #E2DBD7; flex:1;">
+                <div style="text-align:center; background:#fff; border-radius:10px; padding:8px 10px; border:1.5px solid #E2DBD7; flex:1;">
                   <div style="font-family:'Work Sans',sans-serif; font-size:26px; font-weight:800; color:#161616; line-height:1;">33</div>
                   <div style="font-size:9px; color:#9E968F; margin-top:2px; text-transform:uppercase; letter-spacing:0.06em;">min</div>
                 </div>
               </div>
-              <div style="height:6px; background:#E7E2E1; border-radius:3px; overflow:hidden; margin-bottom:5px;">
-                <div style="height:100%; width:62%; background:linear-gradient(90deg,#E9500E,#F17A42); border-radius:3px;"></div>
+              <div style="height:6px; background:#E7E2E1; border-radius:8px; overflow:hidden; margin-bottom:5px;">
+                <div style="height:100%; width:62%; background:linear-gradient(90deg,#E9500E,#F17A42); border-radius:8px;"></div>
               </div>
               <div style="display:flex; justify-content:space-between;">
                 <span style="font-size:9.5px; color:#9E968F; font-family:'Work Sans',sans-serif;">14 jun · Canje</span>
@@ -378,7 +378,7 @@
             </div>
 
             <!-- Tip -->
-            <div style="background:#F2F8EC; border-radius:6px; padding:10px 12px; display:flex; align-items:flex-start; gap:8px; border:1px solid #BFDEA6;">
+            <div style="background:#F2F8EC; border-radius:10px; padding:10px 12px; display:flex; align-items:flex-start; gap:8px; border:1px solid #BFDEA6;">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5E9A38" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0; margin-top:1px;">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 8 12 12 15 14"></polyline>
@@ -387,7 +387,7 @@
             </div>
 
             <!-- Back -->
-            <button onclick="{{ goBack }}" style="width:100%; padding:14px; background:#161616; color:#fff; border:none; border-radius:8px; font-size:14px; font-family:'Work Sans',sans-serif; font-weight:600; cursor:pointer; transition:all 0.2s; letter-spacing:0.04em; display:flex; align-items:center; justify-content:center; gap:8px;" style-hover="background:#2B2928;">
+            <button onclick="{{ goBack }}" style="width:100%; padding:14px; background:#161616; color:#fff; border:none; border-radius:12px; font-size:14px; font-family:'Work Sans',sans-serif; font-weight:600; cursor:pointer; transition:all 0.2s; letter-spacing:0.04em; display:flex; align-items:center; justify-content:center; gap:8px;" style-hover="background:#2B2928;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
@@ -426,7 +426,7 @@ class Component extends DCLogic {
 
       btnSuccessSt: {
         width: '100%', padding: '14px', background: s.transitioning ? '#9E968F' : '#E9500E',
-        color: '#fff', border: 'none', borderRadius: '8px',
+        color: '#fff', border: 'none', borderRadius: '12px',
         fontSize: '14px', fontFamily: "'Work Sans', sans-serif",
         fontWeight: 600, cursor: s.transitioning ? 'default' : 'pointer',
         transition: 'all 0.2s', letterSpacing: '0.03em',
@@ -436,7 +436,7 @@ class Component extends DCLogic {
 
       btnErrSimuSt: {
         width: '100%', padding: '14px', background: '#fff',
-        color: '#7A736E', border: '1.5px solid #E2DBD7', borderRadius: '8px',
+        color: '#7A736E', border: '1.5px solid #E2DBD7', borderRadius: '12px',
         fontSize: '14px', fontFamily: "'Work Sans', sans-serif",
         fontWeight: 600, cursor: s.transitioning ? 'default' : 'pointer',
         transition: 'all 0.2s', letterSpacing: '0.03em',
@@ -465,4 +465,4 @@ class Component extends DCLogic {
 </script>
 
 
-<script src="store.js?v=20260921"></script><script src="flow.js"></script></body></html>
+<script src="store.js?v=20260925"></script><script src="flow.js"></script></body></html>

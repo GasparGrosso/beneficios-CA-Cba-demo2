@@ -12,7 +12,7 @@
   <script src="assets/vendor/react.production.min.js"></script>
   <script src="assets/vendor/react-dom.production.min.js"></script>
   <script src="assets/vendor/babel.min.js"></script>
-  <script src="store.js?v=20260921"></script>
+  <script src="store.js?v=20260925"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -27,6 +27,19 @@
     .h-primary:hover { background:#C8440B !important; transform:translateY(-1px); box-shadow:0 8px 24px rgba(233,80,14,.34) !important; }
     .h-dark:hover { background:#2B2928 !important; }
     .h-arrow:hover { box-shadow:0 3px 14px rgba(0,0,0,.2) !important; }
+    /* Cabecera: bordes inferiores redondeados y botones circulares */
+    .dash-head { border-radius:0 0 22px 22px; box-shadow:0 8px 24px rgba(22,22,22,.14); }
+    .head-btn { width:38px; height:38px; border-radius:9999px; display:flex; align-items:center; justify-content:center; padding:0;
+                background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:#CCC5BE; cursor:pointer; transition:all .2s; }
+    .head-btn:hover { background:rgba(255,255,255,.12); color:#FFFFFF; }
+    .head-btn:focus-visible { outline:2px solid #E9500E; outline-offset:2px; }
+    .head-profile.on { background:#E9500E; border-color:#E9500E; color:#FFFFFF; }
+    /* Datos del matriculado: plegados por defecto, se despliegan con el ícono de perfil */
+    .profile-drawer { display:grid; grid-template-rows:0fr; opacity:0; visibility:hidden;
+                      transition:grid-template-rows .34s cubic-bezier(.2,.7,.2,1), opacity .22s ease, visibility 0s linear .34s; }
+    .profile-drawer > div { min-height:0; }
+    .profile-drawer.open { grid-template-rows:1fr; opacity:1; visibility:visible; transition:grid-template-rows .34s cubic-bezier(.2,.7,.2,1), opacity .26s ease .06s; }
+    @media (prefers-reduced-motion: reduce) { .profile-drawer, .profile-drawer.open { transition:none; } }
     /* Shell: móvil = una columna de 430px; desde 768px el contenido usa el ancho disponible (máx. 1240px). */
     .dash-screen { width:100%; max-width:430px; margin:0 auto; }
     .dash-inner  { width:100%; }
@@ -44,7 +57,7 @@
   <div id="root"></div>
 
   <script type="text/plain" id="app-source">
-const { useState, useRef } = React;
+const { useState, useRef, useEffect } = React;
 const { CITIES } = CAC;
 const EVENTS = CAC.upcomingEvents();   // agenda: API de Autogestión + carga manual del Colegio (ADR-0009)
 
@@ -57,11 +70,24 @@ function discountBadge(b) {
   return { big: (b.desc != null ? b.desc + '%' : '—'), small: 'OFF' };
 }
 
+/* Día y mes de inicio para la ficha de fecha de la tarjeta: { d:'02', m:'oct' }. */
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function dayMonth(ev) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ev.inicio || '');
+  return m ? { d: m[3], m: MESES[+m[2] - 1] } : null;
+}
+
 function Dashboard() {
   const [tab, setTab] = useState('comercial');
   const [city, setCity] = useState('Todas');
   const [nearMe, setNearMe] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);   // datos del matriculado: se despliegan desde el ícono de perfil
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setProfileOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const carouselRef = useRef(null);
 
   const effectiveCity = nearMe ? 'Regional 1' : city;
@@ -73,16 +99,17 @@ function Dashboard() {
   const goEvent   = (ev) => { window.location.href = 'qr-entrada-evento.html?e=' + encodeURIComponent(ev.id); };
 
   const tabSt = (t) => ({
-    flex:1, border:'none', borderRadius:'3px', cursor:'pointer', padding:'10px 8px', fontSize:'12px', lineHeight:1.3,
+    flex:1, border:'none', borderRadius:'8px', cursor:'pointer', padding:'10px 8px', fontSize:'12px', lineHeight:1.3,
     fontFamily:"'Work Sans',sans-serif", fontWeight: tab===t ? 600 : 400,
     background: tab===t ? '#161616' : 'transparent', color: tab===t ? '#FFFFFF' : '#7A736E', transition:'all .18s',
   });
 
   return (
     <div className="dash-screen" style={{background:'#F5F2F0', minHeight:'100vh', position:'relative', paddingBottom:'90px'}}>
-      <div style={{position:'sticky', top:0, zIndex:50, background:'#161616'}}>
+      {/* CABECERA — los datos del matriculado se despliegan al tocar el ícono de perfil */}
+      <div className="dash-head" style={{position:'sticky', top:0, zIndex:50, background:'#161616'}}>
         <div style={{height:'3px', background:'var(--capc-degrade)'}}/>
-        <div className="dash-inner" style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px 10px'}}>
+        <div className="dash-inner" style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px'}}>
           <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
             <img src="assets/marca/isotipo-color.png" alt="Colegio de Arquitectos de la Provincia de Córdoba" style={{height:'34px', width:'auto', display:'block', flexShrink:0}}/>
             <div>
@@ -90,81 +117,95 @@ function Dashboard() {
               <div style={{fontSize:'9.5px', color:'#9E968F', letterSpacing:'.06em', textTransform:'uppercase', marginTop:'1px'}}>Colegio de Arquitectos</div>
             </div>
           </div>
-          <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-            <div style={{position:'relative', cursor:'pointer', padding:'4px'}}>
-              <svg width="20" height="20" viewBox="0 0 24 24" {...stroke({stroke:'#7A736E'})}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              <div style={{position:'absolute', top:'3px', right:'3px', width:'7px', height:'7px', background:'#E9500E', borderRadius:'50%', border:'1.5px solid #161616'}}/>
-            </div>
-            <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{display:'flex', alignItems:'center', gap:'6px', background:'rgba(255,255,255,.08)', border:'1px solid rgba(255,255,255,.18)', color:'#FFFFFF', borderRadius:'7px', padding:'7px 12px', fontFamily:"'Work Sans',sans-serif", fontSize:'11.5px', fontWeight:600, letterSpacing:'.02em', cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap'}}>
-              <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-              Salir
+          <div style={{display:'flex', alignItems:'center', gap:'8px'}}>
+            <button className="head-btn" aria-label="Notificaciones" style={{position:'relative'}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" {...stroke()}><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span style={{position:'absolute', top:'8px', right:'9px', width:'7px', height:'7px', background:'#E9500E', borderRadius:'50%', border:'1.5px solid #161616'}}/>
+            </button>
+            <button className={'head-btn head-profile' + (profileOpen ? ' on' : '')} onClick={()=>setProfileOpen(v=>!v)} aria-expanded={profileOpen} aria-controls="perfil-matriculado" aria-label={profileOpen ? 'Ocultar mis datos' : 'Ver mis datos'}>
+              <svg width="18" height="18" viewBox="0 0 24 24" {...stroke()}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </button>
           </div>
         </div>
 
-        <div className="dash-inner" style={{padding:'2px 16px 14px'}}>
-          <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'8px'}}>
-            <div>
-              <div style={{fontSize:'11.5px', color:'#9E968F', marginBottom:'3px'}}>Bienvenido/a de vuelta,</div>
-              <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#FFFFFF', lineHeight:1.2, letterSpacing:'-.02em'}}>Arq. Carlos Rodríguez</div>
-              <div style={{fontSize:'11.5px', color:'#9E968F', marginTop:'3px'}}>Matrícula N° 12.458 · Córdoba · Regional 5</div>
-            </div>
-            <div style={{flexShrink:0, background:'#7CB553', borderRadius:'20px', padding:'5px 11px', display:'flex', alignItems:'center', gap:'5px', marginTop:'6px'}}>
-              <div style={{width:'6px', height:'6px', background:'#fff', borderRadius:'50%'}}/>
-              <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'10px', fontWeight:600, color:'#fff', whiteSpace:'nowrap', letterSpacing:'.03em'}}>Habilitado</span>
-            </div>
-          </div>
-          <div style={{display:'flex', gap:'8px', marginTop:'12px'}}>
-            {[[String(source.length),'Beneficios activos','#fff'],[String(EVENTS.length),'Eventos próximos','#E9500E'],['Al día','Cuota anual','#7CB553']].map((s,i)=>(
-              <div key={i} style={{flex:1, background:'rgba(255,255,255,.06)', borderRadius:'6px', padding:'8px 10px', border:'1px solid rgba(255,255,255,.08)'}}>
-                <div style={{fontFamily:"'Work Sans',sans-serif", fontSize: s[0]==='Al día'?'14px':'17px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
-                <div style={{fontSize:'10px', color:'#9E968F', marginTop:'2px'}}>{s[1]}</div>
+        <div id="perfil-matriculado" className={'profile-drawer' + (profileOpen ? ' open' : '')} aria-hidden={!profileOpen}>
+          <div style={{overflow:'hidden'}}>
+            <div className="dash-inner" style={{padding:'4px 16px 18px'}}>
+              <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'8px'}}>
+                <div>
+                  <div style={{fontSize:'11.5px', color:'#9E968F', marginBottom:'3px'}}>Bienvenido/a de vuelta,</div>
+                  <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#FFFFFF', lineHeight:1.2, letterSpacing:'-.02em'}}>Arq. Carlos Rodríguez</div>
+                  <div style={{fontSize:'11.5px', color:'#9E968F', marginTop:'3px'}}>Matrícula N° 12.458 · Córdoba · Regional 5</div>
+                </div>
+                <div style={{flexShrink:0, background:'rgba(150,198,111,.12)', border:'1px solid rgba(150,198,111,.32)', borderRadius:'9999px', padding:'5px 11px', display:'flex', alignItems:'center', gap:'6px', marginTop:'6px'}}>
+                  <div style={{width:'6px', height:'6px', background:'#96C66F', borderRadius:'50%'}}/>
+                  <span style={{fontFamily:"'Work Sans',sans-serif", fontSize:'10.5px', fontWeight:600, color:'#96C66F', whiteSpace:'nowrap', letterSpacing:'.02em'}}>Habilitado</span>
+                </div>
               </div>
-            ))}
+              <div style={{display:'flex', gap:'8px', marginTop:'14px'}}>
+                {[[String(source.length),'Beneficios activos','#fff'],[String(EVENTS.length),'Eventos próximos','#E9500E'],['Al día','Cuota anual','#96C66F']].map((s,i)=>(
+                  <div key={i} style={{flex:1, background:'rgba(255,255,255,.05)', borderRadius:'14px', padding:'11px 12px', border:'1px solid rgba(255,255,255,.08)'}}>
+                    <div style={{fontFamily:"'Work Sans',sans-serif", fontSize: s[0]==='Al día'?'15px':'19px', fontWeight:800, color:s[2], lineHeight:1}}>{s[0]}</div>
+                    <div style={{fontSize:'10px', color:'#9E968F', marginTop:'4px'}}>{s[1]}</div>
+                  </div>
+                ))}
+              </div>
+              <button onClick={()=>{window.location.href='index.html';}} className="h-dark" style={{marginTop:'12px', display:'flex', alignItems:'center', gap:'7px', background:'transparent', border:'1px solid rgba(255,255,255,.14)', color:'#E7E2E1', borderRadius:'9999px', padding:'7px 14px', fontFamily:"'Work Sans',sans-serif", fontSize:'11.5px', fontWeight:600, letterSpacing:'.02em', cursor:'pointer', transition:'all .2s'}}>
+                <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Cerrar sesión
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* CARRUSEL DE EVENTOS — seleccionar un evento abre su Qr Entrada Evento */}
-      <div className="dash-inner" style={{paddingTop:'22px'}}>
+      <div className="dash-inner" style={{paddingTop:'24px'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 16px 12px'}}>
-          <h2 style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'16px', color:'#161616', margin:0, letterSpacing:'-.01em'}}>Próximos Eventos</h2>
+          <h2 style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'16px', color:'#161616', margin:0, letterSpacing:'-.01em'}}>Próximos eventos</h2>
           <a href="calendario-eventos.html" style={{fontSize:'12px', color:'#E9500E', fontWeight:600, fontFamily:"'Work Sans',sans-serif"}}>Ver calendario →</a>
         </div>
         <div style={{position:'relative'}}>
-          <button onClick={()=>scrollBy(-1)} className="h-arrow" style={arrowSt('left')}>
+          <button onClick={()=>scrollBy(-1)} className="h-arrow" style={arrowSt('left')} aria-label="Eventos anteriores">
             <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#161616', strokeWidth:2.5})}><polyline points="15 18 9 12 15 6"/></svg>
           </button>
-          <div ref={carouselRef} style={{display:'flex', gap:'14px', padding:'4px 42px 16px 42px', overflowX:'auto', scrollSnapType:'x mandatory'}}>
-            {EVENTS.map(ev => (
-              <div key={ev.id} onClick={()=>goEvent(ev)} className="capc-sel" style={{width:'255px', flex:'none', background:'#FFFFFF', border:'1px solid #F0ECEA', borderRadius:'10px', overflow:'hidden', boxShadow:'0 4px 20px rgba(22,22,22,.08),0 1px 4px rgba(22,22,22,.05)', scrollSnapAlign:'start', cursor:'pointer'}}>
-                <div style={{padding:'13px 14px 10px'}}>
-                  <span style={{display:'inline-block', background:ev.tagBg, color:'#fff', borderRadius:'3px', padding:'2px 8px', fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, letterSpacing:'.07em', textTransform:'uppercase'}}>{ev.tag}</span>
-                  <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'15px', color:'#161616', marginTop:'8px', lineHeight:1.25, letterSpacing:'-.01em'}}>{ev.title}</div>
-                  <div style={{fontSize:'11px', color:'#9E968F', marginTop:'3px'}}>{ev.subtitle}</div>
-                  <div style={{fontSize:'10.5px', color:'#7A736E', marginTop:'3px', display:'flex', alignItems:'center', gap:'4px'}}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    {ev.date}
-                  </div>
-                </div>
-                <div style={{position:'relative', height:'210px', overflow:'hidden'}}>
-                  {ev.img ? (
-                    <div style={{width:'100%', height:'210px', backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>
-                  ) : (
-                    <div style={{width:'100%', height:'210px', background:'#161616', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'0 16px'}}>
-                      <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'20px', color:'#fff', textAlign:'center', lineHeight:1.2}}>{ev.title}</div>
-                      <div style={{fontSize:'11px', color:'#9E968F', marginTop:'8px', textAlign:'center'}}>{ev.subtitle}</div>
+          <div ref={carouselRef} style={{display:'flex', gap:'14px', padding:'6px 42px 18px 42px', overflowX:'auto', scrollSnapType:'x mandatory'}}>
+            {EVENTS.map(ev => {
+              const dm = dayMonth(ev);
+              return (
+              <div key={ev.id} onClick={()=>goEvent(ev)} className="capc-sel" style={{width:'255px', flex:'none', background:'#FFFFFF', border:'1px solid #F0ECEA', borderRadius:'20px', overflow:'hidden', boxShadow:'0 6px 24px rgba(22,22,22,.08),0 1px 3px rgba(22,22,22,.05)', scrollSnapAlign:'start', cursor:'pointer'}}>
+                <div style={{position:'relative', height:'232px', overflow:'hidden', background:'#161616', borderRadius:'19px 19px 0 0'}}>
+                  {ev.img && <div style={{position:'absolute', inset:0, backgroundImage:`url(${ev.img})`, backgroundSize:'cover', backgroundPosition:'center'}}/>}
+                  <div style={{position:'absolute', inset:0, background: ev.img ? 'linear-gradient(180deg,rgba(22,22,22,.18) 0%,rgba(22,22,22,0) 35%,rgba(22,22,22,.55) 62%,rgba(22,22,22,.92) 100%)' : 'radial-gradient(120% 90% at 100% 0%,rgba(233,80,14,.22) 0%,rgba(22,22,22,0) 60%)'}}/>
+                  <span style={{position:'absolute', top:'12px', left:'12px', background:ev.tagBg, color:'#fff', borderRadius:'9999px', padding:'4px 10px', fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, letterSpacing:'.08em', textTransform:'uppercase'}}>{ev.tag}</span>
+                  {dm && (
+                    <div style={{position:'absolute', top:'12px', right:'12px', width:'46px', background:'#FFFFFF', borderRadius:'12px', padding:'6px 0 5px', textAlign:'center', boxShadow:'0 4px 14px rgba(22,22,22,.18)'}}>
+                      <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'18px', color:'#161616', lineHeight:1}}>{dm.d}</div>
+                      <div style={{fontSize:'9px', fontWeight:600, color:'#E9500E', letterSpacing:'.1em', textTransform:'uppercase', marginTop:'2px'}}>{dm.m}</div>
                     </div>
                   )}
-                  <div style={{position:'absolute', bottom:'12px', left:'12px', background:'#E9500E', color:'#fff', borderRadius:'7px', padding:'8px 18px', fontSize:'13px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, boxShadow:'0 2px 12px rgba(0,0,0,.22)', display:'flex', alignItems:'center', gap:'6px'}}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  <div style={{position:'absolute', left:'14px', right:'14px', bottom:'14px'}}>
+                    <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:800, fontSize:'19px', color:'#FFFFFF', lineHeight:1.15, letterSpacing:'-.015em'}}>{ev.title}</div>
+                    <div style={{fontSize:'11.5px', color:'#E7E2E1', marginTop:'6px', display:'flex', alignItems:'center', gap:'5px'}}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})} style={{flexShrink:0}}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <span style={{whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{ev.subtitle}</span>
+                    </div>
+                    <div style={{fontSize:'11px', color:'#CCC5BE', marginTop:'3px', display:'flex', alignItems:'center', gap:'5px'}}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})} style={{flexShrink:0}}><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+                      {ev.date}
+                    </div>
+                  </div>
+                </div>
+                <div style={{padding:'12px'}}>
+                  <div className="h-primary" style={{width:'100%', background:'#E9500E', color:'#fff', borderRadius:'12px', padding:'11px 14px', fontSize:'13px', fontFamily:"'Work Sans',sans-serif", fontWeight:600, display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', letterSpacing:'.01em'}}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" {...stroke({strokeWidth:2.2})}><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a3 3 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a3 3 0 0 0 0-6z"/><line x1="13" y1="5" x2="13" y2="7"/><line x1="13" y1="11" x2="13" y2="13"/><line x1="13" y1="17" x2="13" y2="19"/></svg>
                     Obtener entrada
                   </div>
                 </div>
               </div>
-            ))}
+            );})}
           </div>
-          <button onClick={()=>scrollBy(1)} className="h-arrow" style={arrowSt('right')}>
+          <button onClick={()=>scrollBy(1)} className="h-arrow" style={arrowSt('right')} aria-label="Eventos siguientes">
             <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#161616', strokeWidth:2.5})}><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </div>
@@ -172,7 +213,7 @@ function Dashboard() {
 
       <div className="dash-inner">
       <div style={{padding:'18px 16px 0'}}>
-        <div style={{display:'flex', background:'#F0ECEA', borderRadius:'4px', padding:'3px', gap:'2px'}}>
+        <div style={{display:'flex', background:'#F0ECEA', borderRadius:'8px', padding:'3px', gap:'2px'}}>
           <button style={tabSt('comercial')} onClick={()=>setTab('comercial')}>Beneficios Comerciales</button>
           <button style={tabSt('academico')} onClick={()=>setTab('academico')}>Beneficios Académicos</button>
         </div>
@@ -180,7 +221,7 @@ function Dashboard() {
 
       <div style={{padding:'12px 16px 8px', display:'flex', gap:'8px', alignItems:'center'}}>
         <div style={{position:'relative', flex:1}}>
-          <button onClick={()=>setFilterOpen(v=>!v)} style={{width:'100%', padding:'10px 12px', background:'#fff', border:'1.5px solid #E2DBD7', borderRadius:'6px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer', fontSize:'13px', color:'#161616', fontWeight:400}}>
+          <button onClick={()=>setFilterOpen(v=>!v)} style={{width:'100%', padding:'10px 12px', background:'#fff', border:'1.5px solid #E2DBD7', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'space-between', cursor:'pointer', fontSize:'13px', color:'#161616', fontWeight:400}}>
             <div style={{display:'flex', alignItems:'center', gap:'7px'}}>
               <svg width="14" height="14" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               {effectiveCity}
@@ -188,7 +229,7 @@ function Dashboard() {
             <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F', strokeWidth:2.5})}><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           {filterOpen && (
-            <div style={{position:'absolute', top:'calc(100% + 4px)', left:0, right:0, background:'#fff', borderRadius:'6px', boxShadow:'0 8px 24px rgba(22,22,22,.12),0 1px 4px rgba(22,22,22,.06)', zIndex:100, overflow:'hidden', border:'1px solid #E7E2E1', animation:'popIn .2s ease'}}>
+            <div style={{position:'absolute', top:'calc(100% + 4px)', left:0, right:0, background:'#fff', borderRadius:'10px', boxShadow:'0 8px 24px rgba(22,22,22,.12),0 1px 4px rgba(22,22,22,.06)', zIndex:100, overflow:'hidden', border:'1px solid #E7E2E1', animation:'popIn .2s ease'}}>
               {CITIES.map(c => (
                 <div key={c} onClick={()=>{ setCity(c); setFilterOpen(false); setNearMe(false); }} style={{padding:'10px 16px', cursor:'pointer', background: effectiveCity===c ? '#FEF0E8' : '#fff', color: effectiveCity===c ? '#E9500E' : '#161616', fontWeight: effectiveCity===c ? 600 : 400, borderBottom:'1px solid #F0ECEA', fontSize:'13px'}}>{c}</div>
               ))}
@@ -198,7 +239,7 @@ function Dashboard() {
         <button onClick={()=>{ setNearMe(v=>!v); setFilterOpen(false); }} style={{
           display:'flex', alignItems:'center', gap:'6px', padding:'10px 12px', flexShrink:0,
           border:`1.5px solid ${nearMe ? '#7CB553' : '#E2DBD7'}`, background: nearMe ? '#F2F8EC' : '#fff',
-          color: nearMe ? '#7CB553' : '#7A736E', borderRadius:'6px', fontSize:'12px',
+          color: nearMe ? '#7CB553' : '#7A736E', borderRadius:'10px', fontSize:'12px',
           fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', whiteSpace:'nowrap',
         }}>
           <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({strokeWidth:2.5})}><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
@@ -207,7 +248,7 @@ function Dashboard() {
       </div>
 
       {nearMe && (
-        <div style={{margin:'0 16px 8px', background:'#F2F8EC', border:'1px solid #BFDEA6', borderRadius:'6px', padding:'8px 12px', display:'flex', alignItems:'center', gap:'8px', animation:'fadeUp .25s ease'}}>
+        <div style={{margin:'0 16px 8px', background:'#F2F8EC', border:'1px solid #BFDEA6', borderRadius:'10px', padding:'8px 12px', display:'flex', alignItems:'center', gap:'8px', animation:'fadeUp .25s ease'}}>
           <svg width="13" height="13" viewBox="0 0 24 24" {...stroke({stroke:'#5E9A38', strokeWidth:2.5})}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <span style={{fontSize:'12px', color:'#3f6b22', fontWeight:400}}>Mostrando beneficios en <strong>Córdoba</strong> · ubicación simulada</span>
         </div>
@@ -220,7 +261,7 @@ function Dashboard() {
 
       {filtered.length === 0 ? (
         <div style={{padding:'48px 24px', textAlign:'center'}}>
-          <div style={{width:'48px', height:'48px', background:'#F0ECEA', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', color:'#9E968F'}}>
+          <div style={{width:'48px', height:'48px', background:'#F0ECEA', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', color:'#9E968F'}}>
             <svg width="22" height="22" viewBox="0 0 24 24" {...stroke()}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
           <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'15px', fontWeight:600, color:'#161616', marginBottom:'6px'}}>Sin beneficios en esta región</div>
@@ -231,21 +272,21 @@ function Dashboard() {
           {filtered.map(b => {
             const badge = discountBadge(b);
             return (
-            <div key={b.id} className="capc-sel" style={{background:'#FFFFFF', borderRadius:'8px', padding:'13px', boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', border: b.nuevo ? '1.5px solid #FBD3BC' : '1px solid #F0ECEA', display:'flex', flexDirection:'column', gap:'8px', position:'relative'}}>
-              {b.nuevo && <div style={{position:'absolute', top:'-8px', right:'10px', background:'#7CB553', color:'#fff', fontFamily:"'Work Sans',sans-serif", fontSize:'8.5px', fontWeight:800, letterSpacing:'.06em', textTransform:'uppercase', padding:'3px 7px', borderRadius:'4px'}}>Nuevo</div>}
+            <div key={b.id} className="capc-sel" style={{background:'#FFFFFF', borderRadius:'12px', padding:'13px', boxShadow:'0 2px 10px rgba(22,22,22,.07),0 1px 2px rgba(22,22,22,.04)', border: b.nuevo ? '1.5px solid #FBD3BC' : '1px solid #F0ECEA', display:'flex', flexDirection:'column', gap:'8px', position:'relative'}}>
+              {b.nuevo && <div style={{position:'absolute', top:'-8px', right:'10px', background:'#7CB553', color:'#fff', fontFamily:"'Work Sans',sans-serif", fontSize:'8.5px', fontWeight:800, letterSpacing:'.06em', textTransform:'uppercase', padding:'3px 7px', borderRadius:'8px'}}>Nuevo</div>}
               <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'6px'}}>
-                <div style={{width:'38px', height:'38px', borderRadius:'8px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'12px', fontWeight:800, fontFamily:"'Work Sans',sans-serif", flexShrink:0}}>{b.logo}</div>
-                <div style={{background:'#FEF0E8', borderRadius:'4px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
+                <div style={{width:'38px', height:'38px', borderRadius:'12px', background:b.color, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'12px', fontWeight:800, fontFamily:"'Work Sans',sans-serif", flexShrink:0}}>{b.logo}</div>
+                <div style={{background:'#FEF0E8', borderRadius:'8px', padding:'3px 7px', textAlign:'center', flexShrink:0}}>
                   <div style={{fontFamily:"'Work Sans',sans-serif", fontSize:'15px', fontWeight:800, color:'#E9500E', lineHeight:1.1}}>{badge.big}</div>
                   <div style={{fontSize:'8px', color:'#E9500E', fontWeight:600, letterSpacing:'.06em', textTransform:'uppercase'}}>{badge.small}</div>
                 </div>
               </div>
               <div style={{fontFamily:"'Work Sans',sans-serif", fontWeight:600, fontSize:'12.5px', color:'#161616', lineHeight:1.3}}>{b.nombre}</div>
-              <div style={{display:'inline-flex', background:'#F0ECEA', borderRadius:'3px', padding:'2px 7px', width:'fit-content'}}>
+              <div style={{display:'inline-flex', background:'#F0ECEA', borderRadius:'8px', padding:'2px 7px', width:'fit-content'}}>
                 <span style={{fontSize:'10px', color:'#5b5652', fontWeight:400}}>{b.regional}</span>
               </div>
               <button onClick={()=>goBenefit(b)} className="h-primary" style={{
-                width:'100%', padding:'8px 10px', borderRadius:'5px', border:'1.5px solid #E9500E',
+                width:'100%', padding:'8px 10px', borderRadius:'10px', border:'1.5px solid #E9500E',
                 background:'transparent', color:'#E9500E', fontSize:'11.5px',
                 fontFamily:"'Work Sans',sans-serif", fontWeight:600, cursor:'pointer', transition:'all .2s', marginTop:'auto',
               }}>Solicitar Beneficio</button>
@@ -261,10 +302,9 @@ function Dashboard() {
           { label:'Inicio', href:'menu-beneficios.html', active:true, icon:(<svg width="16" height="16" viewBox="0 0 24 24" {...stroke({stroke:'#E9500E', strokeWidth:2.5})}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>) },
           { label:'Eventos', href:'calendario-eventos.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>) },
           { label:'Mis Beneficios', href:'mis-beneficios.html', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>) },
-          { label:'Perfil', href:'#', icon:(<svg width="18" height="18" viewBox="0 0 24 24" {...stroke({stroke:'#9E968F'})}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>) },
         ].map((n,i)=>(
           <a key={i} href={n.href} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:'3px', cursor:'pointer', minWidth:'64px'}}>
-            <div style={{width:'30px', height:'30px', background: n.active ? '#FEF0E8' : 'transparent', borderRadius:'7px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon}</div>
+            <div style={{width:'30px', height:'30px', background: n.active ? '#FEF0E8' : 'transparent', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center'}}>{n.icon}</div>
             <span style={{fontSize:'9.5px', fontFamily:"'Work Sans',sans-serif", fontWeight: n.active ? 600 : 400, color: n.active ? '#E9500E' : '#9E968F'}}>{n.label}</span>
           </a>
         ))}
@@ -274,7 +314,7 @@ function Dashboard() {
   );
 }
 function arrowSt(side) {
-  return { position:'absolute', [side]:'4px', top:'50%', transform:'translateY(-50%)', zIndex:10, width:'30px', height:'30px', background:'#fff', border:'none', borderRadius:'50%', boxShadow:'0 2px 10px rgba(0,0,0,.14)', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', transition:'box-shadow .2s' };
+  return { position:'absolute', [side]:'4px', top:'107px',   /* centradas sobre la imagen, no sobre el título */ zIndex:10, width:'30px', height:'30px', background:'#fff', border:'none', borderRadius:'50%', boxShadow:'0 2px 10px rgba(0,0,0,.14)', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', transition:'box-shadow .2s' };
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
