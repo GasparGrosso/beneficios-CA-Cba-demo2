@@ -65,8 +65,6 @@ const IconAlert = (p) => (<svg width="11" height="11" viewBox="0 0 24 24" {...st
 
 function Login() {
   const [accountType, setAccountType] = useState('arquitecto');
-  const [nombre, setNombre]   = useState(ARQUITECTO_DEMO.nombre);
-  const [apellido, setApellido] = useState(ARQUITECTO_DEMO.apellido);
   const [legajo, setLegajo]   = useState(ARQUITECTO_DEMO.legajo);
   const [email, setEmail]     = useState('');
   const [codigo, setCodigo]   = useState('');
@@ -76,24 +74,22 @@ function Login() {
   const [errors, setErrors]   = useState({});
   const [touched, setTouched] = useState({});
 
-  // Arquitecto y Personal usan los mismos campos; Afiliado usa email + código.
+  // Arquitecto y Personal del Colegio entran con legajo + contraseña; Afiliado usa email + código.
   const usaCamposArq = accountType === 'arquitecto' || accountType === 'personal';
 
   // Credenciales de prueba del tipo de cuenta activo, mostradas en pantalla: deja
   // explícito que la maqueta no espera ni acepta datos reales de un arquitecto.
   const demoHint =
-    accountType === 'arquitecto' ? `${ARQUITECTO_DEMO.nombre} ${ARQUITECTO_DEMO.apellido} · matrícula ${ARQUITECTO_DEMO.legajo} · ${ARQUITECTO_DEMO.password}` :
-    accountType === 'personal'   ? `${PERSONAL_DEMO.nombre} ${PERSONAL_DEMO.apellido} · matrícula ${PERSONAL_DEMO.legajo} · ${PERSONAL_DEMO.password}` :
+    accountType === 'arquitecto' ? `Legajo ${ARQUITECTO_DEMO.legajo} · contraseña ${ARQUITECTO_DEMO.password}  (${ARQUITECTO_DEMO.nombre} ${ARQUITECTO_DEMO.apellido})` :
+    accountType === 'personal'   ? `Legajo ${PERSONAL_DEMO.legajo} · contraseña ${PERSONAL_DEMO.password}  (${PERSONAL_DEMO.nombre} ${PERSONAL_DEMO.apellido})` :
                                    `${AFILIADO_DEMO.email} · ${AFILIADO_DEMO.codigo} · ${AFILIADO_DEMO.password}`;
 
   function switchType(t) {
     setErrors({}); setTouched({});
     setAccountType(t);
     if (t === 'arquitecto') {
-      setNombre(ARQUITECTO_DEMO.nombre); setApellido(ARQUITECTO_DEMO.apellido);
       setLegajo(ARQUITECTO_DEMO.legajo); setPassword(ARQUITECTO_DEMO.password);
     } else if (t === 'personal') {
-      setNombre(PERSONAL_DEMO.nombre); setApellido(PERSONAL_DEMO.apellido);
       setLegajo(PERSONAL_DEMO.legajo); setPassword(PERSONAL_DEMO.password);
     } else {
       setEmail(AFILIADO_DEMO.email); setCodigo(AFILIADO_DEMO.codigo); setPassword(AFILIADO_DEMO.password);
@@ -104,9 +100,7 @@ function Login() {
     if (loading) return;
     const e = {};
     if (usaCamposArq) {
-      if (!nombre.trim())   e.nombre = 'El nombre es requerido';
-      if (!apellido.trim()) e.apellido = 'El apellido es requerido';
-      if (!legajo.trim())   e.legajo = 'N° de matrícula requerido';
+      if (!legajo.trim())   e.legajo = 'El legajo es requerido';
       else if (!/^\d{4,8}$/.test(legajo.trim())) e.legajo = 'Inválido — ingresá entre 4 y 8 dígitos';
     } else {
       if (!email.trim()) e.email = 'El email es requerido';
@@ -126,7 +120,7 @@ function Login() {
     setLoading(true);
 
     const payload = usaCamposArq
-      ? { tipoCuenta: accountType, nombre: nombre.trim(), apellido: apellido.trim(), matricula: legajo.trim(), password }
+      ? { tipoCuenta: accountType, legajo: legajo.trim(), password }
       : { tipoCuenta: 'afiliado', email: email.trim(), codigo: codigo.trim(), password };
 
     const goToLanding = (sesion) => {
@@ -145,11 +139,9 @@ function Login() {
     const offlineLogin = () => {
       let sesion = null;
       if (accountType === 'arquitecto' &&
-          nombre.trim() === ARQUITECTO_DEMO.nombre && apellido.trim() === ARQUITECTO_DEMO.apellido &&
           legajo.trim() === ARQUITECTO_DEMO.legajo && password === ARQUITECTO_DEMO.password) {
         sesion = { rol: 'arquitecto', nombre: ARQUITECTO_DEMO.nombre, apellido: ARQUITECTO_DEMO.apellido, matricula: ARQUITECTO_DEMO.legajo, regional: 'Regional 1', scope: 'regional', landing: LANDING.arquitecto };
       } else if (accountType === 'personal' &&
-          nombre.trim() === PERSONAL_DEMO.nombre && apellido.trim() === PERSONAL_DEMO.apellido &&
           legajo.trim() === PERSONAL_DEMO.legajo && password === PERSONAL_DEMO.password) {
         sesion = { rol: 'personal', nombre: PERSONAL_DEMO.nombre, apellido: PERSONAL_DEMO.apellido, matricula: PERSONAL_DEMO.legajo, regional: 'Provincial', scope: 'provincial', landing: LANDING.personal };
       } else if (accountType === 'afiliado' &&
@@ -252,9 +244,7 @@ function Login() {
 
           {usaCamposArq && (
             <div style={{animation:'fadeUp .28s ease'}}>
-              <Field label="Nombre"   icon={<IconUser/>} value={nombre}   onChange={e=>setNombre(e.target.value)}   onBlur={()=>setTouched(p=>({...p,nombre:true}))}   placeholder="Tu nombre"   fkey="nombre"/>
-              <Field label="Apellido" icon={<IconUser/>} value={apellido} onChange={e=>setApellido(e.target.value)} onBlur={()=>setTouched(p=>({...p,apellido:true}))} placeholder="Tu apellido" fkey="apellido"/>
-              <Field label="N° de Matrícula" icon={<IconCard/>} value={legajo} onChange={e=>setLegajo(e.target.value)} onBlur={()=>setTouched(p=>({...p,legajo:true}))} placeholder="Ej: 12345" fkey="legajo"/>
+              <Field label="Legajo" icon={<IconCard/>} value={legajo} onChange={e=>setLegajo(e.target.value)} onBlur={()=>setTouched(p=>({...p,legajo:true}))} placeholder="Ej: 12345" fkey="legajo"/>
             </div>
           )}
 

@@ -214,18 +214,17 @@ function authenticate(payload) {
   var tipoCuenta = payload.tipoCuenta;
 
   if (tipoCuenta === 'arquitecto' || tipoCuenta === 'personal') {
-    var nombre = payload.nombre, apellido = payload.apellido, matricula = payload.matricula, password = payload.password;
-    if (!nombre || !apellido || !matricula || !password) {
-      return { ok: false, status: 400, error: { codigo: 'CAMPOS_FALTANTES', mensaje: 'Faltan campos requeridos (nombre, apellido, matrícula, contraseña).' } };
+    // Arquitectos y personal del Colegio ingresan con legajo + contraseña (01/10/2026).
+    // `matricula` se acepta como alias del legajo por compatibilidad.
+    var legajo = payload.legajo || payload.matricula, password = payload.password;
+    if (!legajo || !password) {
+      return { ok: false, status: 400, error: { codigo: 'CAMPOS_FALTANTES', mensaje: 'Faltan campos requeridos (legajo, contraseña).' } };
     }
     var pool = tipoCuenta === 'arquitecto' ? USERS.arquitectos : USERS.personal;
     var match = null;
     for (var i = 0; i < pool.length; i++) {
       var u = pool[i];
-      if (u.nombre.toLowerCase() === String(nombre).toLowerCase() &&
-          u.apellido.toLowerCase() === String(apellido).toLowerCase() &&
-          u.matricula === String(matricula) &&
-          u.password === password) { match = u; break; }
+      if (u.matricula === String(legajo).trim() && u.password === password) { match = u; break; }
     }
     if (!match) {
       return { ok: false, status: 401, error: { codigo: 'CREDENCIALES_INVALIDAS', mensaje: 'Usuario o contraseña incorrectos.' } };

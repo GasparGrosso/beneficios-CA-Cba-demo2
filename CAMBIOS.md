@@ -148,6 +148,16 @@ Pedido del usuario el 01/10, sobre una imagen de referencia (variante "izquierda
   recuadro "Credenciales de prueba · ficticias" para poder reingresar si se borran los campos. El título de la
   pestaña deja de decir "(maqueta de demostración)".
 
+## Ingreso con legajo y contraseña (01/10/2026)
+
+Orden del usuario del 01/10: **arquitectos y personal del Colegio entran con legajo y contraseña**.
+`index.html` deja de pedir nombre y apellido en esas dos cuentas; el campo "N° de Matrícula" pasa a
+llamarse **Legajo**. El afiliado sigue con email, código de comercio y contraseña. Los datos de ejemplo
+no cambian: arquitecto legajo 12458 / cac12458 (Carlos Rodríguez), personal legajo 8842 / cac8842 (María
+González); el recuadro de credenciales de prueba los muestra así. La API simulada (`api/_lib/data.js`)
+valida solo legajo y contraseña (acepta `matricula` como alias) y sigue devolviendo nombre y apellido en
+la sesión.
+
 ## Pendientes que no entran acá
 
 - **Pantalla de ingreso**: bloqueada hasta la reunión técnica (ADR-0006 §5, SP1-50).
